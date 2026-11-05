@@ -208,3 +208,4 @@ export const GcloudQuiz: React.FC<GcloudQuizProps> = ({ onCompleteItem }) => {
     </div>
   );
 };
+

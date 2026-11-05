@@ -58,3 +58,4 @@ export const flashcardsData: FlashcardItem[] = [
     referenceCommand: 'gcloud iam service-accounts add-iam-policy-binding ... --role=roles/iam.workloadIdentityUser',
   },
 ];
+

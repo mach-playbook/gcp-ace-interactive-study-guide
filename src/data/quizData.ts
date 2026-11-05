@@ -48,3 +48,4 @@ export const quizItems: GcloudQuizItem[] = [
     examTrapNote: 'Evita transferir claves SSH manualmente por metadatos; la práctica recomendada es OS Login.',
   },
 ];
+

@@ -57,3 +57,4 @@ jobs:
       - name: Verify Remote Deployment Health
         run: |
           curl --fail -IL https://mach-playbook.github.io/gcp-ace-interactive-study-guide/
+

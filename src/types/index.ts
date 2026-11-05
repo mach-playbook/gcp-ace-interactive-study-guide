@@ -53,3 +53,4 @@ export interface UserProgressState {
   quizCompleted: Record<string, boolean>;
   flashcardsMastered: Record<string, boolean>;
 }
+

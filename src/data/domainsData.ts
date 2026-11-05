@@ -30,3 +30,4 @@ export const examDomains: ExamDomainInfo[] = [
     icon: 'ShieldCheck',
   },
 ];
+

@@ -155,3 +155,4 @@ export const FlashcardsTraps: React.FC<FlashcardsTrapsProps> = ({
     </div>
   );
 };
+
