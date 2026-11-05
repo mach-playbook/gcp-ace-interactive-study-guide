@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Cloud, Terminal, GitBranch, Layers, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { Cloud, Terminal, GitBranch, Layers, CheckCircle2, BookOpen } from 'lucide-react';
 
 interface NavbarProps {
   activeTab: string;
@@ -34,20 +35,30 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, readine
           </div>
         </div>
 
-        {/* Readiness Badge */}
-        <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700">
-          <span>Readiness:</span>
-          <span
-            className={`rounded-full px-2 py-0.5 text-white ${
-              readinessScore >= 75
-                ? 'bg-emerald-600'
-                : readinessScore >= 60
-                ? 'bg-amber-500'
-                : 'bg-rose-500'
-            }`}
+        {/* Readiness Badge & Courses shortcut */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/courses/"
+            className="flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
           >
-            {Math.round(readinessScore)}%
-          </span>
+            <BookOpen className="h-3.5 w-3.5" />
+            <span>Cursos & Labs</span>
+          </Link>
+
+          <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700">
+            <span>Readiness:</span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-white ${
+                readinessScore >= 75
+                  ? 'bg-emerald-600'
+                  : readinessScore >= 60
+                  ? 'bg-amber-500'
+                  : 'bg-rose-500'
+              }`}
+            >
+              {Math.round(readinessScore)}%
+            </span>
+          </div>
         </div>
       </div>
 
@@ -72,6 +83,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, readine
               </button>
             );
           })}
+          <Link
+            href="/courses/"
+            className="flex shrink-0 items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50/70 px-3.5 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 hover:text-indigo-900 transition-all sm:text-sm"
+          >
+            <BookOpen className="h-4 w-4" />
+            <span>Cursos & Laboratorios (Hands-On)</span>
+          </Link>
         </div>
       </div>
     </header>

@@ -4,6 +4,20 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-05] - Ingesta de Curso: Implementing Cloud Load Balancing for Compute Engine (Course 648)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta en Bruto**: Registro de `wiki/raw/gcp-ace-load-balancing-study-guide.md` como fuente inmutable sobre balanceo de carga L4/L7 en Compute Engine.
+* **Síntesis de Curso**: Creación del módulo sintetizado [`wiki/courses/implementing-cloud-load-balancing.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/implementing-cloud-load-balancing.md) con detalles de los Laboratorios 1 a 4 (Target Pools, MIGs, subred Proxy-Only, Challenge Lab 613025).
+* **Hoja de Referencia Rápida**: Creación de [`wiki/cheatsheets/load-balancing-decision-tree.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/load-balancing-decision-tree.md) con el árbol de decisión L4 vs L7, IPs de health check (`130.211.0.0/22`, `35.191.0.0/16`) y reglas clave de examen.
+* **Actualización del Catálogo**: Incorporación de los nuevos módulos en el índice principal [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+* **Garantía de Estándar**: Verificación rigurosa de Cero LaTeX / MathJax.
+
+---
+
 ## [2026-11-05] - Inicialización y Estructuración Modular de la Wiki
 
 ### Agente Responsable:

@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:bdd": "vitest run tests/bdd",
+    "test:watch": "vitest",
+    "clean:zone": "find . -name '*:Zone.Identifier' -type f -delete",
+    "prepush": "npm run clean:zone && npm test && npm run build"
   },
   "dependencies": {
     "lucide-react": "^1.66.0",
@@ -15,13 +21,17 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
     "autoprefixer": "^10.6.2",
+    "jsdom": "^29.1.1",
     "postcss": "^8.5.32",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.12"
   }
 }
-

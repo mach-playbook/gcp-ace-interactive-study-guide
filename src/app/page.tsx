@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Navbar } from '../components/Navbar';
 import { GcloudQuiz } from '../components/GcloudQuiz';
 import { DecisionMatrix } from '../components/DecisionMatrix';
@@ -9,7 +10,7 @@ import { ReadinessTracker } from '../components/ReadinessTracker';
 import { examDomains } from '../data/domainsData';
 import { quizItems } from '../data/quizData';
 import { flashcardsData } from '../data/flashcardsData';
-import { BookOpen, ExternalLink, ShieldCheck } from 'lucide-react';
+import { BookOpen, ExternalLink, ShieldCheck, Terminal, ChevronRight } from 'lucide-react';
 
 const STORAGE_KEY = 'gcp_ace_study_guide_progress_v1';
 
@@ -142,6 +143,14 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-2.5">
+              <Link
+                href="/courses/implementing-cloud-load-balancing-compute-engine/"
+                className="flex items-center gap-1.5 rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-bold text-slate-900 shadow-sm transition hover:bg-amber-300"
+              >
+                <Terminal className="h-4 w-4 text-slate-900" />
+                <span>Curso: Cloud Load Balancing (ID: 648)</span>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
               <a
                 href="https://cloud.google.com/learn/certification/cloud-engineer"
                 target="_blank"

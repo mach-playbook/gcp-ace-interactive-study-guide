@@ -54,3 +54,69 @@ export interface UserProgressState {
   flashcardsMastered: Record<string, boolean>;
 }
 
+export interface CourseLabStep {
+  id: string;
+  stepNumber: number;
+  title: string;
+  description: string;
+  command?: string;
+  validationRule?: string;
+  tip?: string;
+}
+
+export interface CourseLab {
+  id: string;
+  labNumber: number;
+  title: string;
+  durationMinutes: number;
+  type: 'guided' | 'challenge';
+  description: string;
+  keyConcepts: string[];
+  steps: CourseLabStep[];
+}
+
+export interface CourseQuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  examTrapTip?: string;
+}
+
+export interface CourseItem {
+  id: string;
+  slug: string;
+  templateId: string;
+  title: string;
+  shortDescription: string;
+  duration: string;
+  level: string;
+  category: string;
+  badge: string;
+  overview: string;
+  classificationMatrix: {
+    lbType: string;
+    layer: string;
+    scope: string;
+    trafficScheme: string;
+    architecture: string;
+    useCase: string;
+  }[];
+  labs: CourseLab[];
+  healthCheckRanges: {
+    cidr: string;
+    purpose: string;
+  }[];
+  examTraps: {
+    trap: string;
+    solution: string;
+  }[];
+  quiz: CourseQuizQuestion[];
+  glossary: {
+    term: string;
+    definition: string;
+  }[];
+}
+
+

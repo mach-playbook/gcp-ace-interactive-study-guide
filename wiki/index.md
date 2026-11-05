@@ -10,6 +10,7 @@ Esta wiki actúa como un cerebro externo modular, persistente e interconectado q
 
 ### 1. 📂 Materiales en Bruto (`wiki/raw/`)
 * [README de Insumos](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/README.md): Repositorio inmutable (*append-only*) para notas crudas, transcripciones, volcados de preguntas oficiales y fuentes no estructuradas.
+* [Guía de Estudio en Bruto: Load Balancing (Course 648)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/gcp-ace-load-balancing-study-guide.md): Insumo sin procesar sobre balanceadores L4/L7, laboratorios 1 a 4 y cuestionarios.
 
 ### 2. 🏛️ Dominios del Examen GCP ACE (`wiki/domains/`)
 * [Dominio 1: Configuración del Entorno Cloud](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/domains/domain-1-cloud-environment.md) (~23%): Jerarquía de recursos, Billing, Cloud Identity, cuotas y observabilidad inicial.
@@ -26,15 +27,19 @@ Esta wiki actúa como un cerebro externo modular, persistente e interconectado q
 ### 4. ⚡ Tablas de Referencia Rápida & Árboles (`wiki/cheatsheets/`)
 * [Árbol de Decisión de Almacenamiento](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/storage-decision-tree.md): Cloud Storage vs Cloud SQL vs Spanner vs Bigtable vs Firestore vs BigQuery.
 * [Árbol de Decisión de Cómputo](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/compute-decision-tree.md): VMs vs GKE Autopilot/Standard vs Cloud Run vs Cloud Run Functions.
+* [Árbol de Decisión de Load Balancing](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/load-balancing-decision-tree.md): External vs Internal, Capa 7 (HTTP/HTTPS) vs Capa 4 (TCP/UDP Passthrough) y reglas de cortafuegos.
 * [Reglas de Jerarquía e IAM](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/iam-hierarchy-rules.md): Herencia de permisos, políticas Deny y tipos de miembros.
 * [Comandos Esenciales gcloud](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/cheatsheets/gcloud-syntax-cheatsheet.md): Chuleta de comandos de alta frecuencia de examen.
 
-### 5. 🏗️ Arquitectura y Modelado de Datos (`wiki/architecture/`)
+### 5. 🎓 Cursos y Laboratorios Prácticos (`wiki/courses/`)
+* [Implementing Cloud Load Balancing for Compute Engine (Course ID: 648)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/implementing-cloud-load-balancing.md): Passthrough Network Load Balancer, Global External Application Load Balancer, Internal Application Load Balancer y Challenge Lab 613025.
+
+### 6. 🏗️ Arquitectura y Modelado de Datos (`wiki/architecture/`)
 * [Visión General del Sistema](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/system-overview.md): Stack tecnológico, arquitectura de frontend y gestión de estado.
 * [Modelos y Esquemas de Datos](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/data-models.md): Estructuras TypeScript para preguntas, matrices y progreso.
 * [Telemetría, Indexación y Validación SEO](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/telemetry-and-indexing.md): GA4 (G-9GESMZMDPB), Google Search Console, Bing Webmaster Tools y sitemaps.
 
-### 6. 📜 Bitácora de Síntesis y Cambios (`wiki/log/`)
+### 7. 📜 Bitácora de Síntesis y Cambios (`wiki/log/`)
 * [Changelog de la Wiki](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/log/changelog.md): Historial cronológico de ingestión y refactorización del conocimiento.
 
 ---

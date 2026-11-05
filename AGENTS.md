@@ -86,3 +86,33 @@ Antigravity IDE no cuenta con motor de renderizado LaTeX/MathJax en la interfaz 
    * **Estados y viñetas:** Usar emojis (`✅`, `❌`, `⚠️`, `⏳`, `📌`, `💡`) o viñetas estándar (`-`, `*`).
 3. **Verificación previa:** Revisa siempre antes de enviar una respuesta o crear un documento markdown que no contenga ningún símbolo `$` utilizado para notación matemática o comandos LaTeX.
 
+---
+
+### 5. 🧹 Regla Obligatoria: Eliminación Estricta de Archivos Windows `Zone.Identifier` Previo a Cualquier Commit
+
+En entornos híbridos Windows y WSL, el sistema operativo genera archivos de metadatos de seguridad con sufijo `:Zone.Identifier` o `.Zone.Identifier`. Estos archivos contaminan el árbol de trabajo de Git, pueden corromper compilaciones y nunca deben ser versionados.
+
+1. **PROHIBICIÓN:** Está terminantemente prohibido incluir o commitear archivos con sufijo `Zone.Identifier` en el repositorio.
+2. **ACCIÓN OBLIGATORIA PRE-COMMIT:** Antes de cualquier `git add` o `git commit`, el agente **DEBE** ejecutar la limpieza recursiva:
+   ```bash
+   find . -name "*:Zone.Identifier" -type f -delete
+   # o alternativamente:
+   npm run clean:zone
+   ```
+3. **Verificación de git status:** Comprobar con `git status` que ningún archivo residual de este tipo figure como staged o untracked.
+
+---
+
+### 6. 🧪 Regla Obligatoria: Ejecución Integral de Pruebas Unitarias y BDD Previo a Push a `main`
+
+La rama `main` está enlazada directamente con el despliegue automático de GitHub Pages. Ningún cambio puede ser publicado sin garantía de no regresión y cumplimiento de especificaciones.
+
+1. **OBLIGATORIEDAD:** Previo a ejecutar `git push origin main` (o a cualquier rama de despliegue), se debe ejecutar sin excepción la suite completa de pruebas unitarias y escenarios BDD:
+   ```bash
+   npm test
+   # o específicamente:
+   npm run test:unit && npm run test:bdd
+   ```
+2. **CRITERIO DE BLOQUEO:** Si alguna prueba unitaria o escenario BDD falla, **QUEDA ESTRICTAMENTE PROHIBIDO** realizar el push a `main`. El agente debe diagnosticar y resolver el fallo antes de proceder con el envío remoto.
+
+
