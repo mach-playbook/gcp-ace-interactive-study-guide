@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mach-playbook.github.io/gcp-ace-interactive-study-guide/sitemap.xml
