@@ -101,28 +101,51 @@ describe('BDD Feature: Implementing Cloud Load Balancing Course Interaction', ()
   });
 
   describe('Scenario 4: User takes the interactive evaluation quiz and reviews score and feedback', () => {
-    it('When the user answers questions and submits the quiz, Then the score and explanations are presented', () => {
+    it('When the user attempts to grade the exam with unanswered questions, Then grading is blocked and an incomplete exam warning is shown', () => {
       render(<CourseDetailView course={course648} />);
 
       const quizTabButton = screen.getByRole('button', { name: /Quiz de Evaluación/i });
       fireEvent.click(quizTabButton);
 
-      expect(
-        screen.getByText(/Cuestionario de Autoevaluación/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Cuestionario de Autoevaluación/i)).toBeInTheDocument();
 
-      // Find the first option of the first question (which is correct for Q1)
+      // Only answer question 1
       const firstQuestionOptions = screen.getAllByRole('button', {
         name: /External Application actúa como proxy L7/i,
       });
       expect(firstQuestionOptions.length).toBeGreaterThan(0);
       fireEvent.click(firstQuestionOptions[0]);
 
+      // Attempt to submit quiz without answering the rest
+      const gradeButton = screen.getByRole('button', { name: /Calificar Examen/i });
+      fireEvent.click(gradeButton);
+
+      // Warning alert should be shown and score banner must NOT be shown
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+      expect(screen.getByText(/Examen Incompleto/i)).toBeInTheDocument();
+      expect(screen.getByText(/Debes responder todas las preguntas antes de calificar/i)).toBeInTheDocument();
+      expect(screen.queryByText(/Resultado:/i)).not.toBeInTheDocument();
+    });
+
+    it('When the user answers all questions and submits the quiz, Then the score and explanations are presented', () => {
+      render(<CourseDetailView course={course648} />);
+
+      const quizTabButton = screen.getByRole('button', { name: /Quiz de Evaluación/i });
+      fireEvent.click(quizTabButton);
+
+      // Answer all 10 questions in course648 using container query
+      course648.quiz.forEach((q) => {
+        const questionEl = document.getElementById(`quiz-question-${q.id}`)!;
+        const optionButtons = questionEl.querySelectorAll('button');
+        fireEvent.click(optionButtons[q.correctIndex]);
+      });
+
       // Submit quiz
       const gradeButton = screen.getByRole('button', { name: /Calificar Examen/i });
       fireEvent.click(gradeButton);
 
-      // Score banner should be visible
+      // Score banner and official explanations should now be visible
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       expect(screen.getByText(/Resultado:/i)).toBeInTheDocument();
       expect(screen.getAllByText(/Explicación Oficial:/i).length).toBeGreaterThan(0);
     });

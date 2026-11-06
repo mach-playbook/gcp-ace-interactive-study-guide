@@ -32,6 +32,7 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ course }) =>
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
   const [showQuizResults, setShowQuizResults] = useState(false);
+  const [quizValidationError, setQuizValidationError] = useState<string | null>(null);
 
   const currentLab: CourseLab | undefined = course.labs.find((l) => l.id === selectedLabId) || course.labs[0];
 
@@ -49,10 +50,41 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ course }) =>
   };
 
   const handleSelectQuizOption = (questionId: string, optionIndex: number) => {
-    setQuizAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionIndex,
-    }));
+    setQuizAnswers((prev) => {
+      const next = {
+        ...prev,
+        [questionId]: optionIndex,
+      };
+      if (Object.keys(next).length === course.quiz.length) {
+        setQuizValidationError(null);
+      }
+      return next;
+    });
+  };
+
+  const answeredCount = Object.keys(quizAnswers).length;
+  const totalQuestions = course.quiz.length;
+  const isAllQuizAnswered = answeredCount === totalQuestions;
+  const unansweredIndices = course.quiz
+    .map((q, idx) => (quizAnswers[q.id] === undefined ? idx + 1 : null))
+    .filter((n): n is number => n !== null);
+
+  const handleGradeQuiz = () => {
+    if (!isAllQuizAnswered) {
+      setQuizValidationError(
+        `Debes responder todas las preguntas antes de calificar. Tienes ${totalQuestions - answeredCount} pregunta(s) sin responder (Pregunta(s): #${unansweredIndices.join(', #')}).`
+      );
+      setShowQuizResults(false);
+      return;
+    }
+    setQuizValidationError(null);
+    setShowQuizResults(true);
+  };
+
+  const handleResetQuiz = () => {
+    setQuizAnswers({});
+    setShowQuizResults(false);
+    setQuizValidationError(null);
   };
 
   const calculateLabProgress = (lab: CourseLab) => {
@@ -431,25 +463,48 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ course }) =>
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-xs font-semibold text-slate-300">
+                    <span>Respondidas: </span>
+                    <span className={isAllQuizAnswered ? 'text-emerald-400 font-mono font-bold' : 'text-amber-400 font-mono font-bold'}>
+                      {answeredCount} / {totalQuestions}
+                    </span>
+                  </div>
+
                   <button
-                    onClick={() => {
-                      setQuizAnswers({});
-                      setShowQuizResults(false);
-                    }}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-700"
+                    onClick={handleResetQuiz}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-700 transition-colors"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Reiniciar</span>
                   </button>
+
                   <button
-                    onClick={() => setShowQuizResults(true)}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-blue-500 shadow-md shadow-blue-500/20"
+                    onClick={handleGradeQuiz}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-xs font-semibold text-white shadow-md transition-all ${
+                      isAllQuizAnswered
+                        ? 'bg-blue-600 hover:bg-blue-500 shadow-blue-500/20'
+                        : 'bg-blue-600/70 hover:bg-blue-600 border border-blue-400/30'
+                    }`}
+                    title={!isAllQuizAnswered ? 'Debes responder todas las preguntas para calificar' : 'Calificar examen'}
                   >
                     <span>Calificar Examen</span>
                   </button>
                 </div>
               </div>
+
+              {quizValidationError && (
+                <div
+                  role="alert"
+                  className="mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 p-4 text-xs text-rose-300 flex items-start gap-3"
+                >
+                  <AlertTriangle className="h-5 w-5 shrink-0 text-rose-400 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-rose-200">Examen Incompleto</p>
+                    <p className="mt-0.5 text-rose-300 leading-relaxed">{quizValidationError}</p>
+                  </div>
+                </div>
+              )}
 
               {showQuizResults && (
                 <div className="mt-4 rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 flex items-center justify-between">
@@ -483,15 +538,27 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ course }) =>
                 return (
                   <div
                     key={q.id}
-                    className="rounded-2xl border border-slate-800 bg-slate-950/40 p-6 space-y-4"
+                    id={`quiz-question-${q.id}`}
+                    className={`rounded-2xl border p-6 space-y-4 transition-all ${
+                      quizValidationError && !isAnswered
+                        ? 'border-rose-500/50 bg-rose-950/10 shadow-sm shadow-rose-950/50'
+                        : 'border-slate-800 bg-slate-950/40'
+                    }`}
                   >
-                    <div className="flex items-start gap-3">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-xs font-bold text-blue-400">
-                        {qIndex + 1}
-                      </span>
-                      <h4 className="text-sm font-semibold text-white leading-relaxed">
-                        {q.question}
-                      </h4>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-xs font-bold text-blue-400">
+                          {qIndex + 1}
+                        </span>
+                        <h4 className="text-sm font-semibold text-white leading-relaxed">
+                          {q.question}
+                        </h4>
+                      </div>
+                      {quizValidationError && !isAnswered && (
+                        <span className="shrink-0 rounded-md border border-rose-500/40 bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold text-rose-400">
+                          Respuesta requerida
+                        </span>
+                      )}
                     </div>
 
                     <div className="space-y-2 pl-9">

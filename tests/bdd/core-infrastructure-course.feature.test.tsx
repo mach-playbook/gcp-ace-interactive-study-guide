@@ -94,7 +94,7 @@ describe('BDD Feature: Google Cloud Fundamentals Core Infrastructure Course Inte
   });
 
   describe('Scenario 4: User takes the 10-question evaluation quiz and grades their performance', () => {
-    it('When the user selects an answer and grades the quiz, Then results and official explanations are revealed', () => {
+    it('When the user attempts to grade with unanswered questions, Then grading is blocked and an error is displayed', () => {
       render(<CourseDetailView course={course60} />);
 
       const quizTabButton = screen.getByRole('button', { name: /Quiz de Evaluación/i });
@@ -102,15 +102,40 @@ describe('BDD Feature: Google Cloud Fundamentals Core Infrastructure Course Inte
 
       expect(screen.getByText(/Cuestionario de Autoevaluación/i)).toBeInTheDocument();
 
-      // Select Cloud SQL option for Question 1
+      // Only select option for Question 1
       const optionButtons = screen.getAllByRole('button', { name: /Cloud SQL/i });
       expect(optionButtons.length).toBeGreaterThan(0);
       fireEvent.click(optionButtons[0]);
+
+      // Attempt to Grade Quiz
+      const gradeButton = screen.getByRole('button', { name: /Calificar Examen/i });
+      fireEvent.click(gradeButton);
+
+      // Warning alert should be shown and score banner must NOT be shown
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+      expect(screen.getByText(/Examen Incompleto/i)).toBeInTheDocument();
+      expect(screen.getByText(/Debes responder todas las preguntas antes de calificar/i)).toBeInTheDocument();
+      expect(screen.queryByText(/Resultado:/i)).not.toBeInTheDocument();
+    });
+
+    it('When the user answers all questions and grades the quiz, Then results and official explanations are revealed', () => {
+      render(<CourseDetailView course={course60} />);
+
+      const quizTabButton = screen.getByRole('button', { name: /Quiz de Evaluación/i });
+      fireEvent.click(quizTabButton);
+
+      // Answer all 10 questions in course60 using container query
+      course60.quiz.forEach((q) => {
+        const questionEl = document.getElementById(`quiz-question-${q.id}`)!;
+        const optionButtons = questionEl.querySelectorAll('button');
+        fireEvent.click(optionButtons[q.correctIndex]);
+      });
 
       // Grade Quiz
       const gradeButton = screen.getByRole('button', { name: /Calificar Examen/i });
       fireEvent.click(gradeButton);
 
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       expect(screen.getByText(/Resultado:/i)).toBeInTheDocument();
       expect(screen.getAllByText(/Explicación Oficial:/i).length).toBeGreaterThan(0);
     });

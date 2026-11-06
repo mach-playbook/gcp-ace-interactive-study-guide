@@ -199,3 +199,4 @@ La administración de recursos en GCP se organiza en una jerarquía estricta de 
 2. **Archivos de Clave JSON en VMs**: Descargar archivos JSON de cuentas de servicio en el disco de una máquina virtual es un antipatrón de seguridad crítico. La práctica oficial recomendada es adjuntar la cuenta de servicio directamente a la VM mediante el Compute Engine Metadata Server.
 3. **Subredes en VPC Modo Personalizado**: A diferencia del modo Auto (que crea una subred por región), el modo Custom inicia con 0 subredes; deben ser aprovisionadas explícitamente.
 4. **Herencia Aditiva en IAM**: Los permisos concedidos en niveles superiores (Organización o Carpeta) no pueden ser denegados ni restringidos en proyectos o recursos hijos mediante políticas IAM tradicionales.
+

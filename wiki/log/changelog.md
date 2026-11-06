@@ -4,6 +4,19 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-06] - Regla de Evaluación Completa Obligatoria en Quizzes de Cursos
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Regla General de Examen**: Implementación de validación estricta en [`src/components/CourseDetailView.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/components/CourseDetailView.tsx) impidiendo calificar el examen si existen preguntas sin responder.
+* **Interfaz de Validación**: Despliegue de banner de alerta explicativo con lista de preguntas pendientes (`#N`), indicador de progreso de respuestas (`X / Y`) y resaltado de tarjeta con etiqueta `Respuesta requerida`.
+* **Ampliación de Pruebas BDD**: Actualización de escenarios en [`tests/bdd/courses-load-balancing.feature.test.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/tests/bdd/courses-load-balancing.feature.test.tsx) y [`tests/bdd/core-infrastructure-course.feature.test.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/tests/bdd/core-infrastructure-course.feature.test.tsx) verificando el bloqueo ante cuestionarios incompletos y la calificación tras completar el 100% de las respuestas.
+* **Aprobación de Suite**: 30 pruebas unitarias y BDD aprobadas al 100%.
+
+---
+
 ## [2026-11-06] - Ingesta de Curso: Google Cloud Fundamentals: Core Infrastructure (Course 60)
 
 ### Agente Responsable:

@@ -67,3 +67,4 @@ describe('Unit Tests: Course 60 - Google Cloud Fundamentals: Core Infrastructure
     expect(terms).toContain('Virtual Private Cloud (VPC)');
   });
 });
+
