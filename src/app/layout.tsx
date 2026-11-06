@@ -6,7 +6,10 @@ export const metadata: Metadata = {
   title: 'Google Cloud ACE Study Guide — Interactive Exam Prep',
   description: 'Interactive study guide and exam prep web application for the Google Cloud Associate Cloud Engineer (ACE) certification. Featuring gcloud syntax quiz, decision trees, and exam traps.',
   keywords: ['Google Cloud', 'GCP', 'Associate Cloud Engineer', 'ACE Certification', 'gcloud', 'Compute Engine', 'GKE', 'Cloud Run', 'IAM'],
-  authors: [{ name: 'MACH Playbook' }],
+  authors: [
+    { name: 'Lenin Meza', url: 'https://merolhack.github.io/' },
+    { name: 'MACH Playbook', url: 'https://mach-playbook.github.io/' },
+  ],
   metadataBase: new URL('https://mach-playbook.github.io/gcp-ace-interactive-study-guide/'),
   alternates: {
     canonical: 'https://mach-playbook.github.io/gcp-ace-interactive-study-guide/',

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { coursesData } from '@/data/coursesData';
-import { BookOpen, Clock, ShieldCheck, ChevronRight, Search, Sparkles, Terminal } from 'lucide-react';
+import { BookOpen, Clock, ShieldCheck, ChevronRight, Search, Sparkles, Terminal, Info } from 'lucide-react';
+import { Footer } from '@/components/Footer';
 
 export default function CoursesPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,12 +20,21 @@ export default function CoursesPage() {
       {/* Top Breadcrumb & Header */}
       <div className="border-b border-slate-800 bg-slate-950/60 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-            <Link href="/" className="hover:text-blue-400 transition-colors">
-              Inicio
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+              <Link href="/" className="hover:text-blue-400 transition-colors">
+                Inicio
+              </Link>
+              <span>/</span>
+              <span className="text-slate-200">Cursos & Laboratorios Prácticos</span>
+            </div>
+            <Link
+              href="/about/"
+              className="flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            >
+              <Info className="h-3.5 w-3.5 text-slate-400" />
+              <span>Acerca de</span>
             </Link>
-            <span>/</span>
-            <span className="text-slate-200">Cursos & Laboratorios Prácticos</span>
           </div>
 
           <div className="mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -121,6 +131,8 @@ export default function CoursesPage() {
           </div>
         )}
       </main>
+
+      <Footer variant="dark" />
     </div>
   );
 }

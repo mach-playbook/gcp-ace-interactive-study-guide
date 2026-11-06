@@ -4,6 +4,20 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-06] - Acreditación del Autor Lenin Meza, Página About y Footer Unificado
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Análisis de Proyectos Previos**: Inspección en Codebase Memory (`mach-playbook`, `merolhack.github.io`, `cadensa-web`) para estandarizar la biografía, enlaces y reconocimientos de autoría de Lenin Meza (`merolhack`).
+* **Componente `Footer` Unificado**: Creación de [`src/components/Footer.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/components/Footer.tsx) con soporte para variantes clara y oscura (`light` / `dark`), enlace directo al portafolio de GitHub Pages (`https://merolhack.github.io/`), LinkedIn oficial, MACH Playbook, repositorio de GitHub y aviso de exención de responsabilidad educativa. Integrado en todas las páginas (`/`, `/courses/`, `/courses/[slug]/` y `/about/`).
+* **Página Institucional About**: Despliegue de [`src/app/about/page.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/app/about/page.tsx) exponiendo la misión técnica del proyecto, pilares pedagógicos (Hands-On First, emulación gcloud, detección de trampas de examen), perfil y trayectoria de Lenin Meza (17+ años en arquitectura distribuida, autor del *Playbook de Arquitectura MACH* Amazon KDP 2026) y enlaces a redes.
+* **Navegación y Sitemap**: Adición de accesos a `/about/` en [`src/components/Navbar.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/components/Navbar.tsx) y en el catálogo [`public/sitemap.xml`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/public/sitemap.xml).
+* **Suite de Pruebas Unitarias y BDD**: Creación de [`tests/bdd/author-and-about.feature.test.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/tests/bdd/author-and-about.feature.test.tsx) y [`tests/unit/footerAndAbout.test.tsx`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/tests/unit/footerAndAbout.test.tsx), alcanzando 40/40 pruebas aprobadas (100% de éxito).
+
+---
+
 ## [2026-11-06] - Regla de Evaluación Completa Obligatoria en Quizzes de Cursos
 
 ### Agente Responsable:

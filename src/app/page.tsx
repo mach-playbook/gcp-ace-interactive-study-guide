@@ -7,6 +7,7 @@ import { GcloudQuiz } from '../components/GcloudQuiz';
 import { DecisionMatrix } from '../components/DecisionMatrix';
 import { FlashcardsTraps } from '../components/FlashcardsTraps';
 import { ReadinessTracker } from '../components/ReadinessTracker';
+import { Footer } from '../components/Footer';
 import { examDomains } from '../data/domainsData';
 import { quizItems } from '../data/quizData';
 import { flashcardsData } from '../data/flashcardsData';
@@ -186,28 +187,8 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 text-xs text-slate-500">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 sm:px-6">
-          <p>
-            © 2026 MACH Playbook — Guía de Preparación Independiente para Google Cloud ACE.
-          </p>
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-emerald-600 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              Offline-ready
-            </span>
-            <a
-              href="https://github.com/mach-playbook/gcp-ace-interactive-study-guide"
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              Repositorio GitHub
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* Reusable Footer */}
+      <Footer variant="light" />
     </div>
   );
 }

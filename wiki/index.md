@@ -37,11 +37,18 @@ Esta wiki actúa como un cerebro externo modular, persistente e interconectado q
 * [Google Cloud Fundamentals: Core Infrastructure (Course ID: 60)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/google-cloud-fundamentals-core-infrastructure.md): Jerarquía de recursos, IAM, VPC personalizadas, Cloud Storage, Cloud SQL, GKE y Cloud Run.
 
 ### 6. 🏗️ Arquitectura y Modelado de Datos (`wiki/architecture/`)
-* [Visión General del Sistema](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/system-overview.md): Stack tecnológico, arquitectura de frontend y gestión de estado.
+* [Visión General del Sistema](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/system-overview.md): Stack tecnológico, arquitectura de frontend, SSG Next.js 16, About page y Footer unificado.
 * [Modelos y Esquemas de Datos](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/data-models.md): Estructuras TypeScript para preguntas, matrices y progreso.
 * [Telemetría, Indexación y Validación SEO](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/telemetry-and-indexing.md): GA4 (G-9GESMZMDPB), Google Search Console, Bing Webmaster Tools y sitemaps.
 
-### 7. 📜 Bitácora de Síntesis y Cambios (`wiki/log/`)
+### 7. 👤 Autoría y Ecosistema
+* **Autor Principal**: Lenin Meza (`merolhack`) — Arquitecto de Software & Autor Técnico.
+* **Portafolio Oficial**: [https://merolhack.github.io/](https://merolhack.github.io/)
+* **Perfil Profesional**: [LinkedIn de Lenin Meza](https://www.linkedin.com/in/leninmezazarco)
+* **Publicación Matriz**: [MACH Playbook](https://mach-playbook.github.io/) y libro *Playbook de Arquitectura MACH* (Amazon KDP 2026).
+* **Página Institucional**: `/about/` (Acerca de la Plataforma & Misión Educativa).
+
+### 8. 📜 Bitácora de Síntesis y Cambios (`wiki/log/`)
 * [Changelog de la Wiki](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/log/changelog.md): Historial cronológico de ingestión y refactorización del conocimiento.
 
 ---

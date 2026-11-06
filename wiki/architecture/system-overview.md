@@ -13,15 +13,19 @@ Este documento detalla la arquitectura de software recomendada para la aplicaci�
 
 ---
 
-## 🛠️ Stack Tecnológico Sugerido
+## 🛠️ Stack Tecnológico Implementado
 
-* **Framework Base**: React + TypeScript + Vite o Next.js (App Router, SSG).
-* **Estilos**: Tailwind CSS con paleta temática accesible de Google Cloud (Blues, Slate, Emerald, Amber, Rose).
-* **Gestión de Estado**: Zustand o React Context con sincronización automática en `localStorage`.
-* **Iconografía**: Lucide React o Heroicons.
+* **Framework Base**: Next.js 16 (App Router) configurado con `output: 'export'` para Static Site Generation (SSG).
+* **Estilos**: Tailwind CSS con paleta temática accesible de Google Cloud (Blues, Slate, Emerald, Amber, Rose) y soporte responsive multi-dispositivo.
+* **Gestión de Estado**: React hooks locales con persistencia automática en `localStorage` (puntuaciones de quiz, progreso de laboratorios y flashcards dominadas).
+* **Iconografía & Accesibilidad**: Lucide React e iconos SVG optimizados.
 * **Componentes Interactivos Clave**:
-  * Terminal de simulación de comandos `gcloud` con autocompletado y validación sintáctica.
-  * Selector de árbol de decisión con transiciones suaves.
-  * Tarjetas de flashcards 3D con giro (flip) al clic/touch.
-  * Gráfico radial o barras de progreso por dominio.
+  * Emulador de comandos `gcloud` con validación sintáctica y feedback inmediato.
+  * Selector de matrices y árboles de decisión arquitectónica.
+  * Tarjetas interactivas de flashcards para trampas de examen.
+  * Seguimiento de preparación (Readiness Tracker) ponderado por dominio ACE.
+  * Catálogo y vistas de detalle por curso (`/courses/` y `/courses/[slug]/`).
+  * Página institucional de Acerca de (`/about/`) con misión educativa, detalles del autor (**Lenin Meza**), ecosistema **MACH Playbook** y descargo de responsabilidad oficial.
+  * Pie de página unificado (`Footer.tsx`) con enlaces bidireccionales de portafolio, LinkedIn, GitHub y proyectos asociados.
+
 
