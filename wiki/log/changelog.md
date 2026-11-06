@@ -4,6 +4,19 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-06] - Ingesta de Curso: Google Cloud Fundamentals: Core Infrastructure (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta en Bruto**: Registro de `wiki/raw/gcp-fundamentals-core-infrastructure-study-guide.md` como insumo inmutable sobre fundamentos de infraestructura, jerarquía de recursos, IAM, redes VPC y cómputo serverless.
+* **Síntesis Modular del Curso**: Creación de [`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/google-cloud-fundamentals-core-infrastructure.md) estructurando los 6 módulos teóricos y los 4 laboratorios prácticos (Marketplace LAMP, VPC Networking, Cloud Storage/SQL y Cloud Run).
+* **Actualización del Catálogo Central**: Enlace del nuevo curso e insumo bruto en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+* **Validación de Formato**: Cumplimiento del estándar Cero LaTeX / MathJax en todas las secciones.
+
+---
+
 ## [2026-11-05] - Ingesta de Curso: Implementing Cloud Load Balancing for Compute Engine (Course 648)
 
 ### Agente Responsable:

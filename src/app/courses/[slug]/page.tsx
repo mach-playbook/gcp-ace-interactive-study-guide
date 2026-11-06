@@ -23,3 +23,4 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
   return <CourseDetailView course={course} />;
 }
+

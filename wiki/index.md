@@ -11,6 +11,7 @@ Esta wiki actúa como un cerebro externo modular, persistente e interconectado q
 ### 1. 📂 Materiales en Bruto (`wiki/raw/`)
 * [README de Insumos](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/README.md): Repositorio inmutable (*append-only*) para notas crudas, transcripciones, volcados de preguntas oficiales y fuentes no estructuradas.
 * [Guía de Estudio en Bruto: Load Balancing (Course 648)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/gcp-ace-load-balancing-study-guide.md): Insumo sin procesar sobre balanceadores L4/L7, laboratorios 1 a 4 y cuestionarios.
+* [Guía de Estudio en Bruto: Fundamentals Core Infrastructure (Course 60)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/gcp-fundamentals-core-infrastructure-study-guide.md): Insumo sin procesar sobre jerarquía, IAM, VPC, cómputo, almacenamiento y Cloud Run.
 
 ### 2. 🏛️ Dominios del Examen GCP ACE (`wiki/domains/`)
 * [Dominio 1: Configuración del Entorno Cloud](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/domains/domain-1-cloud-environment.md) (~23%): Jerarquía de recursos, Billing, Cloud Identity, cuotas y observabilidad inicial.
@@ -33,6 +34,7 @@ Esta wiki actúa como un cerebro externo modular, persistente e interconectado q
 
 ### 5. 🎓 Cursos y Laboratorios Prácticos (`wiki/courses/`)
 * [Implementing Cloud Load Balancing for Compute Engine (Course ID: 648)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/implementing-cloud-load-balancing.md): Passthrough Network Load Balancer, Global External Application Load Balancer, Internal Application Load Balancer y Challenge Lab 613025.
+* [Google Cloud Fundamentals: Core Infrastructure (Course ID: 60)](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/courses/google-cloud-fundamentals-core-infrastructure.md): Jerarquía de recursos, IAM, VPC personalizadas, Cloud Storage, Cloud SQL, GKE y Cloud Run.
 
 ### 6. 🏗️ Arquitectura y Modelado de Datos (`wiki/architecture/`)
 * [Visión General del Sistema](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/architecture/system-overview.md): Stack tecnológico, arquitectura de frontend y gestión de estado.

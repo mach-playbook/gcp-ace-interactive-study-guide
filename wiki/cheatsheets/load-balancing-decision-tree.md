@@ -54,3 +54,4 @@ Para evitar que las instancias caigan en estado `UNHEALTHY`:
 | `35.191.0.0/16` | Sondas de health check globales y regionales de Google Cloud |
 | `209.85.152.0/22` | Sondas para balanceadores passthrough y legacy checks |
 | `209.85.204.0/22` | Sondas complementarias para balanceadores passthrough y legacy checks |
+

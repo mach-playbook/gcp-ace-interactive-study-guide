@@ -680,4 +680,537 @@ gcloud compute forwarding-rules create http-content-rule \\
       },
     ],
   },
+  {
+    id: 'gcp-course-60',
+    slug: 'google-cloud-fundamentals-core-infrastructure',
+    templateId: '60',
+    title: 'Google Cloud Fundamentals: Core Infrastructure',
+    shortDescription:
+      'Comprende los fundamentos de Google Cloud: jerarquía de recursos, IAM, redes VPC personalizadas, Compute Engine, almacenamiento en la nube (Cloud Storage, Cloud SQL, Spanner) y cómputo serverless con Cloud Run.',
+    duration: '3 Horas 00 Minutos',
+    level: 'Fundamental / Cimientos ACE',
+    category: 'Foundations & Core Infrastructure',
+    badge: 'Google Cloud Core Course',
+    overview:
+      'El curso Google Cloud Fundamentals: Core Infrastructure establece los cimientos conceptuales y operativos indispensables para navegar, desplegar y gobernar soluciones en Google Cloud Platform. Cubre el modelo de responsabilidad compartida, jerarquía organizacional, redes globales y selección de cómputo y bases de datos para el examen Associate Cloud Engineer.',
+    classificationMatrix: [
+      {
+        lbType: 'Cloud Storage',
+        layer: 'Almacenamiento de Objetos',
+        scope: 'Global / Multi-Región / Región',
+        trafficScheme: 'REST API / gsutil / gcloud',
+        architecture: 'Objetos binarios inmutables con clases Standard, Nearline, Coldline, Archive',
+        useCase: 'Archivos multimedia, respaldos, data lakes y distribución de contenido estático web.',
+      },
+      {
+        lbType: 'Cloud SQL',
+        layer: 'Base de Datos Relacional',
+        scope: 'Regional (Failover HA automático)',
+        trafficScheme: 'Conexión privada VPC / Proxy SQL',
+        architecture: 'Motor MySQL, PostgreSQL o SQL Server completamente gestionado (< 64 TB)',
+        useCase: 'Aplicaciones web empresariales, ERP, CRM y transacciones ACID en una sola región.',
+      },
+      {
+        lbType: 'Cloud Spanner',
+        layer: 'Base de Datos Relacional Global',
+        scope: 'Multi-Región / Global',
+        trafficScheme: 'Conexión cliente Spanner',
+        architecture: 'Escalado horizontal transparente con consistencia estricta externa (TrueTime)',
+        useCase: 'Sistemas bancarios mundiales, cadenas de suministro globales y transacciones de misión crítica.',
+      },
+      {
+        lbType: 'Firestore',
+        layer: 'Base de Datos NoSQL Documental',
+        scope: 'Multi-Región / Regional',
+        trafficScheme: 'SDKs cliente / REST / gRPC',
+        architecture: 'Estructura en colecciones y documentos con sincronización en tiempo real y modo offline',
+        useCase: 'Aplicaciones móviles, perfiles de usuario, juegos y estado de sesiones en vivo.',
+      },
+      {
+        lbType: 'Cloud Bigtable',
+        layer: 'Base de Datos NoSQL Columnar Ancho',
+        scope: 'Regional / Zonal con replicación',
+        trafficScheme: 'API HBase / gRPC de alta velocidad',
+        architecture: 'Almacenamiento columnar optimizado para millones de operaciones por segundo',
+        useCase: 'Ingesta masiva de sensores IoT, series temporales financieras y telemetría analítica en tiempo real.',
+      },
+      {
+        lbType: 'BigQuery',
+        layer: 'Data Warehouse Analítico (OLAP)',
+        scope: 'Multi-Región (US/EU) o Regional',
+        trafficScheme: 'SQL ANSI / Jobs / API REST',
+        architecture: 'Arquitectura desacoplada de cómputo y almacenamiento (Dremel + Colossus)',
+        useCase: 'Análisis masivo de petabytes, dashboards de BI y modelos predictivos integrados (BQML).',
+      },
+    ],
+    healthCheckRanges: [
+      {
+        cidr: '10.128.0.0/9',
+        purpose: 'Bloque predeterminado asignado a las subredes automáticas en Auto Mode VPC.',
+      },
+      {
+        cidr: '10.130.0.0/20',
+        purpose: 'Subred regional personalizada en us-central1 (Lab 2).',
+      },
+      {
+        cidr: '10.140.0.0/20',
+        purpose: 'Subred regional personalizada en us-east1 (Lab 2).',
+      },
+      {
+        cidr: '0.0.0.0/0',
+        purpose: 'Rango de origen comodín para reglas de ingreso público de cortafuegos (SSH, HTTP, ICMP).',
+      },
+    ],
+    examTraps: [
+      {
+        trap: 'Uso de Roles Básicos (Owner, Editor, Viewer) en entornos de producción',
+        solution:
+          'Los roles básicos otorgan permisos masivos a nivel de proyecto y violan el principio de mínimo privilegio. Para el examen ACE, siempre se deben seleccionar Roles Predefinidos específicos (ej. roles/storage.objectViewer).',
+      },
+      {
+        trap: 'Descargar y almacenar archivos de claves JSON de Service Accounts en discos de VMs',
+        solution:
+          'Es un grave riesgo de seguridad. La buena práctica recomendada por Google Cloud es asociar directamente la Service Account a la VM y permitir que la aplicación obtenga credenciales efímeras mediante el servidor de metadatos.',
+      },
+      {
+        trap: 'Suponer que una red VPC en Modo Personalizado (Custom Mode) crea subredes automáticamente',
+        solution:
+          'Las redes Custom Mode inician con 0 subredes; los ingenieros deben definir manualmente cada subred, rango CIDR y región asociada.',
+      },
+      {
+        trap: 'Intentar anular permisos concedidos a nivel de Organización o Carpeta desde un Proyecto hijo',
+        solution:
+          'La herencia de políticas en la jerarquía de recursos de Google Cloud es aditiva. Si un usuario tiene un rol en la carpeta o nodo raíz, dicho acceso se propaga hacia abajo y no puede restringirse en el proyecto hijo mediante IAM tradicional.',
+      },
+    ],
+    labs: [
+      {
+        id: 'core-lab-1',
+        labNumber: 1,
+        title: 'Getting Started with Cloud Marketplace',
+        durationMinutes: 30,
+        type: 'guided',
+        description:
+          'Despliega una solución web completa con la pila LAMP (Linux, Apache, MySQL, PHP) en Compute Engine mediante un solo clic utilizando paquetes certificados de Cloud Marketplace.',
+        keyConcepts: [
+          'Cloud Marketplace: Despliegue automatizado de software certificado sobre GCP.',
+          'Deployment Manager: Orquestación declarativa de infraestructura subyacente.',
+          'Parámetros de máquina: e2-medium en zona us-central1-a con firewall HTTP/HTTPS abierto.',
+        ],
+        steps: [
+          {
+            id: 'c-lab1-step-1',
+            stepNumber: 1,
+            title: 'Buscar solución LAMP en Cloud Marketplace',
+            description:
+              'Accede al catálogo de Google Cloud Marketplace y selecciona la solución empaquetada LAMP Stack (Bitnami o certificada de Google).',
+            command: '# Navegar en Cloud Console: Menú de navegación > Marketplace > Buscar "LAMP Stack"',
+            tip: 'Verifica que la solución indique compatibilidad con Compute Engine.',
+          },
+          {
+            id: 'c-lab1-step-2',
+            stepNumber: 2,
+            title: 'Configurar parámetros de despliegue y máquina virtual',
+            description:
+              'Establece la zona en us-central1-a, selecciona machine-type e2-medium (2 vCPU, 4GB RAM) y marca las casillas de tráfico HTTP y HTTPS.',
+            command: '# Configuración en la interfaz gráfica del Marketplace: Zona: us-central1-a, Machine: e2-medium, Networking: Allow HTTP/HTTPS',
+          },
+          {
+            id: 'c-lab1-step-3',
+            stepNumber: 3,
+            title: 'Desplegar y obtener credenciales administrativas',
+            description:
+              'Haz clic en Desplegar, espera la inicialización de recursos y copia la dirección IP externa y las credenciales del usuario root de MySQL desde el resumen.',
+            command: '# Acceder en el navegador: http://<EXTERNAL_IP_ASIGNADA>',
+            tip: 'Comprueba que se cargue la página de bienvenida de Bitnami / Apache.',
+          },
+        ],
+      },
+      {
+        id: 'core-lab-2',
+        labNumber: 2,
+        title: 'Get Started with VPC Networking and Compute Engine',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Aprovisiona una red Virtual Private Cloud (VPC) en modo personalizado, segmenta subredes en us-central1 y us-east1, aplica reglas de firewall y valida conectividad privada entre instancias mediante ICMP.',
+        keyConcepts: [
+          'VPC Custom Mode: Control granular total de direccionamiento CIDR.',
+          'Subredes regionales: Subred central (10.130.0.0/20) y subred este (10.140.0.0/20).',
+          'Cloud NGFW: Reglas de ingreso para tráfico ICMP, SSH (22) y RDP (3389).',
+          'Enrutamiento global de VPC: Comunicación interna privada entre regiones sin IP pública.',
+        ],
+        steps: [
+          {
+            id: 'c-lab2-step-1',
+            stepNumber: 1,
+            title: 'Crear red VPC personalizada (Custom Mode)',
+            description:
+              'Inicializa la red virtual especificando modo personalizado y enrutamiento regional.',
+            command: `gcloud compute networks create my-custom-vpc \\
+    --subnet-mode=custom \\
+    --bgp-routing-mode=regional`,
+          },
+          {
+            id: 'c-lab2-step-2',
+            stepNumber: 2,
+            title: 'Crear subredes en us-central1 y us-east1',
+            description:
+              'Segmenta dos subredes con bloques CIDR independientes en distintas regiones de Estados Unidos.',
+            command: `gcloud compute networks subnets create subnet-us-central \\
+    --network=my-custom-vpc \\
+    --region=us-central1 \\
+    --range=10.130.0.0/20
+
+gcloud compute networks subnets create subnet-us-east \\
+    --network=my-custom-vpc \\
+    --region=us-east1 \\
+    --range=10.140.0.0/20`,
+          },
+          {
+            id: 'c-lab2-step-3',
+            stepNumber: 3,
+            title: 'Configurar regla de cortafuegos de ingreso (Ingress)',
+            description:
+              'Habilita protocolos de diagnóstico (ICMP/ping) y administración remota (SSH puerto 22 y RDP puerto 3389).',
+            command: `gcloud compute firewall-rules create my-custom-vpc-allow-icmp-ssh-rdp \\
+    --network=my-custom-vpc \\
+    --direction=INGRESS \\
+    --priority=1000 \\
+    --action=ALLOW \\
+    --rules=icmp,tcp:22,tcp:3389 \\
+    --source-ranges=0.0.0.0/0`,
+          },
+          {
+            id: 'c-lab2-step-4',
+            stepNumber: 4,
+            title: 'Aprovisionar instancias VM y verificar ping interno',
+            description:
+              'Crea una VM en cada subred regional y verifica la conectividad de red a través del backbone interno de Google.',
+            command: `gcloud compute instances create vm-internal-1 \\
+    --zone=us-central1-a \\
+    --machine-type=e2-micro \\
+    --network=my-custom-vpc \\
+    --subnet=subnet-us-central
+
+gcloud compute instances create vm-internal-2 \\
+    --zone=us-east1-b \\
+    --machine-type=e2-micro \\
+    --network=my-custom-vpc \\
+    --subnet=subnet-us-east
+
+gcloud compute ssh vm-internal-1 --zone=us-central1-a --command="ping -c 3 10.140.0.2"`,
+            tip: 'Las VMs en diferentes subredes de la misma VPC se comunican por IP privada sin necesidad de Cloud VPN ni gateways adicionales.',
+          },
+        ],
+      },
+      {
+        id: 'core-lab-3',
+        labNumber: 3,
+        title: 'Getting Started with Cloud Storage and Cloud SQL',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Aprende a gestionar almacenamiento de objetos no estructurado con Cloud Storage y bases de datos relacionales administradas con Cloud SQL MySQL, autorizando la conexión de clientes web.',
+        keyConcepts: [
+          'Cloud Storage: Creación de buckets globales con acceso uniforme a nivel de bucket.',
+          'Cloud SQL: Aprovisionamiento de instancia administrada MySQL 8.0.',
+          'Autorización de red: Concesión de acceso por IP pública de la VM a la instancia de base de datos.',
+        ],
+        steps: [
+          {
+            id: 'c-lab3-step-1',
+            stepNumber: 1,
+            title: 'Crear un bucket en Cloud Storage con acceso uniforme',
+            description:
+              'Aprovisiona un bucket regional con clase Standard y Uniform Bucket-Level Access para gobernanza estricta.',
+            command: `export PROJECT_ID=$(gcloud config get-value project)
+export REGION="us-central1"
+export BUCKET_NAME="\${PROJECT_ID}-media-bucket"
+
+gcloud storage buckets create gs://\${BUCKET_NAME} \\
+    --location=\${REGION} \\
+    --default-storage-class=STANDARD \\
+    --uniform-bucket-level-access`,
+          },
+          {
+            id: 'c-lab3-step-2',
+            stepNumber: 2,
+            title: 'Subir archivo de prueba y otorgar permiso de lectura',
+            description:
+              'Crea un objeto de prueba local y súbelo al bucket recién aprovisionado.',
+            command: `echo "Google Cloud Fundamentals Storage Test" > sample.txt
+gcloud storage cp sample.txt gs://\${BUCKET_NAME}/sample.txt`,
+          },
+          {
+            id: 'c-lab3-step-3',
+            stepNumber: 3,
+            title: 'Aprovisionar instancia de Cloud SQL MySQL 8.0',
+            description:
+              'Despliega una base de datos relacional gestionada con credencial administrativa segura.',
+            command: `gcloud sql instances create my-db-instance \\
+    --database-version=MYSQL_8_0 \\
+    --cpu=1 \\
+    --memory=3840MiB \\
+    --region=\${REGION} \\
+    --root-password="SuperSecurePassword123!"
+
+gcloud sql databases create app_db --instance=my-db-instance
+gcloud sql users create app_user --instance=my-db-instance --password="UserPassword123!"`,
+          },
+          {
+            id: 'c-lab3-step-4',
+            stepNumber: 4,
+            title: 'Autorizar IP de la VM web en Cloud SQL',
+            description:
+              'Extrae la IP pública de la máquina virtual web y agrégala a las redes autorizadas de la base de datos.',
+            command: `export VM_IP=$(gcloud compute instances describe web-app-vm --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)" 2>/dev/null || echo "34.120.50.10")
+gcloud sql instances patch my-db-instance --authorized-networks=\${VM_IP}`,
+            tip: 'En entornos de producción se recomienda conectar mediante Cloud SQL Auth Proxy o dirección IP privada interna en la VPC.',
+          },
+        ],
+      },
+      {
+        id: 'core-lab-4',
+        labNumber: 4,
+        title: 'Hello Cloud Run',
+        durationMinutes: 30,
+        type: 'guided',
+        description:
+          'Despliega un microservicio web contenerizado en Cloud Run de forma totalmente serverless, escalando automáticamente desde cero bajo demanda.',
+        keyConcepts: [
+          'Cloud Run: Cómputo serverless basado en Knative para contenedores stateless.',
+          'Escalado a cero: Costo nulo cuando no existen peticiones HTTP activas.',
+          'Acceso público: Opción --allow-unauthenticated para endpoints web.',
+        ],
+        steps: [
+          {
+            id: 'c-lab4-step-1',
+            stepNumber: 1,
+            title: 'Configurar región predeterminada para Cloud Run',
+            description:
+              'Establece la región de ejecución de Cloud Run en la configuración de gcloud.',
+            command: `gcloud config set run/region us-central1`,
+          },
+          {
+            id: 'c-lab4-step-2',
+            stepNumber: 2,
+            title: 'Desplegar contenedor de ejemplo en Cloud Run',
+            description:
+              'Despliega la imagen hello-app desde Google Container Registry permitiendo acceso público sin autenticación.',
+            command: `gcloud run deploy hello-cloudrun \\
+    --image=gcr.io/google-samples/hello-app:1.0 \\
+    --region=us-central1 \\
+    --allow-unauthenticated`,
+          },
+          {
+            id: 'c-lab4-step-3',
+            stepNumber: 3,
+            title: 'Inspeccionar endpoint público y validar servicio',
+            description:
+              'Consulta la URL HTTPS autogenerada por Cloud Run y lista los servicios activos en el proyecto.',
+            command: `gcloud run services describe hello-cloudrun --region=us-central1 --format="value(status.url)"
+gcloud run services list`,
+            tip: 'Cloud Run asigna automáticamente certificados SSL gestionados por Google a cada servicio.',
+          },
+        ],
+      },
+    ],
+    quiz: [
+      {
+        id: 'c-q1',
+        question:
+          'Una empresa requiere una base de datos relacional para una aplicación web que admita sintaxis estándar de MySQL, proporcione conmutación por error regional automática (Alta Disponibilidad) y sus datos se mantengan en una sola región. ¿Qué servicio debes elegir?',
+        options: [
+          'Cloud Spanner',
+          'Cloud SQL',
+          'Cloud Bigtable',
+          'Firestore',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Cloud SQL ofrece motores relacionales gestionados (MySQL, PostgreSQL, SQL Server) en una región con replicación síncrona y conmutación automática de alta disponibilidad. Cloud Spanner es para bases de datos relacionales distribuidas globalmente a través de múltiples regiones.',
+        examTrapTip: 'Si el requerimiento menciona "relacional en una sola región con alta disponibilidad", la respuesta óptima por costo y función es Cloud SQL.',
+      },
+      {
+        id: 'c-q2',
+        question:
+          'Debes otorgar a un desarrollador junior acceso de solo lectura a los objetos de Cloud Storage en un proyecto específico, sin permitirle crear ni eliminar buckets. Aplicando el principio de menor privilegio, ¿qué rol debes asignarle?',
+        options: [
+          'roles/owner',
+          'roles/editor',
+          'roles/viewer',
+          'roles/storage.objectViewer',
+        ],
+        correctIndex: 3,
+        explanation:
+          'roles/storage.objectViewer es un rol predefinido que permite leer objetos sin otorgar permisos de modificación sobre los buckets ni visibilidad excesiva sobre otros recursos del proyecto. Los roles básicos como Viewer son demasiado amplios.',
+      },
+      {
+        id: 'c-q3',
+        question:
+          'Una aplicación en una VM de Compute Engine necesita leer datos de un bucket de Cloud Storage sin almacenar claves de acceso permanentes en el código ni en el disco. ¿Cuál es la práctica de seguridad recomendada por Google Cloud?',
+        options: [
+          'Descargar un archivo de clave JSON de una cuenta de servicio al disco de la máquina virtual.',
+          'Incrustar las credenciales de la cuenta personal de Google del usuario en la configuración.',
+          'Adjuntar una Service Account personalizada a la instancia de VM con el rol roles/storage.objectViewer.',
+          'Configurar los permisos del bucket de Cloud Storage como allUsers (Público).',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Vincular una Service Account a la VM permite que la aplicación obtenga tokens efímeros mediante el servidor de metadatos de Compute Engine, eliminando el riesgo de claves comprometidas.',
+      },
+      {
+        id: 'c-q4',
+        question:
+          'Estás desplegando un microservicio web sin estado empaquetado en un contenedor Docker. La aplicación experimenta picos de tráfico impredecibles y debe escalar a cero durante horas de inactividad para minimizar costos. ¿Qué servicio de cómputo es el más adecuado?',
+        options: [
+          'Compute Engine con grupo de instancias no administrado',
+          'GKE Standard Cluster con número fijo de nodos',
+          'Cloud Run',
+          'Cloud SQL',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Cloud Run es una plataforma serverless para contenedores HTTP que escala automáticamente de cero a miles de instancias según la demanda, cobrando solo por el tiempo exacto de procesamiento.',
+      },
+      {
+        id: 'c-q5',
+        question:
+          'Un ingeniero crea una nueva red VPC en Modo Personalizado (Custom Mode). ¿Qué sucede con las subredes al crear una red en este modo?',
+        options: [
+          'Se crea automáticamente una subred por región con rangos CIDR predeterminados.',
+          'No se crea ninguna subred automáticamente; el ingeniero debe definir explícitamente las subredes y rangos IP.',
+          'Se crea una única subred en la región predeterminada del proyecto.',
+          'Las redes en Modo Personalizado no utilizan subredes.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Las redes Custom Mode inician sin subredes, permitiendo al administrador diseñar la topología de red y evitar solapamientos de IP. El modo Auto es el que genera una subred por región.',
+      },
+      {
+        id: 'c-q6',
+        question:
+          '¿Qué clase de almacenamiento en Cloud Storage tiene un compromiso de retención mínima de 90 días y está optimizada para datos a los que se accede menos de una vez por trimestre?',
+        options: [
+          'Standard',
+          'Nearline',
+          'Coldline',
+          'Archive',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Coldline Storage requiere una permanencia mínima de 90 días y está pensado para accesos infrecuentes (trimestrales). Nearline tiene un mínimo de 30 días y Archive de 365 días.',
+      },
+      {
+        id: 'c-q7',
+        question:
+          '¿Qué comando debes ejecutar antes de utilizar la herramienta kubectl contra un clúster de Google Kubernetes Engine (GKE) recién creado desde Cloud Shell?',
+        options: [
+          'gcloud auth login',
+          'gcloud container clusters get-credentials <NOMBRE_CLUSTER>',
+          'kubectl init cluster',
+          'gcloud compute ssh <NOMBRE_CLUSTER>',
+        ],
+        correctIndex: 1,
+        explanation:
+          'gcloud container clusters get-credentials descarga el endpoint y las credenciales de autenticación del clúster y las registra en el archivo local ~/.kube/config.',
+      },
+      {
+        id: 'c-q8',
+        question:
+          'Deseas ejecutar un proceso de procesamiento por lotes (batch) en Compute Engine que puede tolerar terminaciones imprevistas de instancias. ¿Qué tipo de VM proporciona el mayor ahorro de costos?',
+        options: [
+          'Instancias reservadas (Reserved)',
+          'Máquinas virtuales Spot / Preemptible',
+          'Instancias E2 Standard con Sustained Use Discounts',
+          'Nodos de inquilino exclusivo (Sole-tenant)',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Las VMs Spot (preemptibles) ofrecen entre un 60% y un 91% de descuento respecto al precio estándar para cargas de trabajo tolerantes a interrupciones.',
+      },
+      {
+        id: 'c-q9',
+        question:
+          'Un equipo necesita recolectar datos de sensores IoT que transmiten millones de escrituras por segundo con latencias inferiores a 10 milisegundos. ¿Qué base de datos de Google Cloud está diseñada para este patrón?',
+        options: [
+          'Cloud SQL MySQL',
+          'Firestore',
+          'Cloud Bigtable',
+          'BigQuery',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Cloud Bigtable es una base de datos NoSQL columnar masivamente escalable optimizada para escrituras continuas de alto rendimiento y latencias sub-10ms en series temporales e IoT.',
+      },
+      {
+        id: 'c-q10',
+        question:
+          'Si se aplica una política de IAM que otorga roles/storage.admin a un usuario en el nivel de Carpeta de la jerarquía de recursos, ¿cuál es el efecto de dicha política en los proyectos dentro de esa carpeta?',
+        options: [
+          'El usuario tiene permisos de administrador de Storage en todos los buckets de todos los proyectos de esa carpeta, y este permiso no puede revocarse a nivel de proyecto.',
+          'La política solo aplica a la carpeta física, no a los proyectos hijos.',
+          'La política debe ser aprobada explícitamente en cada proyecto antes de surtir efecto.',
+          'El propietario del proyecto puede anular y eliminar el rol asignado en la carpeta.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'La herencia de IAM es jerárquica y aditiva. Los permisos otorgados en un nodo superior se heredan automáticamente en todos los recursos hijos y no pueden ser restringidos en un nivel inferior.',
+      },
+    ],
+    glossary: [
+      {
+        term: 'Cloud Identity',
+        definition:
+          'Plataforma de Identidad como Servicio (IDaaS) que administra usuarios, grupos y políticas de seguridad para Google Cloud sin requerir licencias de Google Workspace.',
+      },
+      {
+        term: 'Compute Engine',
+        definition:
+          'Servicio IaaS de Google Cloud para aprovisionar y gestionar máquinas virtuales sobre la infraestructura física global de Google.',
+      },
+      {
+        term: 'Google Kubernetes Engine (GKE)',
+        definition:
+          'Servicio administrado de Kubernetes para desplegar, orquestar y escalar aplicaciones contenerizadas con opciones Standard y Autopilot.',
+      },
+      {
+        term: 'Cloud Run',
+        definition:
+          'Plataforma serverless basada en Knative que ejecuta contenedores sin estado respondiendo a solicitudes HTTP y escalando a cero automáticamente.',
+      },
+      {
+        term: 'Instance Template',
+        definition:
+          'Molde reutilizable de configuración de Compute Engine que define las especificaciones para crear instancias homogéneas en MIGs.',
+      },
+      {
+        term: 'Managed Instance Group (MIG)',
+        definition:
+          'Grupo de máquinas virtuales idénticas gestionadas como una sola entidad que proporciona autoescalado, autorreparación y distribución multizona.',
+      },
+      {
+        term: 'Service Account',
+        definition:
+          'Identidad no humana de IAM utilizada por aplicaciones y cargas de trabajo para autenticarse y acceder a las APIs de Google Cloud.',
+      },
+      {
+        term: 'Virtual Private Cloud (VPC)',
+        definition:
+          'Red virtual definida por software de alcance global que interconecta recursos de Google Cloud mediante subredes regionales.',
+      },
+      {
+        term: 'Predefined Role',
+        definition:
+          'Rol de IAM creado y administrado por Google que agrupa un conjunto granular de permisos adecuados para una función laboral concreta.',
+      },
+      {
+        term: 'Ops Agent',
+        definition:
+          'Agente principal de telemetría instalado en VMs de Compute Engine que recolecta logs, métricas del sistema y procesos para Google Cloud Observability.',
+      },
+    ],
+  },
 ];
+

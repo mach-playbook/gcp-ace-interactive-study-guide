@@ -165,3 +165,4 @@ Para que las instancias backend sean marcadas como `HEALTHY`, el cortafuegos de 
 4. **Autoescalado vs Autohealing**:
    * `--cool-down-period`: Tiempo que el autoescalador espera antes de medir métricas de CPU de una instancia nueva.
    * `--initial-delay`: Tiempo que el health check de autohealing espera antes de reiniciar una VM que esté arrancando.
+

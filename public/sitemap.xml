@@ -18,5 +18,11 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://mach-playbook.github.io/gcp-ace-interactive-study-guide/courses/google-cloud-fundamentals-core-infrastructure/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
 
