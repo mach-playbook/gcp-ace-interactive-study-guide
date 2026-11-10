@@ -46,8 +46,8 @@ describe('Unit Tests: Course 60 - Google Cloud Fundamentals: Core Infrastructure
     expect(services).toContain('BigQuery');
   });
 
-  it('should have 10 valid quiz questions with 4 options and valid correct index', () => {
-    expect(course60?.quiz.length).toBe(10);
+  it('should have valid quiz questions with 4 options and valid correct index', () => {
+    expect(course60?.quiz.length).toBeGreaterThanOrEqual(16);
     course60?.quiz.forEach((q) => {
       expect(q.id).toBeDefined();
       expect(q.question.trim().length).toBeGreaterThan(10);
@@ -65,6 +65,47 @@ describe('Unit Tests: Course 60 - Google Cloud Fundamentals: Core Infrastructure
     expect(terms).toContain('Service Account');
     expect(terms).toContain('Cloud Run');
     expect(terms).toContain('Virtual Private Cloud (VPC)');
+    expect(terms).toContain('Autoscaling (Compute Engine)');
+    expect(terms).toContain('Shared VPC');
+    expect(terms).toContain('Cloud DNS');
+    expect(terms).toContain('Cloud CDN');
+    expect(terms).toContain('Cloud VPN');
+    expect(terms).toContain('Cloud Interconnect');
+  });
+
+  it('should include official lesson videos with YouTube IDs and key takeaways', () => {
+    expect(course60?.videos).toBeDefined();
+    expect(course60?.videos?.length).toBeGreaterThanOrEqual(20);
+    const videoTitles = course60?.videos?.map((v) => v.title);
+    expect(videoTitles).toContain('Course Introduction');
+    expect(videoTitles).toContain('Cloud Computing Overview');
+    expect(videoTitles).toContain('IaaS and PaaS');
+    expect(videoTitles).toContain('The Google Cloud Network');
+    expect(videoTitles).toContain('Environmental Impact');
+    expect(videoTitles).toContain('Security');
+    expect(videoTitles).toContain('Open Source Ecosystems');
+    expect(videoTitles).toContain('Pricing and Billing');
+    expect(videoTitles).toContain('Google Cloud Resource Hierarchy');
+    expect(videoTitles).toContain('Identity and Access Management (IAM)');
+    expect(videoTitles).toContain('Service Accounts');
+    expect(videoTitles).toContain('Cloud Identity');
+    expect(videoTitles).toContain('Interacting with Google Cloud');
+    expect(videoTitles).toContain('Virtual Private Cloud networking');
+    expect(videoTitles).toContain('Compute Engine');
+    expect(videoTitles).toContain('Scaling virtual machines');
+    expect(videoTitles).toContain('Important VPC compatibilities');
+    expect(videoTitles).toContain('Cloud Load Balancing');
+    expect(videoTitles).toContain('Cloud DNS and Cloud CDN');
+    expect(videoTitles).toContain('Connecting networks to Google VPC');
+
+    course60?.videos?.forEach((video) => {
+      expect(video.id).toBeDefined();
+      expect(video.youtubeUrl.length).toBeGreaterThan(10);
+      expect(video.youtubeId).toBeDefined();
+      expect(video.youtubeId?.length).toBeGreaterThan(5);
+      expect(video.summary.length).toBeGreaterThan(20);
+      expect(video.keyTakeaways.length).toBeGreaterThan(0);
+    });
   });
 });
 

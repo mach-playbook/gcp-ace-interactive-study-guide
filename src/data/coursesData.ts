@@ -692,7 +692,341 @@ gcloud compute forwarding-rules create http-content-rule \\
     category: 'Foundations & Core Infrastructure',
     badge: 'Google Cloud Core Course',
     overview:
-      'El curso Google Cloud Fundamentals: Core Infrastructure establece los cimientos conceptuales y operativos indispensables para navegar, desplegar y gobernar soluciones en Google Cloud Platform. Cubre el modelo de responsabilidad compartida, jerarquía organizacional, redes globales y selección de cómputo y bases de datos para el examen Associate Cloud Engineer.',
+      'El curso Google Cloud Fundamentals: Core Infrastructure establece los cimientos conceptuales y operativos indispensables para navegar, desplegar y gobernar soluciones en Google Cloud Platform. Estructurado en 7 objetivos clave oficiales, abarca el modelo de responsabilidad compartida, jerarquía organizacional, redes VPC personalizadas, Compute Engine, taxonomía de almacenamiento, GKE, cómputo serverless con Cloud Run y la asistencia operativa de Gemini mediante prompt engineering para el examen Associate Cloud Engineer.',
+    videos: [
+      {
+        id: 'vid-60-1',
+        title: 'Course Introduction',
+        moduleName: 'Introducción al Curso',
+        youtubeUrl: 'https://www.youtube.com/watch?v=xVmam01f4Fw',
+        youtubeId: 'xVmam01f4Fw',
+        duration: '2:02',
+        summary:
+          'Visión general del curso Google Cloud Fundamentals: Core Infrastructure. Presenta las cinco categorías de servicios de Google Cloud (cómputo, almacenamiento, big data, machine learning y servicios de aplicación) y define los siete objetivos clave de aprendizaje para la certificación ACE.',
+        keyTakeaways: [
+          '5 categorías fundamentales de Google Cloud: Cómputo, Almacenamiento, Big Data, Machine Learning y Servicios de Aplicación.',
+          'Audiencia principal: Desarrolladores, SysOps, Ingenieros Cloud y Arquitectos de Soluciones orientados al examen ACE.',
+          '7 objetivos de aprendizaje clave: Organización jerárquica, infraestructura básica, almacenamiento, GKE, serverless y optimización asistida por IA con Gemini.',
+        ],
+      },
+      {
+        id: 'vid-60-2',
+        title: 'Cloud Computing Overview',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=ph5hjgOAf40',
+        youtubeId: 'ph5hjgOAf40',
+        duration: '3:16',
+        summary:
+          'Definición formal de Cloud Computing según el NIST y evolución histórica en tres olas tecnológicas: desde la coubicación (colocation) y la virtualización tradicional hasta la tercera ola elástica y basada en contenedores de Google Cloud.',
+        keyTakeaways: [
+          '5 características esenciales de la nube (NIST): Autoservicio bajo demanda, acceso amplio a la red, asignación común de recursos (resource pooling), elasticidad rápida y servicio medido (pago por uso).',
+          'Primera ola (Colocation): Ahorro financiero rentando espacio físico en lugar de construir centros de datos.',
+          'Segunda ola (Virtualización): Servidores, discos y redes virtualizadas, pero manteniendo administración pesada de infraestructura.',
+          'Tercera ola (Google Cloud): Arquitectura basada en contenedores, servicios completamente automatizados, escalabilidad elástica y enfoque de datos.',
+        ],
+      },
+      {
+        id: 'vid-60-3',
+        title: 'IaaS and PaaS',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=C7cb6kFhNmw',
+        youtubeId: 'C7cb6kFhNmw',
+        duration: '2:27',
+        summary:
+          'Comparación entre los modelos de servicio en la nube: Infrastructure as a Service (IaaS con Compute Engine) y Platform as a Service (PaaS con App Engine). Analiza la evolución hacia servicios serverless completamente gestionados (Cloud Run y Cloud Run Functions) y Software as a Service (SaaS con Google Workspace).',
+        keyTakeaways: [
+          'IaaS (Compute Engine): Aprovisiona recursos crudos de cómputo, almacenamiento y redes; se paga por los recursos reservados por adelantado.',
+          'PaaS (App Engine): Enlaza código con librerías e infraestructura gestionada, enfocándose en la lógica de negocio; se paga por los recursos efectivamente utilizados.',
+          'Serverless (Cloud Run & Cloud Run Functions): Elimina completamente la gestión de servidores y escala a cero; Cloud Run aloja contenedores de microservicios y Cloud Run Functions ejecuta código orientado a eventos.',
+          'SaaS (Google Workspace): Entrega la pila completa de la aplicación en la nube para ser consumida directamente por usuarios finales a través de internet.',
+        ],
+      },
+      {
+        id: 'vid-60-4',
+        title: 'The Google Cloud Network',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=SDGJqKIE5yY',
+        youtubeId: 'SDGJqKIE5yY',
+        duration: '2:56',
+        summary:
+          'Explora la infraestructura de red global de Google Cloud: cables submarinos de alta velocidad, más de 100 nodos de caché perimetrales (PoPs), 7 regiones geográficas mundiales, zonas independientes de disponibilidad y arquitecturas multi-región para alta disponibilidad y baja latencia.',
+        keyTakeaways: [
+          'Red privada global: Enlaces dedicados de fibra óptica y cables submarinos que maximizan el throughput y minimizan la latencia evitando la Internet pública.',
+          'Puntos de presencia (PoPs): Más de 100 nodos de caché de contenido perimetral para acelerar la entrega estática (Cloud CDN) y terminación Anycast IP.',
+          'Regiones vs Zonas: Las regiones son áreas geográficas independientes compuestas por al menos 3 zonas; las zonas son dominios de aislamiento de fallos eléctricos y de hardware.',
+          'Arquitecturas Multi-Región: Replicación síncrona en múltiples regiones para servicios críticos como Cloud Spanner o Cloud Storage Multi-Regional.',
+        ],
+      },
+      {
+        id: 'vid-60-5',
+        title: 'Environmental Impact',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=MwZiq-DRGFo',
+        youtubeId: 'MwZiq-DRGFo',
+        duration: '1:31',
+        summary:
+          'Sostenibilidad y eficiencia energética en los centros de datos de Google Cloud. Examina la certificación ambiental ISO 14001, la refrigeración con agua de mar en Hamina (Finlandia), la neutralidad de carbono y la meta 2030 de energía 100% libre de carbono (CFE).',
+        keyTakeaways: [
+          'Eficiencia de centros de datos: Los datacenters representan ~2% de la electricidad mundial; Google fue el primero en obtener la certificación ISO 14001.',
+          'Refrigeración marina ecológica: El centro de datos de Hamina en Finlandia emplea agua de mar para reducir dramáticamente el consumo energético.',
+          'Meta Carbon-Free Energy 2030: Operar con energía 100% libre de carbono (CFE) las 24 horas del día, los 7 días de la semana.',
+          'Criterio de arquitectura ACE: Evaluación del indicador CFE% al seleccionar regiones en el diseño de infraestructura.',
+        ],
+      },
+      {
+        id: 'vid-60-6',
+        title: 'Security',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=BggWZl8qTzk',
+        youtubeId: 'BggWZl8qTzk',
+        duration: '5:41',
+        summary:
+          'Arquitectura integral de seguridad de Google Cloud organizada en 6 capas progresivas: infraestructura de hardware (chips Titan y Secure Boot), despliegue de servicios (RPC cifrado), identidad (desafíos adaptativos y llaves U2F), almacenamiento (cifrado en reposo por defecto), comunicación por internet (Google Front End y protección DoS) y seguridad operacional (Red Team y revisión de código por dos pares).',
+        keyTakeaways: [
+          'Capa de Hardware: Chips de seguridad propietarios Titan y validación criptográfica Secure Boot de la BIOS, kernel y SO base.',
+          'Capa de Despliegue: Cifrado automático por defecto de todo el tráfico RPC entre centros de datos.',
+          'Capa de Identidad: Desafíos contextuales por riesgo y obligatoriedad de llaves físicas de seguridad U2F.',
+          'Capa de Almacenamiento: Cifrado en reposo por defecto (AES-256) antes de la escritura física y cifrado por hardware en discos.',
+          'Capa de Internet: Terminación TLS con Perfect Forward Secrecy en el Google Front End (GFE) y absorción masiva de ataques DoS/DDoS.',
+          'Capa Operacional: Auditorías continuas con Red Team, reducción de privilegios internos y revisión obligatoria por dos pares.',
+        ],
+      },
+      {
+        id: 'vid-60-7',
+        title: 'Open Source Ecosystems',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=gYZGSrNffF8',
+        youtubeId: 'gYZGSrNffF8',
+        duration: '0:56',
+        summary:
+          'Estrategia de código abierto e interoperabilidad en Google Cloud para prevenir el bloqueo de proveedor (vendor lock-in). Destaca Kubernetes y GKE para portabilidad de microservicios, TensorFlow para inteligencia artificial y Google Cloud Observability para monitorizar cargas híbridas y multinube.',
+        keyTakeaways: [
+          'Prevención de Vendor Lock-in: Publicación de software con licencias abiertas para permitir portabilidad total a otras nubes o entornos locales.',
+          'Kubernetes & GKE: Estándar de la industria en orquestación de contenedores creado por Google y transferido a la CNCF.',
+          'TensorFlow: Ecosistema libre y abierto líder para entrenamiento y despliegue de modelos de Machine Learning.',
+          'Google Cloud Observability: Monitorización y diagnóstico centralizado que abarca cargas de trabajo en GCP, AWS y on-premises.',
+        ],
+      },
+      {
+        id: 'vid-60-8',
+        title: 'Pricing and Billing',
+        moduleName: 'Módulo 1: Introducción a Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=OTD61ZfnO28',
+        youtubeId: 'OTD61ZfnO28',
+        duration: '3:20',
+        summary:
+          'Estructura de precios, modelos de facturación y gobernanza financiera en Google Cloud. Explica la facturación por segundo en Compute Engine y GKE, descuentos por uso continuo (SUD automáticos > 25%), Custom Machine Types, presupuestos con alertas y cuotas de proyecto (Rate Quotas vs Allocation Quotas).',
+        keyTakeaways: [
+          'Facturación por segundo: Aplicada en Compute Engine, GKE, Dataproc y App Engine Flex, optimizando el coste por segundo real de consumo.',
+          'Sustained-Use Discounts (SUD): Descuentos automáticos de hasta el 30% aplicados al ejecutar VMs durante más del 25% del mes sin contratos.',
+          'Custom Machine Types: Permite configurar cantidades exactas de vCPU y memoria para ajustar milimétricamente el presupuesto.',
+          'Presupuestos y Alertas: Se configuran en la cuenta de facturación o proyecto con alertas típicas al 50%, 90% y 100% (¡las alertas NO apagan recursos automáticamente!).',
+          'Cuotas de proyecto: Rate Quotas (límite de llamadas API con reinicio periódico) y Allocation Quotas (número máximo de recursos como 15 VPCs por proyecto).',
+        ],
+      },
+      {
+        id: 'vid-60-9',
+        title: 'Google Cloud Resource Hierarchy',
+        moduleName: 'Módulo 2: Recursos y Acceso en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=ecVv1L_TEo8',
+        youtubeId: 'ecVv1L_TEo8',
+        duration: '5:25',
+        summary:
+          'Estructura funcional de 4 niveles en Google Cloud: Recursos, Proyectos, Carpetas y Nodo de Organización. Detalla la herencia descendente de políticas de IAM, los tres identificadores de proyecto (ID inmutable, Nombre mutable, Número generado por Google), la API Resource Manager y la creación del nodo organización vía Google Workspace o Cloud Identity.',
+        keyTakeaways: [
+          '4 niveles jerárquicos (de abajo hacia arriba): Recursos → Proyectos → Carpetas (opcionales) → Nodo de Organización.',
+          'Herencia descendente de políticas: Las políticas aplicadas a una carpeta u organización se heredan automáticamente en todos los proyectos y recursos subordinados (herencia aditiva e irrevocable en niveles inferiores).',
+          'Identificadores de proyecto: Project ID (globalmente único e inmutable), Project Name (creado por el usuario, mutable, no requiere ser único) y Project Number (número asignado internamente por Google).',
+          'Resource Manager API: Herramienta programática (RPC y REST) para listar, crear, actualizar, eliminar y recuperar (undelete) proyectos eliminados.',
+          'Carpetas (Folders): Permiten agrupar proyectos por departamento o entorno (dev/prod) y delegar derechos administrativos a equipos independientes.',
+          'Nodo de Organización (Organization Node): Nodo raíz del que cuelgan todas las carpetas y proyectos; roles clave incluyen Organization Policy Administrator y Project Creator. Se genera automáticamente con Google Workspace o mediante Cloud Identity.',
+        ],
+      },
+      {
+        id: 'vid-60-10',
+        title: 'Identity and Access Management (IAM)',
+        moduleName: 'Módulo 2: Recursos y Acceso en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Di1T4RyO9yg',
+        youtubeId: 'Di1T4RyO9yg',
+        duration: '4:23',
+        summary:
+          'Control de acceso con Identity and Access Management (IAM). Define quién (principal: usuario, grupo, service account o dominio de Cloud Identity) puede hacer qué (roles con permisos agrupados) sobre cuáles recursos. Profundiza en políticas Deny (evaluadas antes que las Allow), roles básicos (Owner, Editor, Viewer, Billing Admin), roles predefinidos y roles personalizados bajo el principio de mínimo privilegio con sus restricciones de nivel.',
+        keyTakeaways: [
+          'Definición de IAM: Quién (Principal: cuenta Google, grupo, service account, dominio Cloud Identity) + Puede hacer qué (Rol: conjunto de permisos) + Sobre cuál recurso.',
+          'Reglas Deny: IAM siempre evalúa las políticas Deny antes que las políticas Allow; si existe una regla Deny coincidente, el acceso se bloquea independientemente de los roles concedidos.',
+          'Roles Básicos / Primitivos: Owner, Editor, Viewer y Billing Administrator. Tienen alcance amplio a nivel de proyecto (desaconsejados para entornos con datos sensibles por violar el principio de mínimo privilegio).',
+          'Roles Predefinidos: Ofrecidos y mantenidos por Google para servicios específicos (ej. roles/compute.instanceAdmin). Se pueden aplicar a nivel de Organización, Carpeta o Proyecto.',
+          'Roles Personalizados (Custom Roles): Diseñados para mínimo privilegio estricto (ej. permitir iniciar/detener VMs sin reconfigurarlas).',
+          'Regla de oro ACE para Custom Roles: Solo se pueden aplicar a nivel de Proyecto o de Organización; NUNCA a nivel de Carpeta (Folder).',
+        ],
+      },
+      {
+        id: 'vid-60-11',
+        title: 'Service Accounts',
+        moduleName: 'Módulo 2: Recursos y Acceso en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=xoo5NfLqePY',
+        youtubeId: 'xoo5NfLqePY',
+        duration: '1:40',
+        summary:
+          'Autenticación y autorización máquina a máquina mediante Service Accounts. Permiten a las instancias de Compute Engine y aplicaciones acceder a servicios de Google Cloud (como Cloud Storage) sin intervención humana ni contraseñas. Explora su doble naturaleza fundamental: una Service Account es a la vez una Identidad (principal) y un Recurso asegurable con políticas IAM propias.',
+        keyTakeaways: [
+          'Doble naturaleza crítica en el examen ACE: Una Service Account actúa como IDENTIDAD (se le otorgan roles sobre recursos como Storage) y simultáneamente como RECURSO (se le adjuntan políticas de IAM para gobernar quién puede usarla o impersonarla).',
+          'Identificador y autenticación: Se identifican mediante formato de correo electrónico (@<proyecto>.iam.gserviceaccount.com) y utilizan llaves criptográficas o tokens efímeros OAuth2 provistos por el servidor de metadatos de la VM, nunca contraseñas en código.',
+          'Gobernanza de cuentas de servicio: Usuarios como administradores pueden tener roles como roles/iam.serviceAccountUser (para adjuntarla a VMs o actuar como ella) o Service Account Admin/Viewer (para listar y auditar).',
+          'Eliminación de credenciales estáticas: Las mejores prácticas de Google Cloud exigen vincular service accounts a VMs en lugar de incrustar credenciales o claves privadas en discos locales.',
+        ],
+      },
+      {
+        id: 'vid-60-12',
+        title: 'Cloud Identity',
+        moduleName: 'Módulo 2: Recursos y Acceso en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=EZccX9nFaiI',
+        youtubeId: 'EZccX9nFaiI',
+        duration: '1:15',
+        summary:
+          'Gestión centralizada de identidades con Cloud Identity (IDaaS). Resuelve los riesgos de usar cuentas personales @gmail.com permitiendo a las organizaciones gobernar usuarios y grupos desde Google Admin Console, sincronizar con Active Directory o LDAP existente, y revocar accesos de inmediato cuando un empleado abandona la empresa.',
+        keyTakeaways: [
+          'IDaaS (Identity as a Service): Plataforma para gestionar usuarios, grupos y políticas de acceso mediante la consola Google Admin Console (admin.google.com).',
+          'Riesgo de cuentas @gmail.com personales: Sin Cloud Identity, no existe desaprovisionamiento centralizado; si un colaborador sale de la empresa, retiene acceso a los recursos.',
+          'Federación con Active Directory y LDAP: Permite a los usuarios acceder a Google Cloud con sus credenciales corporativas habituales usando Google Cloud Directory Sync (GCDS) y SAML 2.0 para Single Sign-On (SSO).',
+          'Ediciones Free vs Premium: La edición Free incluye gestión básica de identidades y MFA; la edición Premium añade gestión de dispositivos móviles (MDM), acceso contextual y reglas avanzadas.',
+          'Integración con Google Workspace: Si la organización ya utiliza Google Workspace, la infraestructura de Cloud Identity ya se encuentra integrada y habilitada en su consola de administración.',
+        ],
+      },
+      {
+        id: 'vid-60-13',
+        title: 'Interacting with Google Cloud',
+        moduleName: 'Módulo 2: Recursos y Acceso en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=lkchDTTMrZ8',
+        youtubeId: 'lkchDTTMrZ8',
+        duration: '3:40',
+        summary:
+          'Las 4 formas fundamentales de acceder e interactuar con Google Cloud: Google Cloud Console (GUI web con SSH en navegador y presupuestos), Google Cloud SDK y Cloud Shell (entorno Debian con 5 GB de almacenamiento persistente en $HOME y gcloud preinstalado), APIs REST con Google APIs Explorer y Client Libraries en 8 lenguajes, y la aplicación móvil Google Cloud App para supervisión, alertas e incidencias.',
+        keyTakeaways: [
+          'Google Cloud Console (Web GUI): Interfaz gráfica para desplegar, escalar y diagnosticar recursos, con buscador global, terminal SSH web para VMs y gestión de presupuestos.',
+          'Google Cloud SDK: Suite de herramientas CLI alojadas en el directorio bin/ (incluye gcloud para infraestructura y bq para BigQuery).',
+          'Cloud Shell (Pregunta obligada ACE): Entorno Linux Debian efímero pero con 5 GB de almacenamiento persistente en el directorio $HOME, pre-autenticado con las credenciales del usuario y con el SDK actualizado listo para usar sin instalación local.',
+          'APIs & Client Libraries: Google APIs Explorer para probar endpoints de forma interactiva en la consola; librerías idiomáticas oficiales Cloud Client Libraries en 8 lenguajes (Java, Python, PHP, C#, Go, Node.js, Ruby, C++).',
+          'Google Cloud Mobile App: Permite encender/apagar VMs de Compute Engine y bases de datos Cloud SQL, conectar por SSH a VMs, inspeccionar métricas y alertas de presupuesto, y gestionar App Engine (reversión de versiones y división de tráfico).',
+        ],
+      },
+      {
+        id: 'vid-60-14',
+        title: 'Virtual Private Cloud networking',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=SFRCZvJN650',
+        youtubeId: 'SFRCZvJN650',
+        duration: '2:17',
+        summary:
+          'Fundamentos de la red Virtual Private Cloud (VPC) en Google Cloud: arquitectura privada aislada sobre nube pública global, alcance global nativo de las redes VPC, subredes regionales que abarcan todas las zonas de una región, comunicación interna entre VMs en distintas zonas de una misma subred, expansión dinámica del rango CIDR sin afectar instancias en ejecución y control mediante reglas de cortafuegos y rutas estáticas.',
+        keyTakeaways: [
+          'VPC con Alcance Global (Global Scope): Las redes VPC en Google Cloud no están confinadas a una sola región; son recursos globales que interconectan servicios en todo el mundo sin necesidad de túneles VPN inter-región dentro del mismo proyecto.',
+          'Subredes Regionales Multi-Zonales: Cada subred pertenece a una región geográfica concreta, pero abarca de forma transparente todas las zonas de disponibilidad de dicha región.',
+          'Instancias en Distintas Zonas en la Misma Subred: Máquinas virtuales ubicadas en zonas físicas diferentes (ej. us-east1-b y us-east1-c) pueden ser vecinas en la misma subred e IP interna, facilitando alta disponibilidad sin complejidad de enrutamiento.',
+          'Expansión Dinámica de Espacio IP (Subnet Expansion): El rango de direcciones IP de una subred puede incrementarse (expandirse a un prefijo de máscara menor como /24 -> /20) en caliente sin reiniciar ni interrumpir las VMs activas. Regla ACE: Solo se puede agrandar, nunca encoger.',
+          'Aislamiento y Reglas de Cortafuegos: Reglas de firewall con estado (stateful) aplicables por etiquetas de red (network tags), cuentas de servicio o rangos CIDR para segmentar el tráfico con precisión.',
+        ],
+      },
+      {
+        id: 'vid-60-15',
+        title: 'Compute Engine',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=90pyGSKyPDQ',
+        youtubeId: '90pyGSKyPDQ',
+        duration: '3:45',
+        summary:
+          'Exploración integral de Compute Engine como solución de Infraestructura como Servicio (IaaS) en Google Cloud: aprovisionamiento de máquinas virtuales (Linux, Windows o imágenes personalizadas), despliegues con un clic mediante Cloud Marketplace, alto rendimiento por defecto con Persistent Disks, dimensionamiento a medida con Custom Machine Types y las cuatro palancas clave de facturación y optimización de costes (por segundo, Sustained-Use Discounts automáticos, Committed-Use Discounts por 1/3 años y Spot VMs con hasta 90% de ahorro).',
+        keyTakeaways: [
+          'Compute Engine IaaS: Capacidad de cómputo elástica con control total del sistema operativo y configuración de hardware virtualizado sin inversión inicial de capital (CapEx -> OpEx).',
+          'Sustained-Use Discounts (SUD): Descuentos automáticos aplicados por Compute Engine cuando una VM se ejecuta por más del 25% de un mes de facturación, sin necesidad de compromiso previo.',
+          'Committed-Use Discounts (CUD): Descuentos de hasta el 57% para cargas de trabajo predecibles y continuas a cambio de compromisos de uso a 1 o 3 años.',
+          'Spot VMs vs Preemptible (Pregunta Crítica ACE): Las Spot VMs ofrecen hasta un 90% de ahorro y NO tienen el límite de 24 horas que tenían las Preemptible clásicas. Pueden correr indefinidamente siempre que haya capacidad excedente, con una notificación de revocación previa de 30 segundos si Google necesita la capacidad.',
+          'Custom Machine Types: Permite seleccionar la cantidad exacta de vCPUs y memoria RAM requeridas por la aplicación, evitando pagar por recursos sobredimensionados de familias estándar.',
+        ],
+      },
+      {
+        id: 'vid-60-16',
+        title: 'Scaling virtual machines',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=YQK8u563me4',
+        youtubeId: 'YQK8u563me4',
+        duration: '1:15',
+        summary:
+          'Mecanismos de escalado y elasticidad en Compute Engine: autoscaling dinámico basado en métricas de carga, integración obligatoria con Cloud Load Balancing en Google VPC para distribuir tráfico, contraste arquitectónico entre Scale-out (escalado horizontal recomendado) y Scale-up (escalado vertical con VMs gigantes para bases de datos en memoria), y la restricción de cuotas de vCPU dependientes de la zona (zone-dependent quotas) que rigen el dimensionamiento de las familias de máquinas.',
+        keyTakeaways: [
+          'Autoscaling en Compute Engine: Agrega o retira instancias automáticamente según la carga (uso de CPU, capacidad de balanceo de carga o métricas de Cloud Monitoring).',
+          'Sinergia con Cloud Load Balancing: El escalado horizontal requiere balanceo de carga en VPC para repartir el tráfico entrante uniformemente y dirigir peticiones solo a VMs saludables.',
+          'Scale-out vs Scale-up: Aunque Compute Engine permite configurar VMs masivas (cientos de vCPUs y terabytes de RAM para analítica y bases de datos en memoria), el enfoque recomendado y estándar en Google Cloud es el escalado horizontal (scale-out) con grupos de instancias para maximizar resiliencia y optimizar costes.',
+          'Familias de Máquinas y Cuotas por Zona (Regla ACE): El límite de vCPUs por VM está ligado a su familia de máquina y fuertemente condicionado por la cuota asignada al proyecto en cada zona específica (zone-dependent quota).',
+        ],
+      },
+      {
+        id: 'vid-60-17',
+        title: 'Important VPC compatibilities',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=UtNlJbm8s2Q',
+        youtubeId: 'UtNlJbm8s2Q',
+        duration: '1:30',
+        summary:
+          'Capacidades clave de compatibilidad e interconexión en Google Virtual Private Cloud (VPC): tablas de enrutamiento distribuidas nativas sin routers virtuales ni físicos, cortafuegos global con estado y filtrado flexible mediante Network Tags, comunicación privada inter-VPC con VPC Network Peering (no transitivo) y arquitectura empresarial centralizada con Shared VPC (separación de Host Project administrado por redes y Service Projects para desarrolladores con roles IAM granulares).',
+        keyTakeaways: [
+          'Enrutamiento Nativo sin Routers: Las VPCs disponen de tablas de enrutamiento globales automáticas que reenvían tráfico internamente entre instancias, subredes y zonas sin requerir IP externa.',
+          'Firewall Global y Network Tags: Reglas de firewall con estado aplicadas a nivel de red virtual que permiten filtrar tráfico entrante y saliente por etiquetas de red (ej. permitir HTTP/HTTPS solo a VMs con tag "web") o por Service Accounts.',
+          'VPC Network Peering: Interconecta directamente dos redes VPC para intercambiar tráfico interno privado con mínima latencia sin pasar por internet. Regla ACE: Es no transitivo y los rangos CIDR no deben solaparse.',
+          'Shared VPC (VPC Compartida): Permite a una organización designar un Host Project que posee la red y subredes, y asociar Service Projects donde los desarrolladores despliegan instancias usando el rol compute.networkUser sin poder alterar la arquitectura de red ni los firewalls.',
+        ],
+      },
+      {
+        id: 'vid-60-18',
+        title: 'Cloud Load Balancing',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=HWJQ3LNagXc',
+        youtubeId: 'HWJQ3LNagXc',
+        duration: '2:55',
+        summary:
+          'Fundamentos de Cloud Load Balancing en Google Cloud: servicio distribuido definido por software (SDN) sin máquinas virtuales que administrar y sin necesidad de pre-calentamiento (no pre-warming), failover multi-región automático con IP Anycast global única, Application Load Balancers (Capa 7 HTTP/HTTPS como reverse proxy con enrutamiento de contenido) y Network Load Balancers (Capa 4 divididos en Proxy para terminación TCP/SSL y Passthrough para preservación de IP origen del cliente y Direct Server Return).',
+        keyTakeaways: [
+          'Sin Pre-calentamiento (No Pre-warming): Cloud Load Balancing escala de manera instantánea ante aumentos súbitos de carga sin necesidad de solicitar tickets de calentamiento previo a Google.',
+          'Failover Multi-Región Automático: Provee una única dirección IP Anycast global que redirige el tráfico fraccionalmente hacia regiones sanas si los backends locales se degradan.',
+          'Application Load Balancers (L7): Operan como reverse proxies a nivel de aplicación (HTTP/HTTPS) soportando enrutamiento por URL, terminación SSL administrada y backends externos o internos.',
+          'Proxy vs Passthrough Network Load Balancers (L4): Los Proxy NLBs terminan la conexión TCP/SSL y admiten backends híbridos (NEGs); los Passthrough NLBs no alteran los paquetes, preservando la IP origen del cliente con Direct Server Return (DSR).',
+        ],
+      },
+      {
+        id: 'vid-60-19',
+        title: 'Cloud DNS and Cloud CDN',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=TYB1cur47mk',
+        youtubeId: 'TYB1cur47mk',
+        duration: '1:45',
+        summary:
+          'Servicios de aceleración y resolución de red en Google Cloud: Cloud DNS como servicio autoritativo global 100% gestionado (Anycast con 100% SLA, zonas públicas y privadas programables vía CLI, API y consola) y Cloud CDN para acelerar la entrega de contenido web estático y dinámico mediante Edge Caches en más de 100 PoPs de Google, reduciendo latencia, aliviando la carga en servidores de origen y ahorrando en costes de egress con activación directa sobre External Application Load Balancers.',
+        keyTakeaways: [
+          'Cloud DNS Autoritativo (100% SLA): A diferencia de 8.8.8.8 (resolvedor recursivo público), Cloud DNS aloja las zonas y registros autoritativos de tus aplicaciones sobre la red Anycast mundial de Google.',
+          'Zonas Públicas vs Privadas: Soporta zonas públicas visibles en internet y zonas privadas restringidas a redes VPC específicas para resolver nombres de dominios internos sin exponer IPs.',
+          'Cloud CDN y Edge Caching: Almacena en caché contenido estático y dinámico en los más de 100 puntos de presencia (PoPs) globales de Google para minimizar la latencia del cliente.',
+          'Descarga de Origen y Ahorro en Egress: Alivia la carga en instancias Compute Engine / Cloud Storage y reduce significativamente los costes de transferencia de datos de salida.',
+          'Habilitación con 1 Clic y CDN Interconnect: Se activa con una sola casilla de verificación en el backend service de un External ALB, y soporta CDN Interconnect para clientes con CDNs de terceros.',
+        ],
+      },
+      {
+        id: 'vid-60-20',
+        title: 'Connecting networks to Google VPC',
+        moduleName: 'Módulo 3: Máquinas Virtuales y Redes en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=g24UStCvpQg',
+        youtubeId: 'g24UStCvpQg',
+        duration: '5:45',
+        summary:
+          'Opciones de interconexión híbrida y multi-cloud con Google Virtual Private Cloud (VPC): Cloud VPN con Cloud Router para enrutamiento dinámico BGP sobre túneles IPsec, Direct Peering y Carrier Peering para acceso optimizado a IPs públicas de Google (sin SLA), Dedicated Interconnect (circuitos directos de 10G/100G) y Partner Interconnect (circuitos sub-10G a través de proveedores) para tráfico privado RFC 1918 con hasta 99.99% de SLA, y Cross-Cloud Interconnect para enlaces directos con AWS, Azure u otros proveedores cloud sin hardware intermedio.',
+        keyTakeaways: [
+          'Cloud VPN y Cloud Router (BGP): Proporciona conectividad privada sobre internet mediante IPsec; Cloud Router intercambia rutas dinámicamente con BGP, propagando nuevas subredes automáticamente sin intervención manual ni cortes.',
+          'Direct vs Carrier Peering (Sin SLA): Conexión directa a IPs públicas de Google (Workspace y APIs). No da acceso a IPs privadas de VPCs y carece de SLA por parte de Google.',
+          'Dedicated Interconnect (10G/100G): Conexión de fibra física directa en colocación; garantiza hasta 99.99% SLA en topología de alta disponibilidad recomendada con 4 circuitos en 2 áreas metropolitanas.',
+          'Partner Interconnect (Sub-10G): Extensión de VPC mediante un operador asociado, ideal para empresas sin presencia física en colocaciones de Google o con demandas de 50 Mbps a 10 Gbps.',
+          'Cross-Cloud Interconnect: Enlace físico dedicado gestionado por Google entre su red y la de otro proveedor cloud (AWS/Azure) con capacidades de 10G o 100G.',
+        ],
+      },
+    ],
     classificationMatrix: [
       {
         lbType: 'Cloud Storage',
@@ -788,41 +1122,49 @@ gcloud compute forwarding-rules create http-content-rule \\
         id: 'core-lab-1',
         labNumber: 1,
         title: 'Getting Started with Cloud Marketplace',
-        durationMinutes: 30,
+        durationMinutes: 25,
         type: 'guided',
         description:
-          'Despliega una solución web completa con la pila LAMP (Linux, Apache, MySQL, PHP) en Compute Engine mediante un solo clic utilizando paquetes certificados de Cloud Marketplace.',
+          'Despliega una solución web completa con la pila LAMP (Linux, Apache, MySQL, PHP y phpMyAdmin) en Compute Engine mediante un solo clic utilizando paquetes certificados de Cloud Marketplace gestionados por Infrastructure Manager.',
         keyConcepts: [
-          'Cloud Marketplace: Despliegue automatizado de software certificado sobre GCP.',
-          'Deployment Manager: Orquestación declarativa de infraestructura subyacente.',
-          'Parámetros de máquina: e2-medium en zona us-central1-a con firewall HTTP/HTTPS abierto.',
+          'Cloud Marketplace: Aprovisionamiento automatizado de soluciones de software empaquetadas y verificadas para GCP.',
+          'Pila LAMP: Linux (SO), Apache HTTP Server (Web), MySQL (Base de datos relacional) y PHP/phpMyAdmin (Framework y administración web).',
+          'APIs habilitadas automáticamente: Compute Engine API e Infrastructure Manager API.',
+          'Dimensionamiento: Serie E2, tipo de máquina e2-medium (2 vCPU, 4 GB RAM) con interfaz de red IP pública.',
         ],
         steps: [
           {
             id: 'c-lab1-step-1',
             stepNumber: 1,
-            title: 'Buscar solución LAMP en Cloud Marketplace',
+            title: 'Buscar e iniciar LAMP Stack en Cloud Marketplace',
             description:
-              'Accede al catálogo de Google Cloud Marketplace y selecciona la solución empaquetada LAMP Stack (Bitnami o certificada de Google).',
-            command: '# Navegar en Cloud Console: Menú de navegación > Marketplace > Buscar "LAMP Stack"',
-            tip: 'Verifica que la solución indique compatibilidad con Compute Engine.',
+              'En Cloud Console, abre el menú de navegación, entra a Marketplace, busca "LAMP", selecciona "LAMP Stack Server on Ubuntu 26.04" (por Cloud Infrastructure Services), acepta los términos de servicio y haz clic en DEPLOY.',
+            command: `# Navegación en Google Cloud Console:
+# Navigation menu > Marketplace > Buscar "LAMP"
+# Seleccionar "LAMP Stack Server on Ubuntu 26.04" > GET STARTED > Aceptar términos > DEPLOY`,
+            tip: 'Marketplace verifica compatibilidad y permite aprovisionar todo el stack de software sin instalar manualmente paquetes por SSH.',
           },
           {
             id: 'c-lab1-step-2',
             stepNumber: 2,
-            title: 'Configurar parámetros de despliegue y máquina virtual',
+            title: 'Habilitar APIs y configurar parámetros de la instancia VM',
             description:
-              'Establece la zona en us-central1-a, selecciona machine-type e2-medium (2 vCPU, 4GB RAM) y marca las casillas de tráfico HTTP y HTTPS.',
-            command: '# Configuración en la interfaz gráfica del Marketplace: Zona: us-central1-a, Machine: e2-medium, Networking: Allow HTTP/HTTPS',
+              'Si se solicita, habilita las APIs de Compute Engine e Infrastructure Manager. En Zone selecciona la zona asignada, en Machine Type elige Serie E2 con tipo e2-medium, conserva las demás opciones predeterminadas y haz clic en Deploy.',
+            command: `# Parámetros de despliegue en consola:
+# APIs requeridas: Compute Engine API, Infrastructure Manager API
+# Zone: <ZONA_ASIGNADA> (ej. us-central1-a)
+# Machine Series: E2 | Machine Type: e2-medium (2 vCPU, 4 GB memoria)`,
           },
           {
             id: 'c-lab1-step-3',
             stepNumber: 3,
-            title: 'Desplegar y obtener credenciales administrativas',
+            title: 'Verificar despliegue y validar página web de Apache',
             description:
-              'Haz clic en Desplegar, espera la inicialización de recursos y copia la dirección IP externa y las credenciales del usuario root de MySQL desde el resumen.',
-            command: '# Acceder en el navegador: http://<EXTERNAL_IP_ASIGNADA>',
-            tip: 'Comprueba que se cargue la página de bienvenida de Bitnami / Apache.',
+              'Espera hasta que el estado cambie a "lamp-1 has been deployed". Entra en lamp-1-vm > Details, haz clic en Site Url o copia la External IP asignada e ingresa en una pestaña del navegador para validar la pantalla de felicitaciones de Apache HTTP Server.',
+            command: `# Validación en navegador web:
+# Abrir enlace: http://<EXTERNAL_IP_DE_LAMP_1_VM>
+# Verificar mensaje de felicitaciones y servidor Apache HTTP activo en puerto 80`,
+            tip: 'Si la web no responde de inmediato, espera 30 segundos mientras los servicios de Apache y MySQL completan el arranque inicial.',
           },
         ],
       },
@@ -1018,6 +1360,97 @@ gcloud run services list`,
     ],
     quiz: [
       {
+        id: 'c-m1-q1',
+        question:
+          '¿Qué tipo de servicio de computación en la nube te permite enlazar el código de tu aplicación a bibliotecas que otorgan acceso automático a la infraestructura que la aplicación requiere (Platform as a Service)?',
+        options: [
+          'Platform as a service (PaaS)',
+          'Software as a service (SaaS)',
+          'Infrastructure as a service (IaaS)',
+          'Hybrid cloud',
+        ],
+        correctIndex: 0,
+        explanation:
+          'PaaS (ej. Google App Engine) abstrae por completo los servidores y el sistema operativo, permitiendo al desarrollador vincular su código a librerías y APIs de plataforma sin administrar infraestructura.',
+        examTrapTip: 'En IaaS el usuario administra el SO; en PaaS el desarrollador solo gestiona el código de aplicación.',
+      },
+      {
+        id: 'c-m1-q2',
+        question:
+          '¿Por qué una organización cliente de Google Cloud desplegaría recursos en diversas regiones alrededor del mundo?',
+        options: [
+          'Para ofrecer versiones localizadas de la aplicación en diferentes regiones.',
+          'Para acercar sus aplicaciones a los usuarios en todo el mundo y mejorar la tolerancia a fallos.',
+          'Para mejorar la seguridad perimetral.',
+          'Para obtener descuentos comerciales adicionales.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Desplegar en múltiples regiones reduce la latencia de tránsito de paquetes al servir a los usuarios desde ubicaciones geográficas próximas y protege contra caídas totales de una región provocadas por desastres naturales.',
+      },
+      {
+        id: 'c-m1-q3',
+        question:
+          '¿Cuál es el beneficio primordial para un cliente de Google Cloud al distribuir recursos entre diversas zonas dentro de una misma región?',
+        options: [
+          'Mejorar el rendimiento del procesamiento.',
+          'Obtener descuentos por uso en otras zonas.',
+          'Expandir los servicios a clientes en nuevas áreas geográficas.',
+          'Mejorar la tolerancia a fallos ante caídas zonales aisladas.',
+        ],
+        correctIndex: 3,
+        explanation:
+          'Las zonas son dominios de fallo independientes con infraestructura física, energía y redes redundantes. Distribuir instancias entre zonas de la misma región (ej. con MIGs regionales) asegura alta disponibilidad si una zona falla.',
+      },
+      {
+        id: 'c-m2-q1',
+        question:
+          'Completa la afirmación: En Google Cloud, los servicios y las APIs se habilitan a nivel de _________ (Services and APIs are enabled on a per-__________ basis).',
+        options: [
+          'Carpeta (Folder)',
+          'Proyecto (Project)',
+          'Organización (Organization)',
+          'Cuenta de facturación (Billing account)',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Las APIs y los servicios se habilitan a nivel de Proyecto (Project). Cada proyecto funciona como el contenedor aislado donde se activan las APIs requeridas, se consumen las cuotas y se vincula la facturación.',
+        examTrapTip:
+          'No se pueden habilitar APIs a nivel de carpeta ni de organización; siempre se hace por proyecto con gcloud services enable.',
+      },
+      {
+        id: 'c-m2-q2',
+        question:
+          '¿Cuál de los siguientes identificadores de un proyecto de Google Cloud es globalmente único, permanente e inmutable, pero puede ser personalizado y elegido por el usuario durante la creación?',
+        options: [
+          'El número de tarjeta de crédito de facturación',
+          'El nombre del proyecto (Project Name)',
+          'El número de proyecto (Project Number)',
+          'El ID del proyecto (Project ID)',
+        ],
+        correctIndex: 3,
+        explanation:
+          'El Project ID es globalmente único en todo Google Cloud e inmutable tras su creación, pero el cliente puede definirlo y personalizarlo al crear el proyecto. El Project Number lo genera Google y el Project Name es mutable.',
+        examTrapTip:
+          'Project ID = inmutable y personalizable en creación. Project Number = inmutable y generado por Google. Project Name = mutable y no único.',
+      },
+      {
+        id: 'c-m2-q3',
+        question:
+          'Selecciona la lista de tipos de roles de IAM ordenados desde el alcance más amplio (general) hacia el más granular y específico (finest-grained):',
+        options: [
+          'Roles básicos, roles predefinidos, roles personalizados',
+          'Roles personalizados, roles predefinidos, roles básicos',
+          'Roles predefinidos, roles personalizados, roles básicos',
+          'Roles básicos, roles personalizados, roles predefinidos',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Los roles básicos (Owner, Editor, Viewer) aplican de forma amplia a todos los recursos del proyecto. Los roles predefinidos están delimitados a servicios específicos (ej. Compute Instance Admin). Los roles personalizados (Custom Roles) permiten granularidad atómica para mínimo privilegio estricto.',
+        examTrapTip:
+          'Orden de especificidad: Basic roles (más amplio) → Predefined roles → Custom roles (más específico/granular).',
+      },
+      {
         id: 'c-q1',
         question:
           'Una empresa requiere una base de datos relacional para una aplicación web que admita sintaxis estándar de MySQL, proporcione conmutación por error regional automática (Alta Disponibilidad) y sus datos se mantengan en una sola región. ¿Qué servicio debes elegir?',
@@ -1209,6 +1642,36 @@ gcloud run services list`,
         term: 'Ops Agent',
         definition:
           'Agente principal de telemetría instalado en VMs de Compute Engine que recolecta logs, métricas del sistema y procesos para Google Cloud Observability.',
+      },
+      {
+        term: 'Autoscaling (Compute Engine)',
+        definition:
+          'Capacidad elástica de Compute Engine para añadir o sustraer automáticamente instancias de máquinas virtuales en un Managed Instance Group según métricas de carga (CPU, peticiones HTTP o Cloud Monitoring).',
+      },
+      {
+        term: 'Shared VPC',
+        definition:
+          'Funcionalidad de red centralizada que permite a una organización compartir una red VPC y sus subredes desde un Host Project común con múltiples Service Projects administrados de forma independiente.',
+      },
+      {
+        term: 'Cloud DNS',
+        definition:
+          'Servicio de DNS autoritativo global 100% administrado que ofrece resolución de nombres de dominio de baja latencia con 100% de disponibilidad sobre la infraestructura Anycast de Google.',
+      },
+      {
+        term: 'Cloud CDN',
+        definition:
+          'Red de distribución de contenidos que utiliza los más de 100 puntos de presencia (PoPs / Edge Caches) de Google para almacenar en caché contenido estático y dinámico cerca de los usuarios finales.',
+      },
+      {
+        term: 'Cloud VPN',
+        definition:
+          'Servicio de red que conecta de forma segura una red on-premises con una red VPC de Google a través de túneles IPsec sobre la internet pública con soporte de Cloud Router para BGP.',
+      },
+      {
+        term: 'Cloud Interconnect',
+        definition:
+          'Solución de conectividad física privada y de alta velocidad (Dedicated o Partner) que conecta redes locales con Google VPC con hasta 99.99% de SLA sin circular por la internet pública.',
       },
     ],
   },

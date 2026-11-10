@@ -75,6 +75,17 @@ export interface CourseLab {
   steps: CourseLabStep[];
 }
 
+export interface CourseLessonVideo {
+  id: string;
+  title: string;
+  moduleName: string;
+  youtubeUrl: string;
+  youtubeId?: string;
+  duration?: string;
+  summary: string;
+  keyTakeaways: string[];
+}
+
 export interface CourseQuizQuestion {
   id: string;
   question: string;
@@ -95,6 +106,7 @@ export interface CourseItem {
   category: string;
   badge: string;
   overview: string;
+  videos?: CourseLessonVideo[];
   classificationMatrix: {
     lbType: string;
     layer: string;

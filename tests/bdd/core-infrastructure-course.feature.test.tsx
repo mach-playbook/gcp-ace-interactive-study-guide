@@ -156,4 +156,68 @@ describe('BDD Feature: Google Cloud Fundamentals Core Infrastructure Course Inte
       expect(screen.getByText('Virtual Private Cloud (VPC)')).toBeInTheDocument();
     });
   });
+
+  describe('Scenario 6: User explores official video lessons with YouTube player and key takeaways', () => {
+    it('When the user clicks the Videos & Lecciones tab, Then the video playlist, embedded player, and takeaways are displayed', () => {
+      render(<CourseDetailView course={course60} />);
+
+      const videosTabButton = screen.getByRole('button', { name: /Videos & Lecciones/i });
+      expect(videosTabButton).toBeInTheDocument();
+      fireEvent.click(videosTabButton);
+
+      expect(
+        screen.getByText(new RegExp(`Lecciones en Video \\(${course60.videos?.length}\\)`, 'i'))
+      ).toBeInTheDocument();
+      expect(screen.getAllByText('Course Introduction').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Cloud Computing Overview').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('IaaS and PaaS').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('The Google Cloud Network').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Environmental Impact').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Security').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Open Source Ecosystems').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Pricing and Billing').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Google Cloud Resource Hierarchy').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Identity and Access Management (IAM)').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Service Accounts').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Cloud Identity').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Interacting with Google Cloud').length).toBeGreaterThan(0);
+      expect(screen.getByText(/Resumen Conceptual de la Lección/i)).toBeInTheDocument();
+      expect(screen.getByText(/Puntos Clave para el Examen ACE:/i)).toBeInTheDocument();
+
+      // Switch to Lesson 2 (Cloud Computing Overview)
+      const lesson2Button = screen.getByRole('button', { name: /Cloud Computing Overview/i });
+      fireEvent.click(lesson2Button);
+
+      expect(screen.getByText(/Definición formal de Cloud Computing según el NIST/i)).toBeInTheDocument();
+      expect(screen.getByText(/Tercera ola \(Google Cloud\)/i)).toBeInTheDocument();
+
+      // Switch to Lesson 3 (IaaS and PaaS)
+      const lesson3Button = screen.getByRole('button', { name: /IaaS and PaaS/i });
+      fireEvent.click(lesson3Button);
+
+      expect(screen.getByText(/Comparación entre los modelos de servicio en la nube/i)).toBeInTheDocument();
+      expect(screen.getByText(/IaaS \(Compute Engine\): Aprovisiona recursos crudos/i)).toBeInTheDocument();
+
+      // Switch to Lesson 4 (The Google Cloud Network)
+      const lesson4Button = screen.getByRole('button', { name: /The Google Cloud Network/i });
+      fireEvent.click(lesson4Button);
+
+      expect(screen.getByText(/Explora la infraestructura de red global de Google Cloud/i)).toBeInTheDocument();
+      expect(screen.getByText(/Puntos de presencia \(PoPs\): Más de 100 nodos de caché/i)).toBeInTheDocument();
+
+      // Switch to Lesson 6 (Security)
+      const lesson6Button = screen.getByRole('button', { name: /Security/i });
+      fireEvent.click(lesson6Button);
+
+      expect(screen.getByText(/Arquitectura integral de seguridad de Google Cloud organizada en 6 capas/i)).toBeInTheDocument();
+      expect(screen.getByText(/Capa de Hardware: Chips de seguridad propietarios Titan/i)).toBeInTheDocument();
+
+      // Switch to Lesson 8 (Pricing and Billing)
+      const lesson8Button = screen.getByRole('button', { name: /Pricing and Billing/i });
+      fireEvent.click(lesson8Button);
+
+      expect(screen.getByText(/Estructura de precios, modelos de facturación y gobernanza financiera/i)).toBeInTheDocument();
+      expect(screen.getByText(/Sustained-Use Discounts \(SUD\): Descuentos automáticos/i)).toBeInTheDocument();
+    });
+  });
 });

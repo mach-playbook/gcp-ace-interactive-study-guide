@@ -33,11 +33,10 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
 
   return (
     <footer
-      className={`border-t transition-colors ${
-        isDark
+      className={`border-t transition-colors ${isDark
           ? 'border-slate-800 bg-slate-950 text-slate-400'
           : 'border-slate-200 bg-white text-slate-600'
-      } py-12 text-xs`}
+        } py-12 text-xs`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 lg:grid-cols-5">
@@ -45,11 +44,10 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
           <div className="space-y-3 md:col-span-2">
             <div className="flex items-center gap-2">
               <span
-                className={`flex h-7 w-7 items-center justify-center rounded-lg font-black text-xs ${
-                  isDark
+                className={`flex h-7 w-7 items-center justify-center rounded-lg font-black text-xs ${isDark
                     ? 'bg-blue-600 text-white'
                     : 'bg-blue-600 text-white'
-                }`}
+                  }`}
               >
                 GCP
               </span>
@@ -71,9 +69,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
           {/* Col 2: Navegación del Sitio */}
           <div className="space-y-2">
             <h4
-              className={`text-xs font-bold uppercase tracking-wider ${
-                isDark ? 'text-slate-200' : 'text-slate-800'
-              }`}
+              className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-200' : 'text-slate-800'
+                }`}
             >
               Navegación
             </h4>
@@ -81,9 +78,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
               <li>
                 <Link
                   href="/"
-                  className={`transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   Inicio (Guía ACE)
                 </Link>
@@ -91,9 +87,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
               <li>
                 <Link
                   href="/courses/"
-                  className={`transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   Cursos & Laboratorios
                 </Link>
@@ -101,9 +96,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
               <li>
                 <Link
                   href="/about/"
-                  className={`transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   Acerca de la Plataforma
                 </Link>
@@ -113,9 +107,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://github.com/mach-playbook/gcp-ace-interactive-study-guide"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1 transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`inline-flex items-center gap-1 transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   <span>Repositorio GitHub</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
@@ -127,9 +120,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
           {/* Col 3: Autor & Redes */}
           <div className="space-y-2">
             <h4
-              className={`text-xs font-bold uppercase tracking-wider ${
-                isDark ? 'text-slate-200' : 'text-slate-800'
-              }`}
+              className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-200' : 'text-slate-800'
+                }`}
             >
               Autor & Perfiles
             </h4>
@@ -139,9 +131,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://merolhack.github.io/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 font-medium transition-colors hover:underline ${
-                    isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
-                  }`}
+                  className={`inline-flex items-center gap-1.5 font-medium transition-colors hover:underline ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
+                    }`}
                 >
                   <Globe className="h-3.5 w-3.5" />
                   <span>Lenin Meza (Portfolio)</span>
@@ -152,9 +143,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://www.linkedin.com/in/leninmezazarco"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`inline-flex items-center gap-1.5 transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   <LinkedinIcon className="h-3.5 w-3.5 text-blue-500" />
                   <span>LinkedIn Oficial</span>
@@ -165,9 +155,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://github.com/merolhack"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`inline-flex items-center gap-1.5 transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   <GithubIcon className="h-3.5 w-3.5" />
                   <span>GitHub (@merolhack)</span>
@@ -179,9 +168,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
           {/* Col 4: Ecosistema MACH */}
           <div className="space-y-2">
             <h4
-              className={`text-xs font-bold uppercase tracking-wider ${
-                isDark ? 'text-slate-200' : 'text-slate-800'
-              }`}
+              className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-200' : 'text-slate-800'
+                }`}
             >
               Ecosistema MACH
             </h4>
@@ -191,9 +179,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://mach-playbook.github.io/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1 font-medium transition-colors hover:underline ${
-                    isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-800'
-                  }`}
+                  className={`inline-flex items-center gap-1 font-medium transition-colors hover:underline ${isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-800'
+                    }`}
                 >
                   <span>MACH Playbook</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
@@ -204,9 +191,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
                   href="https://www.amazon.es/dp/B0HFYGC34D"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1 transition-colors hover:underline ${
-                    isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                  }`}
+                  className={`inline-flex items-center gap-1 transition-colors hover:underline ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                    }`}
                 >
                   <span>Libro MACH (Amazon KDP)</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
@@ -218,9 +204,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
 
         {/* Bottom Bar: Copyright & Disclaimers */}
         <div
-          className={`mt-10 pt-6 flex flex-col items-center justify-between gap-4 border-t sm:flex-row ${
-            isDark ? 'border-slate-900' : 'border-slate-100'
-          }`}
+          className={`mt-10 pt-6 flex flex-col items-center justify-between gap-4 border-t sm:flex-row ${isDark ? 'border-slate-900' : 'border-slate-100'
+            }`}
         >
           <div className="flex flex-wrap items-center gap-1.5 text-center sm:text-left">
             <span>© 2026 MACH Playbook — Desarrollado por</span>
@@ -228,9 +213,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = 'dark' }) => {
               href="https://merolhack.github.io/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`font-semibold hover:underline ${
-                isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
-              }`}
+              className={`font-semibold hover:underline ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
+                }`}
             >
               Lenin Meza
             </a>

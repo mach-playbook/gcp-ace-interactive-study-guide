@@ -38,3 +38,4 @@ describe('Unit Test: Footer Component Variants and Accessibility', () => {
     });
   });
 });
+

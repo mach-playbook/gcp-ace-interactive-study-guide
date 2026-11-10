@@ -12,6 +12,7 @@
     "test:bdd": "vitest run tests/bdd",
     "test:watch": "vitest",
     "clean:zone": "find . -name '*:Zone.Identifier' -type f -delete",
+    "ingest:skills": "node scripts/ingest-skills-content.mjs --write",
     "prepush": "npm run clean:zone && npm test && npm run build"
   },
   "dependencies": {
