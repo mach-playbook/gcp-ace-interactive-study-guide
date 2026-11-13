@@ -1026,6 +1026,192 @@ gcloud compute forwarding-rules create http-content-rule \\
           'Cross-Cloud Interconnect: Enlace físico dedicado gestionado por Google entre su red y la de otro proveedor cloud (AWS/Azure) con capacidades de 10G o 100G.',
         ],
       },
+      {
+        id: 'vid-60-21',
+        title: 'Google Cloud storage options',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=8Dn-RAP7fzA',
+        youtubeId: '8Dn-RAP7fzA',
+        duration: '0:45',
+        summary:
+          'Apertura del Módulo 4 de Almacenamiento en Google Cloud. Clasificación integral de soluciones según el tipo de datos (estructurados, no estructurados, relacionales, transaccionales y analíticos) y presentación de los 5 servicios núcleo: Cloud Storage (objetos y binarios no estructurados), Cloud SQL (bases de datos relacionales gestionadas MySQL/PostgreSQL/SQL Server), Cloud Spanner (base de datos relacional global con consistencia fuerte y autoescalado horizontal ilimitado), Firestore (base de datos de documentos NoSQL en tiempo real serverless) y Cloud Bigtable (base de datos NoSQL columnar de baja latencia para analítica masiva y series temporales).',
+        keyTakeaways: [
+          'Taxonomía Universal de Datos: Google Cloud ofrece soluciones optimizadas para datos estructurados (tablas/documentos), no estructurados (archivos binarios/multimedia), relacionales (SQL), transaccionales (ACID) y analíticos (series temporales/grandes volúmenes).',
+          'Los 5 Servicios Núcleo: Cloud Storage (objetos), Cloud SQL (relacional regional), Cloud Spanner (relacional global masivo), Firestore (documentos NoSQL para apps móviles/web) y Cloud Bigtable (NoSQL columnar sub-10ms).',
+          'Persistencia Políglota (Polyglot Persistence): Las arquitecturas empresariales combinan múltiples motores de almacenamiento complementarios para maximizar eficiencia de coste y rendimiento técnico.',
+          'Regla de Decisión para el Examen ACE: Diferenciar entre datos no estructurados (Cloud Storage), relacionales con transacciones ACID (Cloud SQL vs Spanner), documentos en tiempo real (Firestore) y petabytes analíticos de baja latencia (Bigtable).',
+        ],
+      },
+      {
+        id: 'vid-60-22',
+        title: 'Cloud Storage',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=pLMkOa4FbwI',
+        youtubeId: 'pLMkOa4FbwI',
+        duration: '4:23',
+        summary:
+          'Arquitectura y fundamentos de Cloud Storage como solución totalmente gestionada de almacenamiento de objetos (BLOBs) de alta durabilidad y disponibilidad. Diferenciación entre almacenamiento de objetos (paquetes con datos binarios, metadatos y clave URL global única), almacenamiento en bloques y sistemas de archivos. Organización en buckets con nombres únicos a nivel mundial y selección de ubicación geográfica para minimizar latencia. Inmutabilidad de los objetos y gestión de versiones (Object Versioning para registro histórico, restauración y eliminación selectiva). Mecanismos de seguridad y control de accesos: IAM (herencia de proyecto a bucket a objeto con Uniform Bucket-Level Access) vs ACLs (granularidad por objeto con scope y permission). Políticas de ciclo de vida (Object Lifecycle Management) para optimizar costes automáticamente eliminando versiones antiguas o transicionando clases.',
+        keyTakeaways: [
+          'Almacenamiento de Objetos vs Bloques vs Archivos: Los objetos son paquetes de datos binarios, metadatos y una clave única en formato URL, a diferencia de los bloques de disco formateados o las jerarquías de directorios compartidos.',
+          'Buckets con Espacio de Nombres Global Único: Los buckets deben tener nombres únicos en todo Google Cloud a escala mundial y su ubicación geográfica debe seleccionarse estratégicamente para minimizar la latencia de acceso de los usuarios.',
+          'Inmutabilidad y Object Versioning: Los objetos no se editan in-situ; las modificaciones crean versiones. Por defecto se sobrescriben, pero al activar Object Versioning se preserva el historial de cambios, permitiendo restaurar o listar versiones anteriores.',
+          'Control de Acceso: IAM vs ACLs: Para la mayoría de los casos se recomienda IAM con Uniform Bucket-Level Access (UBLA), donde las políticas se heredan por jerarquía. Las ACLs se reservan para control fino por objeto individual mediante scope y permission.',
+          'Políticas de Ciclo de Vida (Lifecycle Management): Automatizan la eliminación o degradación de clases de objetos basándose en condiciones como antigüedad (age > 365 días), fecha de creación o retención de un número específico de versiones.',
+        ],
+      },
+      {
+        id: 'vid-60-23',
+        title: 'Cloud Storage: Storage classes and data transfer',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=A5a8sPL6PjY',
+        youtubeId: 'A5a8sPL6PjY',
+        duration: '4:35',
+        summary:
+          'Exploración detallada de las cuatro clases de almacenamiento en Cloud Storage (Standard, Nearline, Coldline y Archive), sus perfiles de frecuencia de acceso y plazos de permanencia mínima. Homogeneidad técnica de todas las clases: latencia de milisegundos sin descongelación previa, durabilidad de 11 nueves y geo-redundancia en ubicaciones multi-región o dual-region. Optimización autónoma de costes mediante Autoclass (transición bidireccional entre clases según lectura de objetos). Seguridad integral con cifrado automático del lado del servidor (GMEK/CMEK) en reposo y HTTPS/TLS en tránsito. Opciones de ingestión y transferencia de datos: operaciones diarias con gcloud storage, cargas web en Cloud Console, Storage Transfer Service para importaciones batch masivas por red desde otros proveedores cloud (AWS/Azure) o buckets, y Transfer Appliance para migraciones físicas seguras de hasta petabytes sin saturar el ancho de banda.',
+        keyTakeaways: [
+          'Las 4 Clases de Almacenamiento: Standard (hot data, sin permanencia mínima), Nearline (acceso mensual, mínimo 30 días), Coldline (acceso trimestral, mínimo 90 días) y Archive (acceso anual, mínimo 365 días con las tarifas más bajas de reposo).',
+          'Latencia en Milisegundos Universal: A diferencia de otros proveedores cloud, en Cloud Storage todas las clases (incluyendo Coldline y Archive) devuelven el primer byte en milisegundos sin tiempo de espera para descongelar datos.',
+          'Autoclass para Optimización de Costes: Ajusta dinámicamente la clase de cada objeto degradándolo a clases frías por inactividad y promoviéndolo de inmediato a Standard al ser accedido, sin necesidad de definir complejas reglas manuales.',
+          'Cifrado Transparente: Todo dato se cifra automáticamente en reposo del lado del servidor antes de escribirse en disco y viaja cifrado en tránsito por HTTPS/TLS sin coste extra.',
+          'Transferencia de Datos a Escala: gcloud storage para tareas operativas comunes; Storage Transfer Service para transferencias online programadas desde AWS/Azure/buckets; Transfer Appliance (hasta 1 PB) para envíos físicos de petabytes cuando el ancho de banda es el cuello de botella.',
+        ],
+      },
+      {
+        id: 'vid-60-24',
+        title: 'Cloud SQL',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=yE-k0odGRzk',
+        youtubeId: 'yE-k0odGRzk',
+        duration: '2:01',
+        summary:
+          'Presentación técnica y operativa de Cloud SQL como servicio gestionado de bases de datos relacionales (MySQL, PostgreSQL y SQL Server). Descarga integral de responsabilidades operativas hacia Google: aplicación de parches, copias de seguridad continuas y configuración de replicación de datos sin instalación ni mantenimiento manual de software. Capacidades máximas de escalabilidad vertical (hasta 128 vCPUs, 864 GB de RAM y 64 TB de almacenamiento con auto-incremento). Escenarios de replicación automatizada (réplicas de lectura, réplicas externas e integración con primarios externos). Gobernanza de respaldos gestionados con 7 copias automáticas incluidas en el coste base. Cifrado integral de datos en reposo, en redes internas y en tránsito. Conectividad segura e interoperabilidad con App Engine (mediante drivers estándar Connector/J o MySQLdb), Compute Engine (co-ubicación en la misma zona para latencia mínima y Private IP) y herramientas de administración estándar como SQL Workbench y Toad.',
+        keyTakeaways: [
+          'Bases de Datos Relacionales Totalmente Administradas: Soporta motores estándar del mercado (MySQL, PostgreSQL y SQL Server), eliminando tareas de mantenimiento del SO, parches y administración de infraestructura.',
+          'Límites de Escalado Vertical: Escala hasta 128 vCPUs, 864 GB de memoria RAM y 64 TB de almacenamiento con discos persistentes y auto-incremento dinámico de capacidad.',
+          'Replicación y Respaldos Automatizados: Incluye 7 copias de seguridad automáticas en el coste base de la instancia y soporta réplicas de lectura para descarga de tráfico, replicación entre regiones y replicación con bases de datos externas.',
+          'Seguridad y Cifrado de Extremo a Extremo: Cifrado en reposo para tablas, archivos temporales y copias de seguridad; cifrado en tránsito en redes internas de Google; y control de acceso mediante cortafuegos de red, Redes Autorizadas y Private IP.',
+          'Conectividad con GCP y Co-ubicación: Conexión nativa con Compute Engine y App Engine; se recomienda co-ubicar la instancia de Cloud SQL en la misma zona que las VMs clientes para minimizar la latencia de red.',
+        ],
+      },
+      {
+        id: 'vid-60-25',
+        title: 'Spanner',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=uxmBbmv7Av0',
+        youtubeId: 'uxmBbmv7Av0',
+        duration: '0:45',
+        summary:
+          'Fundamentos de Cloud Spanner como servicio de base de datos relacional global distribuida y totalmente gestionada. Combina la potencia del modelo relacional con lenguaje SQL estándar (consultas JOIN complejas e índices secundarios) y la escalabilidad horizontal masiva sin límites de capacidad. Garantiza consistencia externa estricta respaldada por la tecnología TrueTime de Google y ofrece alta disponibilidad nativa de hasta 99.999% en configuraciones multi-región. Diseñado y probado en los sistemas de misión crítica de Google para soportar decenas de miles a millones de operaciones de lectura y escritura por segundo (IOPS) con latencias de un solo dígito de milisegundo.',
+        keyTakeaways: [
+          'Relacional con Escalado Horizontal: Supera las restricciones de las bases de datos relacionales tradicionales al permitir escalabilidad horizontal elástica (scale-out) sin sharding manual ni tiempo de inactividad.',
+          'Consistencia Fuerte Externa: Proporciona consistencia estricta en transacciones distribuidas globales respaldada por la API TrueTime de sincronización horaria de Google.',
+          'Soporte SQL Estándar: Ofrece capacidades completas de RDBMS con transacciones ACID distribuidas, esquemas relacionales, joins y secondary indexes.',
+          'Rendimiento de Misión Crítica: Soporta decenas de miles de IOPS de lectura/escritura por segundo y disponibilidad de hasta 99.999% (cinco nueves) en despliegues multi-región.',
+          'Regla de Oro ACE: Elegir Cloud Spanner cuando los requerimientos exijan una base de datos relacional (SQL/ACID) que deba operar a escala multi-región o global con más de 64 TB o alta concurrencia de escrituras.',
+        ],
+      },
+      {
+        id: 'vid-60-26',
+        title: 'Firestore',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Q1kSFl1LYMc',
+        youtubeId: 'Q1kSFl1LYMc',
+        duration: '1:21',
+        summary:
+          'Arquitectura y fundamentos de Firestore como base de datos de documentos NoSQL completamente sin servidor (serverless) y de autoescalado horizontal para desarrollo móvil, web y backend. Estructuración jerárquica de datos en documentos (pares clave-valor y objetos anidados) organizados en colecciones y subcolecciones. Consultas NoSQL avanzadas con filtrado encadenado e indexación automática por defecto, asegurando que el rendimiento de consulta sea proporcional al tamaño del conjunto de resultados devuelto y no al volumen total de la base de datos. Capacidades reactivas de sincronización bidireccional de datos en tiempo real entre dispositivos conectados y persistencia en caché local offline con sincronización automática al reconectar. Infraestructura con replicación multi-región, consistencia fuerte, operaciones atómicas en lote y transacciones ACID reales.',
+        keyTakeaways: [
+          'Base de Datos de Documentos NoSQL Serverless: Almacena información en documentos con pares clave-valor y objetos jerárquicos agrupados en colecciones y subcolecciones sin gestión de servidores.',
+          'Indexación Automática y Rendimiento Predecible: Todos los campos se indexan automáticamente; el tiempo de consulta depende estrictamente del número de resultados devueltos, no del volumen total de datos en la colección.',
+          'Sincronización en Tiempo Real y Modo Offline: Ofrece listeners reactivos para actualizar clientes conectados instantáneamente y caché local persistente que permite a la app operar sin conexión y sincronizar cambios automáticamente al reconectarse.',
+          'Garantías Transaccionales Fuertes: A diferencia de otros motores NoSQL tradicionales, Firestore proporciona consistencia fuerte, escrituras atómicas en lote (batched writes) y soporte completo para transacciones ACID.',
+          'Caso Predilecto de Examen ACE: Elegir Firestore para aplicaciones móviles y web con usuarios concurrentes que requieran sincronización en vivo, soporte offline local y almacenamiento de perfiles de usuario o catálogos flexibles.',
+        ],
+      },
+      {
+        id: 'vid-60-27',
+        title: 'Bigtable',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=bfztO0_4fhw',
+        youtubeId: 'bfztO0_4fhw',
+        duration: '2:01',
+        summary:
+          'Exploración integral de Cloud Bigtable como servicio de base de datos NoSQL de columnas anchas para cargas masivas de Big Data. Motor probado que sustenta servicios críticos de Google como Search, Analytics, Maps y Gmail. Diseñado para ofrecer latencia consistente inferior a 10 ms y altísimo rendimiento de lectura/escritura (throughput). Criterios oficiales de selección: grandes volúmenes de datos (> 1 TB), alta velocidad y cambios rápidos, transacciones NoSQL simples a nivel de fila, series temporales u ordenación semántica natural, procesamiento batch/streaming concurrente y entrenamiento de machine learning. Integración con el ecosistema analítico mediante la API estándar de Apache HBase, Dataflow Streaming, Spark Streaming, Hadoop MapReduce y exportaciones hacia almacenes analíticos aguas abajo.',
+        keyTakeaways: [
+          'Base de Datos NoSQL Columnar para Big Data: Diseñada específicamente para manejar petabytes de datos estructurados y semiestructurados con latencias predecibles sub-10 milisegundos.',
+          'Regla de Decisión del Umbral de 1 TB: Bigtable es costo-eficiente para conjuntos de datos que superan 1 TB; para volúmenes menores, Firestore o Cloud SQL resultan más adecuados económicamente.',
+          'Series Temporales y Streaming IoT: Ideal para telemetría de sensores, cotizaciones financieras y logs continuos que requieren ingesta masiva con alto throughput de escrituras ordenadas secuencialmente.',
+          'Desacoplamiento de Cómputo y Almacenamiento: El cómputo (nodos que enrutan peticiones) está separado del almacenamiento (Colossus), permitiendo escalar el procesamiento en segundos sin mover datos.',
+          'Compatibilidad con Apache HBase y Ecosistema Big Data: Admite la API estándar de HBase y se integra bidireccionalmente con Dataflow, Apache Spark y Apache Storm para flujos analíticos batch y streaming.',
+        ],
+      },
+      {
+        id: 'vid-60-28',
+        title: 'Comparing storage options',
+        moduleName: 'Módulo 4: Almacenamiento en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=jAPJ_aVxCbQ',
+        youtubeId: 'jAPJ_aVxCbQ',
+        duration: '2:15',
+        summary:
+          'Comparativa integral de las opciones de almacenamiento en Google Cloud para seleccionar el servicio óptimo según el caso de uso y restricciones arquitectónicas. Cloud Storage para blobs inmutables mayores a 10 MB con capacidad en petabytes y objetos de hasta 5 TB. Criterio de selección entre Cloud SQL (hasta 64 TB para aplicaciones transaccionales y web estándar) y Cloud Spanner (escalabilidad horizontal en petabytes para OLTP global). Firestore para aplicaciones móviles y web con documentos de hasta 1 MB, sincronización reactiva en tiempo real y soporte offline. Cloud Bigtable para Big Data estructurado en petabytes con límites de 10 MB por celda y 100 MB por fila, sin soporte SQL ni transacciones multifila. Rol de BigQuery como almacén de datos y motor analítico masivo interactivo (OLAP).',
+        keyTakeaways: [
+          'Restricciones por Unidad: Cloud Storage admite objetos de hasta 5 TB (ideal > 10 MB); Firestore tiene un límite estricto de 1 MB por documento; Bigtable permite hasta 10 MB por celda y 100 MB por fila.',
+          'Cloud SQL vs Cloud Spanner: Cloud SQL soporta hasta 64 TB para OLTP en una región; Cloud Spanner escala horizontalmente a escala de petabytes con transacciones ACID globales y disponibilidad 99.999%.',
+          'Firestore para Apps Clientes: Solución óptima para desarrollo móvil/web que requiera sincronización en tiempo real y persistencia local sin conexión a internet.',
+          'Cloud Bigtable para Analítica Pesada NoSQL: Motor columnar diseñado para ingesta masiva de IoT y AdTech sin operaciones JOIN ni transacciones multi-fila.',
+          'Rol de BigQuery: Posicionado en la frontera entre almacenamiento y computación analítica, seleccionado exclusivamente para analítica OLAP y consultas complejas sobre grandes volúmenes.',
+        ],
+      },
+      {
+        id: 'vid-60-29',
+        title: 'Introduction to containers',
+        moduleName: 'Módulo 5: Contenedores en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=fkyu-gVr4IU',
+        youtubeId: 'fkyu-gVr4IU',
+        duration: '2:56',
+        summary:
+          'Apertura del Módulo 5 sobre contenedores y Kubernetes en Google Cloud. Comparativa técnica entre la virtualización de hardware en IaaS (VMs pesadas con sistema operativo invitado completo y arranque en minutos) y la virtualización del sistema operativo mediante contenedores (empaquetado ligero de código y dependencias compartiendo el kernel del host con arranque en segundos). Beneficios clave de los contenedores: portabilidad extrema de código (del desarrollo local a producción sin recompilar), alta densidad de empaquetado en un solo host y habilitación de arquitecturas de microservicios con escalado horizontal independiente. Introducción a Google Kubernetes Engine (GKE) como el puente que une la automatización declarativa de PaaS con el control granular de infraestructura de IaaS.',
+        keyTakeaways: [
+          'Virtualización de SO vs Hardware: Los contenedores virtualizan el sistema operativo compartiendo el kernel del host mediante namespaces y cgroups, arrancando en segundos como un proceso ordinario frente a los minutos que requiere una VM en IaaS.',
+          'Portabilidad Extrema: Un contenedor empaqueta el código y todas sus dependencias en una caja lógica aislada, permitiendo ejecutar la misma imagen idéntica desde la laptop hasta entornos de producción cloud sin cambios.',
+          'Alta Densidad y Eficiencia: Al no duplicar el sistema operativo invitado, un único host puede ejecutar decenas o cientos de contenedores concurrentes maximizando el aprovechamiento de CPU y RAM.',
+          'Arquitectura de Microservicios: Facilita descomponer aplicaciones complejas en componentes modulares que escalan independientemente y se comunican a través de la red.',
+          'GKE como Puente IaaS/PaaS: Google Kubernetes Engine combina la facilidad de autoescalado, auto-reparación y orquestación de PaaS con la personalización profunda de recursos y redes de IaaS.',
+        ],
+      },
+      {
+        id: 'vid-60-30',
+        title: 'Kubernetes',
+        moduleName: 'Módulo 5: Contenedores en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=4NTyB0eEB_A',
+        youtubeId: '4NTyB0eEB_A',
+        duration: '5:09',
+        summary:
+          'Exploración profunda de la plataforma open-source Kubernetes y su implementación administrada en Google Cloud a través de Google Kubernetes Engine (GKE). Análisis de la arquitectura de clúster dividida en el Plano de Control (Control Plane) y los Nodos de trabajo (VMs de Compute Engine en GKE). Definición del Pod como la unidad atómica mínima desplegable que envuelve uno o más contenedores estrechamente interdependientes (patrón sidecar) compartiendo IP única, puertos y almacenamiento. Funcionamiento de los Deployments para garantizar resiliencia, auto-reparación de réplicas ante fallos de nodos y autoescalado horizontal (HPA). Rol crucial de los Services como abstracciones de red que proporcionan direcciones IP y endpoints estables frente a la naturaleza efímera de los Pods, desacoplando frontend de backend y aprovisionando automáticamente Network Load Balancers (NLB) externos con IP pública en GKE. Comparativa entre el paradigma imperativo (kubectl run/scale) y declarativo (manifiestos YAML con kubectl apply) y gestión de Rolling Updates para despliegues continuos sin tiempo de inactividad (zero downtime).',
+        keyTakeaways: [
+          'Arquitectura de Clúster en GKE: Se compone del Control Plane (gestión centralizada y reconciliación de estado) y Nodos de trabajo, los cuales en Google Cloud son máquinas virtuales de Compute Engine gestionadas por el clúster.',
+          'El Pod como Unidad Atómica: Es la unidad básica mínima de despliegue en Kubernetes. Envuelve contenedores que comparten la misma dirección IP de red, rango de puertos y volúmenes montados; solo se agrupan múltiples contenedores si existe dependencia estricta (sidecars).',
+          'Deployments y Resiliencia (Self-Healing): Gestionan conjuntos de réplicas idénticas de Pods; si un nodo de cómputo falla, el Deployment reprograma automáticamente los Pods perdidos en otros nodos sanos del clúster.',
+          'Services y Desacoplamiento de Red: Abstracción que asigna un endpoint y dirección IP estable (inmutable) a un conjunto dinámico de Pods efímeros; al exponer un Service como LoadBalancer en GKE, se crea automáticamente un Network Load Balancer (NLB) de Google Cloud con IP pública.',
+          'Enfoque Declarativo y Rolling Updates: En producción se utiliza la especificación declarativa en manifiestos YAML aplicados con kubectl apply; las actualizaciones de versiones se realizan progresivamente mediante Rolling Updates garantizando cero tiempo de inactividad.',
+        ],
+      },
+      {
+        id: 'vid-60-31',
+        title: 'Google Kubernetes Engine',
+        moduleName: 'Módulo 5: Contenedores en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=HMcFwcqNjOY',
+        youtubeId: 'HMcFwcqNjOY',
+        duration: '3:03',
+        summary:
+          'Presentación formal de Google Kubernetes Engine (GKE) como el servicio gestionado de Kubernetes en Google Cloud. Análisis de la abstracción del Control Plane, administrado íntegramente por Google para garantizar alta disponibilidad y respaldos sin complejidad operativa. Comparativa exhaustiva entre los modos de operación: GKE Autopilot (modo recomendado por Google, gestión desatendida de infraestructura, seguridad robusta por defecto y facturación exclusiva por recursos solicitados por Pods) y GKE Standard (control granular sobre nodos individuales, configuración manual y facturación por VMs de Compute Engine). Exploración de capacidades empresariales avanzadas de clúster: integración nativa con Cloud Load Balancing, segmentación en Node pools heterogéneos, autoescalado automático de nodos (Cluster Autoscaler), actualizaciones automáticas (Node auto-upgrades), auto-reparación de VMs degradadas (Node auto-repair) y observabilidad integrada con Google Cloud Observability. Sintaxis esencial de gcloud para la creación de clústeres Autopilot y Standard.',
+        keyTakeaways: [
+          'Control Plane Administrado: GKE elimina la complejidad de gestionar etcd y los componentes maestros de Kubernetes, ofreciendo un endpoint seguro con SLAs de alta disponibilidad respaldados por Google Cloud.',
+          'Autopilot vs Standard: Autopilot es el modo recomendado para producción donde Google gestiona nodos, actualizaciones, autoescalado y seguridad base, cobrando únicamente por Pods solicitados. Standard ofrece control granular a costa de gestionar manualmente las VMs de los nodos.',
+          'Cluster Autoscaler: Incrementa o reduce automáticamente la cantidad de máquinas virtuales (nodos) del clúster en función de la demanda y capacidad requerida por los Pods pendientes de programación.',
+          'Auto-Repair y Auto-Upgrade: GKE monitorea la salud de los nodos y reemplaza automáticamente aquellos que fallen los chequeos de salud (auto-repair), manteniendo el software del nodo parcheado y actualizado (auto-upgrades).',
+          'Comando CLI create-auto: Para desplegar un clúster Autopilot en producción se utiliza `gcloud container clusters create-auto <nombre> --region <region>`.',
+        ],
+      },
     ],
     classificationMatrix: [
       {
@@ -1172,15 +1358,15 @@ gcloud compute forwarding-rules create http-content-rule \\
         id: 'core-lab-2',
         labNumber: 2,
         title: 'Get Started with VPC Networking and Compute Engine',
-        durationMinutes: 45,
+        durationMinutes: 40,
         type: 'guided',
         description:
-          'Aprovisiona una red Virtual Private Cloud (VPC) en modo personalizado, segmenta subredes en us-central1 y us-east1, aplica reglas de firewall y valida conectividad privada entre instancias mediante ICMP.',
+          'Explora y elimina la red predeterminada para verificar la dependencia obligatoria de VPC en Compute Engine. Aprovisiona una red VPC con reglas de cortafuegos (allow-custom, allow-icmp, allow-ssh), despliega VMs en regiones distintas y valida conectividad privada y pública.',
         keyConcepts: [
-          'VPC Custom Mode: Control granular total de direccionamiento CIDR.',
-          'Subredes regionales: Subred central (10.130.0.0/20) y subred este (10.140.0.0/20).',
-          'Cloud NGFW: Reglas de ingreso para tráfico ICMP, SSH (22) y RDP (3389).',
-          'Enrutamiento global de VPC: Comunicación interna privada entre regiones sin IP pública.',
+          'Dependencia de VPC: Imposibilidad de aprovisionar instancias VM sin una red VPC activa.',
+          'Redes Auto vs Custom: Asignación automática de subredes en 10.128.0.0/9 vs control granular manual.',
+          'Reglas de cortafuegos e implícitas: Evaluación de deny-all-ingress (65535) y distinción entre allow-icmp (0.0.0.0/0) y allow-custom (10.128.0.0/9).',
+          'IPs efímeras vs estáticas: Liberación de IPs públicas dinámicas al detener VMs vs reserva fija.',
         ],
         steps: [
           {
@@ -1250,65 +1436,128 @@ gcloud compute ssh vm-internal-1 --zone=us-central1-a --command="ping -c 3 10.14
         id: 'core-lab-3',
         labNumber: 3,
         title: 'Getting Started with Cloud Storage and Cloud SQL',
-        durationMinutes: 45,
+        durationMinutes: 50,
         type: 'guided',
         description:
-          'Aprende a gestionar almacenamiento de objetos no estructurado con Cloud Storage y bases de datos relacionales administradas con Cloud SQL MySQL, autorizando la conexión de clientes web.',
+          'Aprovisiona una instancia VM en Compute Engine con servidor web Apache y PHP, crea un bucket en Cloud Storage con activos públicos de lectura y despliega una instancia administrada de Cloud SQL for MySQL co-ubicada para enlazar la aplicación web completa.',
         keyConcepts: [
-          'Cloud Storage: Creación de buckets globales con acceso uniforme a nivel de bucket.',
-          'Cloud SQL: Aprovisionamiento de instancia administrada MySQL 8.0.',
-          'Autorización de red: Concesión de acceso por IP pública de la VM a la instancia de base de datos.',
+          'Compute Engine con Startup Script: Aprovisionamiento automatizado de Apache2, PHP y php-mysql en el arranque de la VM.',
+          'Cloud Storage con ACL pública: Creación de bucket globalmente único nombrado según el Project ID y distribución de banners con gsutil acl ch.',
+          'Cloud SQL for MySQL: Instancia gestionada Enterprise Sandbox con usuario de aplicación y redes autorizadas para conexión de clientes.',
+          'Co-ubicación zonal: Ubicación de la base de datos en la misma zona que la VM web para lograr latencias inferiores a 1 ms.',
+          'Mejores prácticas de producción vs laboratorio: Sustitución de IPs públicas por Private IP / Auth Proxy y credenciales protegidas con Secret Manager.',
         ],
         steps: [
           {
             id: 'c-lab3-step-1',
             stepNumber: 1,
-            title: 'Crear un bucket en Cloud Storage con acceso uniforme',
+            title: 'Aprovisionar servidor web VM bloghost con script de inicio',
             description:
-              'Aprovisiona un bucket regional con clase Standard y Uniform Bucket-Level Access para gobernanza estricta.',
-            command: `export PROJECT_ID=$(gcloud config get-value project)
-export REGION="us-central1"
-export BUCKET_NAME="\${PROJECT_ID}-media-bucket"
+              'Crea la instancia bloghost en Compute Engine (e2-standard-2, Debian 12 bookworm), habilita tráfico HTTP y configura el script de automatización para instalar Apache y módulos PHP.',
+            command: `gcloud compute instances create bloghost \\
+    --zone=us-central1-a \\
+    --machine-type=e2-standard-2 \\
+    --image-family=debian-12 \\
+    --image-project=debian-cloud \\
+    --tags=http-server \\
+    --metadata=startup-script='#!/bin/bash
+apt-get update
+apt-get install apache2 php php-mysql -y
+service apache2 restart'
 
-gcloud storage buckets create gs://\${BUCKET_NAME} \\
-    --location=\${REGION} \\
-    --default-storage-class=STANDARD \\
-    --uniform-bucket-level-access`,
+# Registrar IPs de la instancia
+gcloud compute instances describe bloghost --zone=us-central1-a --format="get(networkInterfaces[0].accessConfigs[0].natIP)"`,
+            tip: 'El startup script instala Apache2 y los conectores MySQL de PHP automáticamente sin necesidad de acceder primero por SSH.',
           },
           {
             id: 'c-lab3-step-2',
             stepNumber: 2,
-            title: 'Subir archivo de prueba y otorgar permiso de lectura',
+            title: 'Crear bucket en Cloud Storage y publicar imagen de banner',
             description:
-              'Crea un objeto de prueba local y súbelo al bucket recién aprovisionado.',
-            command: `echo "Google Cloud Fundamentals Storage Test" > sample.txt
-gcloud storage cp sample.txt gs://\${BUCKET_NAME}/sample.txt`,
+              'En Cloud Shell, crea un bucket con nombre único global igual al Project ID, descarga el banner del curso y hazlo públicamente legible mediante ACL.',
+            command: `export LOCATION=US
+gcloud storage buckets create -l $LOCATION gs://$DEVSHELL_PROJECT_ID
+
+gcloud storage cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
+gcloud storage cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
+
+gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png`,
+            tip: 'Los nombres de los buckets comparten un espacio de nombres global en todo Google Cloud, por lo que usar $DEVSHELL_PROJECT_ID garantiza su unicidad.',
           },
           {
             id: 'c-lab3-step-3',
             stepNumber: 3,
-            title: 'Aprovisionar instancia de Cloud SQL MySQL 8.0',
+            title: 'Crear la instancia gestionada Cloud SQL MySQL blog-db',
             description:
-              'Despliega una base de datos relacional gestionada con credencial administrativa segura.',
-            command: `gcloud sql instances create my-db-instance \\
+              'Aprovisiona una base de datos Cloud SQL MySQL en la misma región y zona que la VM bloghost para garantizar máxima proximidad y latencia mínima.',
+            command: `gcloud sql instances create blog-db \\
     --database-version=MYSQL_8_0 \\
-    --cpu=1 \\
-    --memory=3840MiB \\
-    --region=\${REGION} \\
-    --root-password="SuperSecurePassword123!"
+    --tier=db-n1-standard-1 \\
+    --region=us-central1 \\
+    --zone=us-central1-a \\
+    --root-password="Passw0rd1!"
 
-gcloud sql databases create app_db --instance=my-db-instance
-gcloud sql users create app_user --instance=my-db-instance --password="UserPassword123!"`,
+# Obtener la IP pública asignada a la base de datos
+gcloud sql instances describe blog-db --format="value(ipAddresses[0].ipAddress)"`,
+            tip: 'Co-ubicar la instancia de base de datos en la misma zona de Compute Engine reduce drásticamente el tiempo de respuesta de las consultas SQL.',
           },
           {
             id: 'c-lab3-step-4',
             stepNumber: 4,
-            title: 'Autorizar IP de la VM web en Cloud SQL',
+            title: 'Configurar usuario de aplicación y autorizar IP de bloghost',
             description:
-              'Extrae la IP pública de la máquina virtual web y agrégala a las redes autorizadas de la base de datos.',
-            command: `export VM_IP=$(gcloud compute instances describe web-app-vm --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)" 2>/dev/null || echo "34.120.50.10")
-gcloud sql instances patch my-db-instance --authorized-networks=\${VM_IP}`,
-            tip: 'En entornos de producción se recomienda conectar mediante Cloud SQL Auth Proxy o dirección IP privada interna en la VPC.',
+              'Crea el usuario blogdbuser y autoriza la dirección IP externa de la VM bloghost (/32) en la configuración de cortafuegos de Cloud SQL.',
+            command: `gcloud sql users create blogdbuser \\
+    --instance=blog-db \\
+    --password="Passw0rd1!"
+
+export BLOGHOST_IP=$(gcloud compute instances describe bloghost --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)")
+gcloud sql instances patch blog-db --authorized-networks="\${BLOGHOST_IP}/32"`,
+            tip: 'Para el examen ACE recuerda que en producción se debe priorizar Private IP sobre VPC Peering o Cloud SQL Auth Proxy antes que redes autorizadas públicas.',
+          },
+          {
+            id: 'c-lab3-step-5',
+            stepNumber: 5,
+            title: 'Conectar la aplicación PHP en bloghost con Cloud SQL',
+            description:
+              'Edita /var/www/html/index.php en bloghost con los datos de conexión PDO de Cloud SQL, reinicia Apache y valida la conexión en el navegador.',
+            command: `# En la sesión SSH de bloghost:
+cat <<'EOF' | sudo tee /var/www/html/index.php
+<html>
+  <head><title>Welcome to my excellent blog</title></head>
+  <body>
+    <h1>Welcome to my excellent blog</h1>
+    <?php
+    $dbserver = "CLOUDSQL_PUBLIC_IP";
+    $dbuser = "blogdbuser";
+    $dbpassword = "Passw0rd1!";
+    try {
+        $conn = new PDO("mysql:host=$dbserver;dbname=mysql", $dbuser, $dbpassword);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully";
+    } catch(PDOException $e) {
+        echo "Database connection failed: " . $e->getMessage();
+    }
+    ?>
+  </body>
+</html>
+EOF
+
+sudo service apache2 restart`,
+            tip: 'Al acceder a http://<BLOGHOST_EXTERNAL_IP>/index.php se debe visualizar el mensaje "Connected successfully".',
+          },
+          {
+            id: 'c-lab3-step-6',
+            stepNumber: 6,
+            title: 'Integrar y renderizar el banner gráfico de Cloud Storage',
+            description:
+              'Inserta la etiqueta img con la URL pública del objeto de Cloud Storage antes del título h1 en index.php y reinicia el servicio web.',
+            command: `# Actualizar index.php para incluir el banner gráfico de Cloud Storage:
+export BUCKET_URL="https://storage.googleapis.com/\${DEVSHELL_PROJECT_ID}/my-excellent-blog.png"
+# La etiqueta resultante en HTML es: <img src='\${BUCKET_URL}'>
+
+sudo service apache2 restart`,
+            tip: 'Cloud Storage distribuye activos multimedia directamente a los navegadores de los usuarios finales, descargando de tráfico al servidor de aplicación.',
           },
         ],
       },
@@ -1449,6 +1698,127 @@ gcloud run services list`,
           'Los roles básicos (Owner, Editor, Viewer) aplican de forma amplia a todos los recursos del proyecto. Los roles predefinidos están delimitados a servicios específicos (ej. Compute Instance Admin). Los roles personalizados (Custom Roles) permiten granularidad atómica para mínimo privilegio estricto.',
         examTrapTip:
           'Orden de especificidad: Basic roles (más amplio) → Predefined roles → Custom roles (más específico/granular).',
+      },
+      {
+        id: 'c-m3-q1',
+        question: 'In Google Cloud VPCs, what scope do subnets have?',
+        options: ['Zonal', 'Multi-regional', 'Regional', 'Global'],
+        correctIndex: 2,
+        explanation:
+          'En Google Cloud las redes VPC son globales, pero las subredes (subnets) son estrictamente regionales: cada subred se aloja en una región específica y abarca de forma transparente todas las zonas de disponibilidad de dicha región.',
+        examTrapTip:
+          'Las VPCs son Globales; las Subredes son Regionales; las Instancias de VM son Zonales.',
+      },
+      {
+        id: 'c-m3-q2',
+        question:
+          'How does global Cloud Load Balancing allow you to balance HTTP-based traffic?',
+        options: [
+          'Across multiple Compute Engine regions.',
+          'Across multiple physical machines in a single data center.',
+          'Across multiple virtual machine instances in a single Compute Engine region.',
+          'Across multiple Google Cloud services.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'El Global External Application Load Balancer opera en Capa 7 utilizando una IP Anycast global única para recibir peticiones en el PoP de Google más cercano al usuario y enrutarlas entre backends distribuidos en múltiples regiones de Compute Engine.',
+        examTrapTip:
+          'Si el examen menciona "una sola IP global para backends en EE.UU., Europa y Asia", se refiere al Global External Application Load Balancer.',
+      },
+      {
+        id: 'c-m3-q3',
+        question:
+          'For which of these interconnect options is a Service Level Agreement available?',
+        options: [
+          'Dedicated Interconnect',
+          'Direct Peering',
+          'Standard Network Tier',
+          'Carrier Peering',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Dedicated Interconnect y Partner Interconnect son servicios oficiales empresariales de Google Cloud para conectividad privada RFC 1918 que ofrecen SLAs garantizados (99.9% o 99.99%). Direct Peering y Carrier Peering acceden a IPs públicas de Google y no cuentan con SLA.',
+        examTrapTip:
+          'Direct Peering y Carrier Peering = IPs públicas sin SLA. Dedicated y Partner Interconnect = IPs privadas RFC 1918 con SLA empresarial.',
+      },
+      {
+        id: 'c-m3-q4',
+        question: 'What is the main reason customers choose Spot VMs?',
+        options: [
+          'To reduce cost on premium operating systems.',
+          'To reduce cost.',
+          'To use custom machine types.',
+          'To improve performance.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'La ventaja definitiva de las Spot VMs es la reducción de costes, con descuentos del 60% al 91% respecto al precio bajo demanda habitual, a cambio de tolerar interrupciones con 30 segundos de aviso previo.',
+        examTrapTip:
+          'Spot VMs para procesos batch y computación tolerante a fallos; nunca para aplicaciones de misión crítica de un solo nodo sin tolerancia a interrupciones.',
+      },
+      {
+        id: 'c-m3-q5',
+        question:
+          'Which of the following describes a Virtual Private Cloud (VPC)?',
+        options: [
+          'A fully distributed, software-defined, managed service for traffic distribution.',
+          'An option that allows one or more direct, private connections to Google.',
+          'A service that routes traffic through a Google Point of Presence (PoP).',
+          'A secure, individual, private cloud-computing model hosted within a public cloud.',
+        ],
+        correctIndex: 3,
+        explanation:
+          'Una VPC es un modelo de red privado, individual y seguro alojado sobre la nube pública de Google Cloud, que suministra aislamiento completo, direccionamiento IP personalizado, cortafuegos con estado y enrutamiento definido por software.',
+        examTrapTip:
+          'A fully distributed service for traffic distribution describe a Cloud Load Balancing; una VPC es el entorno de red aislado y privado.',
+      },
+      {
+        id: 'c-m4-q1',
+        question:
+          'Which storage use case is best suited for Google Cloud Storage?',
+        options: [
+          'Running transactional relational database management system (RDBMS) workloads.',
+          'Serving as an enterprise data warehouse for complex SQL analytics.',
+          'Storing unstructured data that requires high durability and availability.',
+          'Hosting the root file system of a Compute Engine virtual machine instance.',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Cloud Storage es el servicio de almacenamiento de objetos (BLOBs) no estructurados en Google Cloud, diseñado para proporcionar una durabilidad anual del 99.999999999% (11 nueves) y alta disponibilidad global sin aprovisionamiento de capacidad previa.',
+        examTrapTip:
+          'Las cargas RDBMS transaccionales requieren Cloud SQL o Spanner, los data warehouses requieren BigQuery, y el disco raíz de una VM requiere almacenamiento en bloques (Persistent Disk).',
+      },
+      {
+        id: 'c-m4-q2',
+        question:
+          'For what primary use case should an organization choose the Coldline storage class in Cloud Storage?',
+        options: [
+          'To minimize overall costs for data that is read and updated frequently.',
+          'To minimize monthly storage costs for data accessed less than once a quarter.',
+          'To execute faster data transfers using a dedicated storage API.',
+          'To apply stricter access control and encryption mechanisms to sensitive data.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'La clase Coldline Storage está diseñada para minimizar las tarifas de almacenamiento en reposo de datos leídos como máximo una vez cada 90 días (menos de una vez por trimestre). Todas las clases comparten la misma API, cifrado y latencias en milisegundos.',
+        examTrapTip:
+          'No asumas que las clases frías tienen cifrado o APIs diferentes; la diferencia entre clases de Cloud Storage es exclusivamente financiera (coste de reposo vs recuperación y permanencia mínima).',
+      },
+      {
+        id: 'c-m4-q3',
+        question:
+          'A company requires a relational database service that can scale horizontally to petabytes of data while maintaining high availability. Which Google Cloud service meets this requirement?',
+        options: [
+          'Spanner',
+          'Firestore',
+          'Cloud SQL',
+          'Bigtable',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Cloud Spanner es el servicio de base de datos relacional distribuida globalmente que proporciona escalabilidad horizontal elástica a escala de petabytes con consistencia externa fuerte (TrueTime API) y soporte completo para transacciones ACID y SQL ANSI.',
+        examTrapTip:
+          'Cloud SQL es relacional pero escala verticalmente hasta 64 TB; Bigtable y Firestore escalan horizontalmente pero no son bases de datos relacionales.',
       },
       {
         id: 'c-q1',

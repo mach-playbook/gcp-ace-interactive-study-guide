@@ -4,6 +4,356 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-13] - Ingesta de Cuestionario Oficial: Quiz Módulo 5 - Containers in the Cloud (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-quiz-module-5-containers.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-quiz-module-5-containers.md) con el banco oficial de preguntas, respuestas oficiales y justificaciones técnicas para el Módulo 5 (Passing score: 50%, Puntos acumulados: 14,250):
+    1. *What is a Kubernetes pod?* -> **A group of containers** (unidad atómica mínima desplegable que encapsula uno o más contenedores compartiendo IP única de red, puertos y volúmenes).
+    2. *Where do the resources used to build Google Kubernetes Engine clusters come from?* -> **Compute Engine** (los clústeres de GKE aprovisionan instancias de máquinas virtuales de Compute Engine como nodos de trabajo).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Creada la subsección **5.4 Evaluación y Conceptos de Examen del Módulo 5 (Quiz de Contenedores y GKE)** detallando los fundamentos arquitectónicos evaluados en la certificación ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-13] - Ingesta de Lección 31: Google Kubernetes Engine (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-google-kubernetes-engine.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-google-kubernetes-engine.md) con la transcripción completa oficial, simplificación operativa de GKE frente a K8s autogestionado (Control Plane administrado por Google sin coste de mantenimiento), matriz comparativa detallada entre **GKE Autopilot** (modo recomendado, gestión desatendida, endurecimiento de seguridad CIS y pago por Pods solicitados) y **GKE Standard** (gestión manual de VMs de nodos, pago por infraestructura de Compute Engine), capacidades avanzadas de clúster (Node pools heterogéneos, Cluster Autoscaler, Node auto-upgrades, Node auto-repair, balanceo de carga integrado y observabilidad nativa) y comandos CLI esenciales (`create-auto`, `create`, `get-credentials`) para la lección 31 (Video ID: `689581`, YouTube: `HMcFwcqNjOY`, Puntos acumulados: 14,250).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso integrando la Lección 31 (*Google Kubernetes Engine*).
+  * Redactada e integrada la subsección **5.3 Google Kubernetes Engine (GKE): Modos Operativos (Autopilot vs Standard) y Gestión Avanzada**:
+    1. Diferenciación de GKE frente a K8s puro: Control Plane completamente administrado por Google Cloud con alta disponibilidad y endpoint seguro para `kubectl`.
+    2. Tabla comparativa: GKE Autopilot vs GKE Standard (enfoque, gestión de nodos, seguridad, red, facturación por Pods vs por VMs y recomendaciones oficiales).
+    3. Capacidades avanzadas de clúster: Cloud Load Balancing (NLB/ALB), Node pools heterogéneos (aceleradores GPU/Compute), Cluster Autoscaler, actualizaciones automáticas de versión y auto-reparación continua ante fallos.
+    4. Guía de comandos `gcloud container clusters` (`create-auto`, `create`, `get-credentials`, `list`).
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-31` (*Google Kubernetes Engine*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor oficial de YouTube (`HMcFwcqNjOY`) y 5 conclusiones clave para la certificación ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-13] - Ingesta de Lección 30: Kubernetes (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-kubernetes.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-kubernetes.md) con la transcripción completa oficial, arquitectura del clúster (Control Plane y Nodos Worker en VMs de Compute Engine), abstracción atómica del Pod (red e IP compartida, puertos, volúmenes y patrón multi-contenedor sidecar), Deployments y resiliencia (*self-healing*, autoescalado), Services como endpoints estables (desacoplamiento frontend/backend y aprovisionamiento automático de Cloud Network Load Balancer en GKE), contraste entre paradigmas declarativo e imperativo, y estrategia de *Rolling Updates* sin caída de servicio para la lección 30 (Video ID: `689580`, YouTube: `4NTyB0eEB_A`, Puntos acumulados: 14,230).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso integrando la Lección 30 (*Kubernetes*).
+  * Redactada e integrada la subsección **5.2 Kubernetes: Arquitectura de Clúster, Pods, Deployments, Services y Rollouts**:
+    1. Arquitectura de Clúster: Control Plane centralizado (100% gestionado en GKE) frente a Nodos de trabajo (instancias VM de Compute Engine ejecutando `kubelet`, `kube-proxy` y `containerd`).
+    2. El Pod como unidad mínima de despliegue: regla de oro 1:1, excepción de contenedores sidecar por dependencia estricta, IP compartida y comunicación por `localhost`.
+    3. Deployments: réplicas homogéneas, auto-reparación ante fallo de nodos físicos/VMs y escalado horizontal con HPA.
+    4. Services: resolución del problema de las IPs efímeras de los Pods, asignación de IP fija interna (*ClusterIP*), desacoplamiento arquitectónico frontend-backend y aprovisionamiento automático de Network Load Balancer (NLB) de Google Cloud para servicios tipo `LoadBalancer`.
+    5. Comparativa entre modos imperativo (`kubectl run/scale`) y declarativo (`kubectl apply -f`) junto a comandos clave de inspección (`get`, `describe`).
+    6. Estrategia de Rolling Update: actualización gradual de Pods sin tiempo de inactividad (*zero downtime*) y capacidad de rollback instantáneo.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-30` (*Kubernetes*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`4NTyB0eEB_A`) y 5 conclusiones clave orientadas al examen de certificación ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 29: Introduction to containers (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-introduction-to-containers.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-introduction-to-containers.md) con la transcripción oficial, análisis de la virtualización de hardware (VMs) frente a la virtualización de sistema operativo (contenedores), principios de portabilidad extrema ("de la laptop a la nube"), densidad de empaquetado, arquitectura de microservicios y rol de GKE como puente entre IaaS y PaaS para la lección 29 (Video ID: `689579`, YouTube: `fkyu-gVr4IU`, Puntos acumulados: 14,220).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso con la Lección 29 (*Introduction to containers*).
+  * Creado el apartado **5. Módulo 5: Contenedores en la Nube y Kubernetes (Containers in the Cloud)** y la subsección **5.1 Introducción a los Contenedores: Virtualización del SO, Eficiencia y Microservicios**:
+    1. Tabla comparativa: IaaS vs PaaS vs Contenedores (nivel de abstracción, unidad mínima, tiempo de arranque y flexibilidad).
+    2. Anatomía de un contenedor (namespaces, cgroups, kernel compartido del host y arranque instantáneo).
+    3. Portabilidad y consistencia entre entornos heterogéneos.
+    4. Arquitectura de microservicios con escalabilidad y tolerancia a fallos desacopladas.
+    5. GKE como puente operativo entre la automatización de PaaS y el control granular de IaaS.
+  * Renumeradas coherentemente las secciones posteriores (6. Laboratorios Prácticos, 7. Árbol de Decisión de Cómputo, 8. Trampas Frecuentes).
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-29` (*Introduction to containers*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`fkyu-gVr4IU`) y conclusiones clave para el examen ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Quiz Módulo 4: Storage in the Cloud (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-quiz-module-4-storage.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-quiz-module-4-storage.md) con las 3 preguntas oficiales, opciones, respuestas correctas, justificaciones técnicas y análisis de opciones distractoras del Quiz 689578 (*Passing Score: 66%*, Puntos acumulados: 14,100).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Creado el apartado **4.9 Cuestionario Oficial de Evaluación: Módulo 4 (Syllabus Quiz)** integrando las 3 preguntas oficiales con su enfoque específico para la certificación Google Cloud ACE:
+    1. Idoneidad canónica de Cloud Storage para almacenar datos no estructurados con 11 nueves de durabilidad y alta disponibilidad.
+    2. Adopción de Coldline Storage para minimizar costos mensuales de datos leídos como máximo una vez por trimestre (< 90 días).
+    3. Selección de Cloud Spanner como único motor relacional gestionado con escalabilidad horizontal masiva a petabytes y disponibilidad del 99.999%.
+* **Catálogo y Banco de Preguntas (`src/data/coursesData.ts`)**:
+  * Incorporadas las preguntas oficiales (`c-m4-q1`, `c-m4-q2` y `c-m4-q3`) al array `quiz` del curso 60 con sus trampas de examen (`examTrapTip`) y explicaciones pedagógicas.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Laboratorio Oficial: Getting Started with Cloud Storage and Cloud SQL (Lab 689577)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-getting-started-with-cloud-storage-and-cloud-sql.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-getting-started-with-cloud-storage-and-cloud-sql.md) con la guía oficial completa de laboratorio, parámetros de aprovisionamiento de la VM `bloghost` (startup script para Apache/PHP/MySQL), creación de bucket y asignación de ACL pública al banner gráfico con `gcloud storage` / `gsutil acl ch`, aprovisionamiento de Cloud SQL MySQL `blog-db` con usuario `blogdbuser` y red autorizada (`/32`), script PHP de conexión PDO y trampas clave de examen ACE (co-ubicación zonal, Secret Manager vs hardcoded passwords, Private IP vs Authorized Networks y UBLA vs ACLs) (Lab ID: `689577`, Puntos acumulados: 14,100).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizado en profundidad el apartado **Lab 3: Getting Started with Cloud Storage and Cloud SQL (Lab ID: 689577)** en la Sección 5 con la arquitectura completa, comandos CLI reales, código fuente de la aplicación PHP y directrices arquitectónicas para el examen ACE.
+* **Catálogo y UI de Cursos**:
+  * Actualizado el laboratorio `core-lab-3` en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con 6 pasos detallados, duración de 50 minutos, comandos precisos y consejos técnicos (*tips*).
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 28: Comparing storage options (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-comparing-storage-options.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-comparing-storage-options.md) con la transcripción oficial, matriz comparativa de almacenamiento, restricciones de tamaño por unidad (Cloud Storage 5 TB, Firestore 1 MB, Bigtable 10 MB/celda), Cloud SQL (< 64 TB) vs Spanner (petabytes horizontales), rol analítico OLAP de BigQuery y trampas de examen ACE para la lección 28 (Video ID: `689576`, YouTube: `jAPJ_aVxCbQ`, Puntos acumulados: 14,090).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso incorporando la fila para la Lección 28 (*Comparing storage options*).
+  * Creado el apartado **4.8 Comparativa Integral de Opciones de Almacenamiento y Matriz de Decisión (Storage Decision Blueprint)**:
+    1. Matriz de síntesis comparativa canónica: naturaleza del dato, capacidades máximas, límites por unidad, modelo de consulta y casos predilectos de examen.
+    2. Restricciones técnicas por unidad críticas (5 TB en Cloud Storage, 1 MB por doc en Firestore, 10 MB/celda y 100 MB/fila en Bigtable).
+    3. Posicionamiento arquitectónico de BigQuery en la frontera entre almacenamiento y computación analítica masiva (OLAP).
+    4. Árbol de decisión rápido para la certificación Google Cloud ACE.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-28` (*Comparing storage options*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`jAPJ_aVxCbQ`) y conclusiones de examen.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 27: Bigtable (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-bigtable.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-bigtable.md) con la transcripción oficial, arquitectura de desacoplamiento cómputo/almacenamiento (Colossus), los 6 criterios de selección de Bigtable (> 1 TB, high throughput, NoSQL, series temporales/IoT, batch/streaming, machine learning), compatibilidad con la API de Apache HBase y trampas clave de examen ACE para la lección 27 (Video ID: `689575`, YouTube: `bfztO0_4fhw`, Puntos acumulados: 14,080).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso incorporando la fila para la Lección 27 (*Bigtable*).
+  * Creado el apartado **4.7 Cloud Bigtable: Base de Datos NoSQL Columnar Masiva, Latencia Sub-10ms y Streaming IoT**:
+    1. Tecnología de persistencia probada (Search, Analytics, Maps, Gmail) y arquitectura desacoplada de cómputo y almacenamiento (Colossus).
+    2. Los 6 criterios oficiales de decisión para Bigtable (umbral > 1 TB, alta frecuencia de escritura, atomicidad de fila única y series temporales).
+    3. Ecosistema de ingestión y analítica: compatibilidad HBase API, streaming con Dataflow/Spark/Storm, batch con Dataproc Hadoop y sincronización downstream.
+    4. Flujo de comandos CLI con `gcloud bigtable`.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-27` (*Bigtable*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`bfztO0_4fhw`) y conclusiones técnicas de examen.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 26: Firestore (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-firestore.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-firestore.md) con la transcripción oficial, análisis del modelo de documentos/colecciones, indexación automática (rendimiento proporcional al resultado y no al total de datos), sincronización reactiva en tiempo real, soporte y caché offline con resolución de conflictos, transacciones ACID y trampas de examen ACE para la lección 26 (Video ID: `689574`, YouTube: `Q1kSFl1LYMc`, Puntos acumulados: 14,070).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso incorporando la fila para la Lección 26 (*Firestore*).
+  * Creado el apartado **4.6 Firestore: Base de Datos de Documentos NoSQL Serverless, Sincronización en Tiempo Real y Modo Offline**:
+    1. Modelo jerárquico de documentos (pares clave-valor, objetos anidados), colecciones y subcolecciones.
+    2. Consultas NoSQL con indexación automática por defecto y latencia dependiente exclusivamente del tamaño del resultado.
+    3. Sincronización en vivo mediante listeners reactivos y soporte de persistencia local offline.
+    4. Resiliencia de infraestructura con replicación multi-región, consistencia fuerte y transacciones atómicas.
+    5. Flujo de comandos CLI con `gcloud firestore`.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-26` (*Firestore*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`Q1kSFl1LYMc`) y conclusiones pedagógicas.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 25: Spanner (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-cloud-spanner.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-cloud-spanner.md) con la transcripción oficial, análisis de los 3 pilares técnicos (escala horizontal, consistencia fuerte con TrueTime API y soporte ANSI SQL 2011), rendimiento masivo de IOPS, comparativa frente a Cloud SQL y trampas de examen ACE para la lección 25 (Video ID: `689573`, YouTube: `uxmBbmv7Av0`, Puntos acumulados: 14,070).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso incorporando la fila para la Lección 25 (*Spanner*).
+  * Creado el apartado **4.5 Cloud Spanner: Base de Datos Relacional Distribuida Global, Consistencia Fuerte y Escala Horizontal**:
+    1. Los tres pilares de Spanner: escalabilidad horizontal ilimitada (*scale-out* sin paradas), consistencia fuerte externa (*TrueTime API*) y sintaxis SQL estándar con transacciones ACID distribuidas.
+    2. Cargas de trabajo de misión crítica, rendimiento de decenas de miles a millones de IOPS y disponibilidad del 99.99% (Regional) y 99.999% (Multi-Región).
+    3. Matriz de decisión comparativa: Cloud Spanner vs Cloud SQL (escala, almacenamiento, alcance geográfico y costos).
+    4. Flujo de comandos CLI con `gcloud spanner`.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-25` (*Spanner*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`uxmBbmv7Av0`) y conclusiones clave para el examen ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 24: Cloud SQL (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-cloud-sql.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-cloud-sql.md) con la transcripción oficial, análisis técnico de DBaaS (MySQL, PostgreSQL, SQL Server), límites de escalado vertical (128 vCPUs, 864 GB RAM, 64 TB), replicación automática y Alta Disponibilidad regional (HA), políticas de respaldos gestionados (7 copias incluidas y PITR), seguridad con Private Service Access / Cloud SQL Auth Proxy y trampas de examen ACE para la lección 24 (Video ID: `689572`, YouTube: `yE-k0odGRzk`, Puntos acumulados: 14,050).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso incorporando la fila para la Lección 24 (*Cloud SQL*).
+  * Creado el apartado **4.4 Cloud SQL: Bases de Datos Relacionales Gestionadas, Escalabilidad, Replicación y Conectividad**:
+    1. Motores soportados y descarga de tareas administrativas rutinarias de infraestructura (parches, backups, replicación).
+    2. Límites máximos de escalado vertical (128 vCPUs, 864 GB RAM, 64 TB con auto-incremento automático).
+    3. Replicación (réplicas de lectura, réplicas externas y fuentes externas) y Alta Disponibilidad (HA regional con failover automático < 60s).
+    4. Respaldos gestionados con 7 copias automáticas incluidas y PITR mediante registros binarios/WAL.
+    5. Cifrado integral en reposo/tránsito y opciones de acceso a la red: Private IP (VPC Peering), Cloud SQL Auth Proxy y co-ubicación zonal con Compute Engine.
+    6. Flujo de comandos prácticos con `gcloud sql` para la certificación ACE.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-24` (*Cloud SQL*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`yE-k0odGRzk`) y conclusiones de examen.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 23: Cloud Storage: Storage classes and data transfer (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-cloud-storage-classes-and-data-transfer.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-cloud-storage-classes-and-data-transfer.md) con la transcripción oficial, desglose de las 4 clases de almacenamiento (Standard, Nearline, Coldline, Archive), atributos universales (latencia en ms, durabilidad de 11 nueves, sin mínimos de tamaño), Autoclass para ahorro dinámico de costes, cifrado en reposo/tránsito, herramientas de migración (gcloud, Storage Transfer Service, Transfer Appliance de hasta 1 PB) y trampas de examen ACE para la lección 23 (Video ID: `689571`, YouTube: `A5a8sPL6PjY`, Puntos acumulados: 14,040).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial del curso con la Lección 23 (*Cloud Storage: Storage classes and data transfer*).
+  * Creado el apartado **4.3 Clases de Almacenamiento, Autoclass y Mecanismos de Transferencia de Datos**:
+    1. Tabla comparativa detallada de las 4 clases de almacenamiento, tiempos de permanencia mínima y costos asociados.
+    2. Atributos universales compartidos: latencia en milisegundos idéntica para todas las clases y durabilidad extrema del 99.999999999%.
+    3. Autoclass: degradación automática a clases frías por inactividad y promoción inmediata a Standard al recibir accesos.
+    4. Cifrado por defecto en reposo (GMEK/CMEK) y en tránsito (HTTPS/TLS).
+    5. Opciones de transferencia de datos: `gcloud storage`, Cloud Console, Storage Transfer Service y Transfer Appliance físico.
+    6. Integración transversal con BigQuery, Cloud SQL, Compute Engine, App Engine y Firestore.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-23` (*Cloud Storage: Storage classes and data transfer*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`A5a8sPL6PjY`) y conclusiones clave para el examen ACE.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-12] - Ingesta de Lección 22: Cloud Storage (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-cloud-storage.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-cloud-storage.md) con la transcripción oficial, análisis arquitectónico de almacenamiento de objetos frente a bloques y archivos, inmutabilidad, Object Versioning, IAM vs ACLs (Uniform Bucket-Level Access), políticas de ciclo de vida (Object Lifecycle Management) y trampas de examen ACE para la lección 22 (Video ID: `689570`, YouTube: `pLMkOa4FbwI`, Puntos acumulados: 14,030).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la tabla de la Videoteca Oficial incorporando las filas para la Lección 21 (*Google Cloud storage options*) y Lección 22 (*Cloud Storage*).
+  * Creado el apartado **4.2 Cloud Storage: Fundamentos, Inmutabilidad, Versionado, Control de Acceso y Ciclo de Vida**:
+    1. Comparativa técnica de paradigmas de almacenamiento: Object Storage vs Block Storage vs File Storage.
+    2. Anatomía de objetos y organización en buckets con nombres globalmente únicos y selección geográfica para minimizar latencia.
+    3. Inmutabilidad de objetos y funcionamiento de Object Versioning (versión viva vs versiones archivadas con generation number).
+    4. Modelos de seguridad y control de acceso: IAM heredado (Proyecto → Bucket → Objeto) con Uniform Bucket-Level Access vs ACLs granulares (scope + permission).
+    5. Políticas automatizadas de ciclo de vida (Object Lifecycle Management: acciones `Delete` y `SetStorageClass` con filtros de edad, fecha y versiones más recientes).
+    6. Flujo de comandos prácticos con `gcloud storage` para el examen ACE.
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-22` (*Cloud Storage*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial (`pLMkOa4FbwI`) y conclusiones técnicas de examen.
+* **Índice General**:
+  * Registrada la nueva referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-09] - Ingesta de Lección 21: Google Cloud storage options (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-google-cloud-storage-options.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-google-cloud-storage-options.md) con la transcripción oficial y análisis comparativo para el examen ACE de la lección 21 (Video ID: `689569`, YouTube: `8Dn-RAP7fzA`).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Creada la sección **4. Módulo 4: Almacenamiento en la Nube (Storage in the Cloud)** y el apartado **4.1 Opciones de Almacenamiento en Google Cloud (Google Cloud storage options)**:
+    1. Taxonomía de datos: no estructurados, estructurados, relacionales (ACID), documentos semiestructurados y series temporales analíticas.
+    2. Matriz de selección rápida para el Examen ACE (*Storage Decision Matrix*) de los 5 servicios núcleo (Cloud Storage, Cloud SQL, Cloud Spanner, Firestore, Cloud Bigtable).
+    3. Principio de arquitectura de persistencia políglota (*Polyglot Persistence*).
+* **Catálogo y UI de Cursos**:
+  * Añadida la lección `vid-60-21` (*Google Cloud storage options*) en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) con su reproductor de YouTube oficial y sus conclusiones clave de examen.
+* **Índice General**:
+  * Enlazada la nueva nota en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-09] - Ingesta de Quiz Módulo 3: Virtual Machines and Networks in the Cloud (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-quiz-module-3-vms-and-networks.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-quiz-module-3-vms-and-networks.md) con las 5 preguntas oficiales, opciones, respuestas correctas y justificaciones técnicas del Quiz 689568 (*Passing Score: 80%*).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Creada la sección **3.8 Cuestionario Oficial de Evaluación: Módulo 3 (Syllabus Quiz)** integrando las 5 preguntas de evaluación con su enfoque para la certificación Google Cloud ACE:
+    1. Alcance estrictamente regional de las subredes en Google Cloud VPCs.
+    2. Distribución global de tráfico HTTP entre múltiples regiones de Compute Engine con Cloud Load Balancing.
+    3. Acuerdos de Nivel de Servicio (SLA 99.9% / 99.99%) disponibles exclusivamente en Dedicated Interconnect y Partner Interconnect (vs Direct/Carrier Peering sin SLA).
+    4. Reducción sustancial de costos (60% a 91%) como justificación primordial para adoptar Spot VMs.
+    5. Definición canónica de Virtual Private Cloud (VPC) como modelo privado, individual y seguro en la nube pública.
+* **Catálogo y Banco de Preguntas (`src/data/coursesData.ts`)**:
+  * Incorporadas las preguntas oficiales (`c-m3-q1` a `c-m3-q5`) al array `quiz` del curso 60 con sus trampas de examen (`examTrapTip`) y explicaciones pedagógicas.
+* **Índice General**:
+  * Registrada la nueva nota cruda en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-09] - Ingesta de Laboratorio 2: Get Started with Virtual Private Cloud Networking and Compute Engine (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-get-started-with-vpc-networking-and-compute-engine.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-get-started-with-vpc-networking-and-compute-engine.md) con la guía oficial del Lab 689567 (5 créditos, 40 minutos).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la sección del **Lab 2** con las 4 tareas oficiales:
+    1. Exploración y eliminación de la red `default` (comprobando que no es posible crear VMs sin una red VPC).
+    2. Creación de red VPC en modo automático (`mynetwork`) y dos VMs multi-región (`mynet-us-vm` y `mynet-r2-vm`).
+    3. Pruebas de conectividad ICMP interna vs externa y eliminación progresiva de reglas de cortafuegos (`allow-icmp`, `allow-custom`, `allow-ssh`) con la pregunta de evaluación oficial y su justificación.
+  * Incorporados los comandos de `gcloud` equivalentes para reproducción automatizada.
+* **Catálogo y UI de Cursos**:
+  * Actualizada la especificación del Lab 2 en [`src/data/coursesData.ts`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/src/data/coursesData.ts) (duración oficial de 40 minutos, key concepts enriquecidos sobre reglas implícitas e IPs efímeras vs estáticas).
+* **Pruebas y Verificación**:
+  * Ejecución exitosa de los 45 tests unitarios y BDD.
+* **Índice General**:
+  * Enlazado el nuevo laboratorio en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
 ## [2026-11-09] - Ingesta de Lección 20: Connecting networks to Google VPC (Course 60)
 
 ### Agente Responsable:
