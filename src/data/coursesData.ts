@@ -2335,5 +2335,917 @@ gcloud run services delete helloworld --region=$LOCATION --quiet`,
       },
     ],
   },
+  {
+    id: 'gcp-course-637',
+    slug: 'set-up-an-app-dev-environment-google-cloud',
+    templateId: '637',
+    title: 'Set Up an App Dev Environment on Google Cloud',
+    shortDescription:
+      'Construye y conecta infraestructura cloud centrada en almacenamiento utilizando Cloud Storage, IAM, Cloud Run Functions y Cloud Pub/Sub mediante la consola y la CLI gcloud.',
+    duration: '1 Hora 15 Minutos',
+    level: 'Introductorio / Skill Badge',
+    category: 'Application Development & Storage',
+    badge: 'Google Cloud Skill Badge Course',
+    overview:
+      'El curso Set Up an App Dev Environment on Google Cloud capacita en la creación, administración y conexión de servicios de almacenamiento de objetos, control de acceso basado en identidad, cómputo serverless orientado a eventos y mensajería distribuida asíncrona. Incluye 9 laboratorios guiados y 1 desafío práctico evaluado (Challenge Lab), fundamentales para los dominios 1, 2, 3 y 4 de la certificación Associate Cloud Engineer.',
+    classificationMatrix: [
+      {
+        lbType: 'Cloud Storage',
+        layer: 'Almacenamiento de Objetos',
+        scope: 'Global / Multi-Región / Región',
+        trafficScheme: 'REST API / gcloud storage',
+        architecture: 'Buckets inmutables con soporte Uniform Bucket-Level Access y clases escalonadas',
+        useCase: 'Almacén central para activos de aplicación, pipelines de procesamiento y respaldos.',
+      },
+      {
+        lbType: 'Cloud IAM',
+        layer: 'Control de Acceso y Seguridad',
+        scope: 'Organización / Proyecto / Recurso',
+        trafficScheme: 'Políticas IAM centralizadas',
+        architecture: 'Tríada Principal + Rol + Recurso con evaluación aditiva y menor privilegio',
+        useCase: 'Aislamiento de permisos entre desarrolladores, operadores y cuentas de servicio.',
+      },
+      {
+        lbType: 'Cloud Run functions',
+        layer: 'Cómputo Serverless FaaS',
+        scope: 'Regional',
+        trafficScheme: 'Triggers HTTP y Eventos (Storage / Pub/Sub)',
+        architecture: 'Contenedores efímeros basados en Knative con autoescalado a cero y cobro a 100 ms',
+        useCase: 'Lógica reactiva puntual (glue code), redimensionamiento de imágenes y webhooks.',
+      },
+      {
+        lbType: 'Cloud Pub/Sub',
+        layer: 'Mensajería Asíncrona Distribuida',
+        scope: 'Global con almacenamiento regional',
+        trafficScheme: 'Suscripciones Pull / Push',
+        architecture: 'Patrón publicador-suscriptor escalable con confirmación de mensajes (ACK/NACK)',
+        useCase: 'Desacoplamiento de componentes, buffers de ingesta masiva y arquitecturas de microservicios.',
+      },
+      {
+        lbType: 'Cloud Monitoring',
+        layer: 'Observabilidad y Operaciones',
+        scope: 'Espacio de trabajo (Metrics Workspace)',
+        trafficScheme: 'Ops Agent / Hypervisor Telemetry',
+        architecture: 'Recolección de métricas de sistema, procesos, paneles y políticas de alerta',
+        useCase: 'Monitoreo de VMs Compute Engine (RAM, disco, CPU) y salud de aplicaciones.',
+      },
+      {
+        lbType: 'Google Cloud CLI (gcloud)',
+        layer: 'Gestión por Línea de Comandos',
+        scope: 'Global',
+        trafficScheme: 'REST APIs de Google Cloud',
+        architecture: 'CLI pre-autenticada en Cloud Shell con soporte de gcloud storage y gcloud pubsub',
+        useCase: 'Automatización de despliegues, administración de recursos y scripts operativos.',
+      },
+    ],
+    healthCheckRanges: [
+      {
+        cidr: '10.128.0.0/9',
+        purpose: 'Rango de subredes predeterminado en VPCs de proyectos de laboratorio.',
+      },
+      {
+        cidr: '0.0.0.0/0',
+        purpose: 'Acceso comodín para llamadas públicas autorizadas a Cloud Run Functions.',
+      },
+    ],
+    examTraps: [
+      {
+        trap: 'Intentar consultar métricas de uso de memoria RAM en Cloud Monitoring sin instalar el Ops Agent',
+        solution:
+          'El hipervisor de Compute Engine solo mide CPU externa y tráfico de red. Para monitorear memoria RAM y espacio en disco a nivel de SO, es obligatorio instalar el Google Cloud Ops Agent en la VM.',
+      },
+      {
+        trap: 'Confundir las herramientas de CLI: gsutil frente a gcloud storage',
+        solution:
+          'Aunque gsutil sigue siendo funcional por compatibilidad histórica, el estándar moderno oficial promovido por Google y evaluado en ACE es gcloud storage, el cual ofrece transferencias más veloces mediante paralelismo nativo.',
+      },
+      {
+        trap: 'Mensajes reenviados continuamente en suscripciones Pull de Cloud Pub/Sub',
+        solution:
+          'Si el suscriptor procesa el mensaje pero no envía una confirmación explícita (ack) antes de que venza el ack_deadline, Pub/Sub volverá a entregar el mensaje a otro consumidor.',
+      },
+      {
+        trap: 'Asignar roles básicos (Owner/Editor) a usuarios para permitirles ver objetos de Cloud Storage',
+        solution:
+          'Viola el principio de menor privilegio. Para el examen ACE se deben utilizar siempre roles predefinidos granulares como roles/storage.objectViewer.',
+      },
+    ],
+    labs: [
+      {
+        id: 'appdev-lab-1',
+        labNumber: 1,
+        title: 'Manage Cloud Storage with the Google Cloud Console',
+        durationMinutes: 10,
+        type: 'guided',
+        description:
+          'Aprende a realizar tareas fundamentales de administración en Cloud Storage a través de la consola web: creación de buckets con reglas de nomenclatura globales, subida y organización de objetos en carpetas virtuales, y concesión de acceso público a objetos mediante IAM.',
+        keyConcepts: [
+          'Espacio de nombres global: Todo bucket debe poseer un nombre único a nivel mundial entre 3 y 63 caracteres.',
+          'Control de acceso uniforme (UBLA): Deshabilita ACLs individuales a nivel de objeto para unificar la gobernanza en IAM.',
+          'Prevención de acceso público (PAP): Control de seguridad que impide la exposición accidental a internet.',
+          'Estructura de objetos plana: Las carpetas son prefijos delimitados por / en la clave del objeto dentro de un namespace plano.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l1-s1',
+            stepNumber: 1,
+            title: 'Crear un bucket en Cloud Storage mediante la Consola Web',
+            description:
+              'En Cloud Console, navega a Cloud Storage > Buckets, haz clic en + Create. Asigna como nombre tu PROJECT_ID para garantizar unicidad global, selecciona clase Standard, tipo Region y desmarca la prevención de acceso público.',
+            command: `# Navegación en Google Cloud Console:
+# Navigation menu > Cloud Storage > Buckets > + Create
+# Name: <PROJECT_ID> (namespace global único)
+# Location type: Region (ej. us-central1)
+# Storage class: Standard
+# Access control: Uniform (UBLA)
+# Public access prevention: Desmarcar "Enforce public access prevention on this bucket"`,
+            tip: 'Los nombres de bucket no pueden ser direcciones IP, ni comenzar con "goog", ni contener "google". Nombres con puntos requieren verificación de dominio.',
+          },
+          {
+            id: 'appdev-l1-s2',
+            stepNumber: 2,
+            title: 'Subir un objeto al bucket (kitten.png)',
+            description:
+              'Dentro del bucket, haz clic en Upload > Upload files y selecciona la imagen kitten.png. Verifica sus metadatos (tamaño, tipo MIME image/png).',
+            command: `# En la consola:
+# Entrar al bucket creado > Pestaña "Objects"
+# Clic en "Upload" > "Upload files" > Seleccionar kitten.png`,
+            tip: 'Los nombres de los objetos solo deben ser únicos dentro de su propio bucket; múltiples buckets pueden contener un objeto con el mismo nombre.',
+          },
+          {
+            id: 'appdev-l1-s3',
+            stepNumber: 3,
+            title: 'Compartir el objeto públicamente con allUsers',
+            description:
+              'Ve a la pestaña Permissions del bucket, haz clic en Grant access. En New principals escribe allUsers y selecciona el rol Cloud Storage > Storage Object Viewer (roles/storage.objectViewer). Confirma en Allow public access.',
+            command: `# En la consola:
+# Pestaña "Permissions" > "Grant access"
+# New principals: allUsers
+# Role: Cloud Storage > Storage Object Viewer (roles/storage.objectViewer)
+# Guardar y confirmar en "Allow public access"
+# URL generada: https://storage.googleapis.com/<BUCKET_NAME>/kitten.png`,
+            tip: 'allUsers representa a cualquier persona en internet (sin autenticación requerida). Para el examen ACE, conceder permisos con roles predefinidos de Storage es la práctica recomendada sobre roles básicos.',
+          },
+          {
+            id: 'appdev-l1-s4',
+            stepNumber: 4,
+            title: 'Crear carpetas y subcarpetas lógicas (folder1/folder2/)',
+            description:
+              'En la pestaña Objects, haz clic en Create folder, nombra folder1. Entra a folder1, crea folder2 y sube un archivo para constatar la simulación de rutas jerárquicas.',
+            command: `# En la consola:
+# Pestaña "Objects" > "Create folder" > Name: folder1
+# Entrar a folder1 > "Create folder" > Name: folder2
+# Entrar a folder2 > "Upload files" > Subir archivo de prueba`,
+            tip: 'Cloud Storage no es un sistema de archivos tradicional; las carpetas son abstracciones gráficas del delimitador / en la clave del objeto (folder1/folder2/archivo.png).',
+          },
+          {
+            id: 'appdev-l1-s5',
+            stepNumber: 5,
+            title: 'Eliminar una carpeta y confirmar la acción destructiva',
+            description:
+              'Regresa al nivel superior del bucket, selecciona folder1 y haz clic en Delete. Escribe la palabra DELETE para confirmar la eliminación recursiva permanente de todos los objetos contenidos.',
+            command: `# En la consola:
+# Seleccionar casilla de folder1 > Clic en "Delete"
+# En el cuadro de diálogo escribir: DELETE > Clic en "Delete"`,
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-2',
+        labNumber: 2,
+        title: 'Manage Cloud Storage with the Google Cloud CLI',
+        durationMinutes: 15,
+        type: 'guided',
+        description:
+          'Administra buckets y objetos en Cloud Storage desde Cloud Shell utilizando el conjunto de comandos modernos gcloud storage: creación de buckets, carga/descarga de archivos, carpetas lógicas, metadatos y control de acceso con ACLs públicas.',
+        keyConcepts: [
+          'gcloud storage CLI: Sintaxis moderna y optimizada que sustituye formalmente a gsutil en el examen ACE v4.0.',
+          'Control de acceso con ACLs: Asignación granular por objeto mediante banderas --add-acl-grant y --remove-acl-grant.',
+          'Listados detallados: Uso de gcloud storage ls -l para auditar tamaño en bytes, marcas de tiempo y tipos MIME.',
+          'Operaciones jerárquicas simuladas: Copia de objetos hacia prefijos virtuales delimitados por barra oblicua (image-folder/).',
+        ],
+        steps: [
+          {
+            id: 'appdev-l2-s1',
+            stepNumber: 1,
+            title: 'Crear bucket con gcloud storage buckets create',
+            description:
+              'Establece la región de cómputo en la configuración de gcloud y crea un nuevo bucket respetando las reglas de nomenclatura universal.',
+            command: `gcloud config set compute/region "<REGION>"
+gcloud storage buckets create gs://<YOUR-BUCKET-NAME>`,
+            tip: 'Si el nombre de bucket ya está ocupado en la infraestructura global de Google Cloud, el comando retornará un error 409 Bucket already exists.',
+          },
+          {
+            id: 'appdev-l2-s2',
+            stepNumber: 2,
+            title: 'Subir y descargar objetos (ada.jpg)',
+            description:
+              'Descarga la imagen de Ada Lovelace en Cloud Shell, cárgala al bucket con gcloud storage cp y pruébala descargándola localmente.',
+            command: `# Descargar imagen en Cloud Shell
+curl https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/800px-Ada_Lovelace_portrait.jpg --output ada.jpg
+
+# Subir al bucket y limpiar copia local
+gcloud storage cp ada.jpg gs://<YOUR-BUCKET-NAME>
+rm ada.jpg
+
+# Descargar desde el bucket
+gcloud storage cp -r gs://<YOUR-BUCKET-NAME>/ada.jpg .`,
+          },
+          {
+            id: 'appdev-l2-s3',
+            stepNumber: 3,
+            title: 'Copiar a carpetas virtuales y listar metadatos con ls -l',
+            description:
+              'Copia la imagen a una ruta con prefijo image-folder/ y audita los metadatos detallados del objeto.',
+            command: `# Copiar objeto a carpeta simulada
+gcloud storage cp gs://<YOUR-BUCKET-NAME>/ada.jpg gs://<YOUR-BUCKET-NAME>/image-folder/
+
+# Listar contenido del bucket
+gcloud storage ls gs://<YOUR-BUCKET-NAME>
+
+# Inspeccionar metadatos detallados (tamaño, fecha ISO)
+gcloud storage ls -l gs://<YOUR-BUCKET-NAME>/ada.jpg`,
+            tip: 'Cloud Storage no tiene directorios físicos; image-folder/ es una clave de objeto con prefijo interpretada jerárquicamente por la consola y la CLI.',
+          },
+          {
+            id: 'appdev-l2-s4',
+            stepNumber: 4,
+            title: 'Publicar el objeto en internet mediante ACLs (--add-acl-grant)',
+            description:
+              'Otorga permiso de lectura a todos los usuarios de internet mediante el identificador entity=allUsers y el rol READER.',
+            command: `gcloud storage objects update gs://<YOUR-BUCKET-NAME>/ada.jpg --add-acl-grant=entity=allUsers,role=READER
+
+# URL generada para acceso web público:
+# https://storage.googleapis.com/<YOUR-BUCKET-NAME>/ada.jpg`,
+            tip: 'Las ACLs solo son aplicables si el bucket tiene activo el control de acceso granular (Fine-Grained). Con UBLA habilitado, las ACLs están bloqueadas.',
+          },
+          {
+            id: 'appdev-l2-s5',
+            stepNumber: 5,
+            title: 'Revocar acceso público (--remove-acl-grant) y eliminar objeto',
+            description:
+              'Retira el acceso público eliminando la entrada de allUsers y borra el archivo mediante gcloud storage rm.',
+            command: `# Revocar permiso público a allUsers
+gcloud storage objects update gs://<YOUR-BUCKET-NAME>/ada.jpg --remove-acl-grant=allUsers
+
+# Eliminar el objeto del bucket
+gcloud storage rm gs://<YOUR-BUCKET-NAME>/ada.jpg`,
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-3',
+        labNumber: 3,
+        title: 'Manage Access Control with IAM',
+        durationMinutes: 15,
+        type: 'guided',
+        description:
+          'Configura y audita políticas de Identity and Access Management (IAM) con dos identidades concurrentes: explora los 4 roles básicos frente a roles predefinidos, revoca accesos de proyecto y aplica el principio de menor privilegio con Storage Object Viewer.',
+        keyConcepts: [
+          'Tríada de IAM: Principal (Identidad), Rol (Colección de permisos) y Recurso.',
+          '4 Roles Básicos (Primitivos): roles/browser, roles/viewer, roles/editor y roles/owner a nivel de proyecto.',
+          'Propagación de Políticas: Los cambios de membresía en IAM pueden tardar hasta 80 segundos en replicarse.',
+          'Menor Privilegio (Least Privilege): Reemplazar roles básicos amplios por roles predefinidos específicos de servicio.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l3-s1',
+            stepNumber: 1,
+            title: 'Explorar roles de IAM a nivel de proyecto (Owner vs Viewer)',
+            description:
+              'Inicia sesión con Username 1 (Owner) y Username 2 (Viewer). Constata que Username 2 tiene deshabilitado el botón Grant access al carecer del permiso resourcemanager.projects.setIamPolicy.',
+            command: `# Inspeccionar las vinculaciones de IAM del proyecto actual:
+gcloud projects get-iam-policy $GOOGLE_CLOUD_PROJECT \\
+  --format="table(bindings.role, bindings.members)"`,
+            tip: 'Los 4 roles básicos establecen permisos amplios sobre todos los servicios del proyecto; su uso en entornos productivos está desaconsejado.',
+          },
+          {
+            id: 'appdev-l3-s2',
+            stepNumber: 2,
+            title: 'Preparar bucket de Cloud Storage y verificar lectura de Viewer',
+            description:
+              'Username 1 crea un bucket y sube sample.txt. Username 2 accede a Cloud Storage y confirma que puede listar el bucket gracias a su rol de proyecto roles/viewer.',
+            command: `# Con Username 1:
+gcloud storage buckets create gs://<PROJECT_ID>-iam-test --location=us
+echo "Test file for IAM" > sample.txt
+gcloud storage cp sample.txt gs://<PROJECT_ID>-iam-test/sample.txt`,
+          },
+          {
+            id: 'appdev-l3-s3',
+            stepNumber: 3,
+            title: 'Revocar el rol Project Viewer a Username 2',
+            description:
+              'Username 1 elimina la vinculación del rol Viewer de Username 2. Tras el tiempo de propagación (hasta 80s), Username 2 recibe error de permisos denegados al intentar consultar el bucket.',
+            command: `# Revocar rol Viewer a Username 2:
+gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
+  --member="user:<USERNAME_2_EMAIL>" \\
+  --role="roles/viewer"`,
+            tip: 'Las actualizaciones de políticas IAM pueden demorar hasta 80 segundos en propagarse globalmente por la red de Google Cloud.',
+          },
+          {
+            id: 'appdev-l3-s4',
+            stepNumber: 4,
+            title: 'Conceder rol predefinido Storage Object Viewer y validar en Cloud Shell',
+            description:
+              'Username 1 asigna el rol predefinido roles/storage.objectViewer a Username 2. Username 2 abre Cloud Shell y lista exitosamente los objetos del bucket sin tener visibilidad sobre el resto del proyecto.',
+            command: `# Asignar rol predefinido específico a Username 2:
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
+  --member="user:<USERNAME_2_EMAIL>" \\
+  --role="roles/storage.objectViewer"
+
+# Verificar desde Cloud Shell con Username 2:
+gcloud storage ls gs://<PROJECT_ID>-iam-test/`,
+            tip: 'El rol predefinido roles/storage.objectViewer otorga acceso exclusivo a nivel de objetos en Storage, aislando el resto de los servicios de la infraestructura.',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-4',
+        labNumber: 4,
+        title: 'Monitor a Compute Engine Instance with Cloud Monitoring',
+        durationMinutes: 20,
+        type: 'guided',
+        description:
+          'Aprende a monitorizar la salud y rendimiento de una VM en Compute Engine: instala el Google Cloud Ops Agent para telemetría interna de SO, configura comprobaciones de tiempo de actividad (Uptime Checks), políticas de alerta por umbral y paneles personalizados.',
+        keyConcepts: [
+          'Google Cloud Ops Agent: Agente de telemetría unificado (Fluent Bit + OpenTelemetry) para recolección de métricas internas y logs.',
+          'Métricas internas de SO: La memoria RAM y el espacio en disco requieren obligatoriamente el Ops Agent; el hipervisor no puede medirlos.',
+          'Uptime Checks: Verificación periódica de disponibilidad y latencia HTTP desde múltiples sondas distribuidas mundialmente.',
+          'Políticas de Alerta y Notificación: Disparo de avisos por correo o Slack al sobrepasar umbrales de tráfico o consumo.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l4-s1',
+            stepNumber: 1,
+            title: 'Crear VM lamp-1-vm e instalar servidor web Apache2',
+            description:
+              'Aprovisiona una instancia Compute Engine e2-medium con la etiqueta de cortafuegos Allow HTTP traffic, conéctate por SSH e instala Apache2 y PHP.',
+            command: `# En la VM por SSH:
+sudo apt-get update
+sudo apt-get install -y apache2 php
+sudo service apache2 restart`,
+            tip: 'Habilitar "Allow HTTP traffic" en la consola aplica automáticamente la etiqueta de red http-server y su correspondiente regla de firewall en la VPC.',
+          },
+          {
+            id: 'appdev-l4-s2',
+            stepNumber: 2,
+            title: 'Instalar y validar el Google Cloud Ops Agent',
+            description:
+              'Ejecuta el script oficial de instalación del Ops Agent dentro del sistema operativo invitado para habilitar la telemetría interna.',
+            command: `curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+sudo bash add-google-cloud-ops-agent-repo.sh --also-install
+sudo systemctl status google-cloud-ops-agent"*"`,
+            tip: 'El Ops Agent sustituye tanto al antiguo Stackdriver Monitoring Agent como al Logging Agent en una única solución ligera.',
+          },
+          {
+            id: 'appdev-l4-s3',
+            stepNumber: 3,
+            title: 'Crear Uptime Check para monitorizar disponibilidad web',
+            description:
+              'Configura un Uptime Check en Cloud Monitoring de tipo HTTP apuntando a la IP externa de la VM con frecuencia de sondeo de 1 minuto.',
+            command: `# En Google Cloud Console:
+# Monitoring > Uptime checks > + Create Uptime Check
+# Protocol: HTTP | Resource Type: URL | Hostname: <EXTERNAL_IP>
+# Check Frequency: 1 minute | Title: Lamp Uptime Check`,
+          },
+          {
+            id: 'appdev-l4-s4',
+            stepNumber: 4,
+            title: 'Configurar política de alertas (Alerting Policy)',
+            description:
+              'Define una alerta basada en la métrica agent.googleapis.com/interface/traffic con umbral superior a 500 y canal de notificación por email.',
+            command: `# En Google Cloud Console:
+# Monitoring > Alerting > + Create Policy
+# Metric: VM instance > Interface > Network traffic (agent.googleapis.com/interface/traffic)
+# Condition: Above threshold (500) | Retest window: 1 min
+# Notification channel: Email | Alert name: Inbound Traffic Alert`,
+          },
+          {
+            id: 'appdev-l4-s5',
+            stepNumber: 5,
+            title: 'Diseñar Dashboard personalizado y revisar logs',
+            description:
+              'Crea el panel "Cloud Monitoring LAMP Qwik Start Dashboard" con gráficos de CPU Load (1m) y Received Packets, y audita eventos en Logs Explorer.',
+            command: `# En Google Cloud Console:
+# Monitoring > Dashboards > + Create Custom Dashboard
+# Add Widget 1: Line Chart > CPU load (1m)
+# Add Widget 2: Line Chart > Received packets
+# Logging > Logs Explorer > Filtrar por lamp-1-vm`,
+            tip: 'En el examen ACE, Cloud Logging y Cloud Monitoring permiten realizar diagnósticos de causas raíz inspeccionando registros de parada y arranque de VMs.',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-5',
+        labNumber: 5,
+        title: 'Deploy a Cloud Run Function via the Google Cloud Console',
+        durationMinutes: 15,
+        type: 'guided',
+        description:
+          'Aprende a crear y desplegar una función serverless de 2ª generación activada por solicitudes HTTPS en Google Cloud Console: configura límites de escalado (máximo 5 instancias), despliega código Node.js y prueba la ejecución con Cloud Logging.',
+        keyConcepts: [
+          'Cloud Run functions (2nd gen): Cómputo serverless FaaS basado en contenedores Knative gestionados por Cloud Run.',
+          'Trigger HTTPS: Activación síncrona mediante peticiones web sin autenticación (roles/run.invoker para allUsers).',
+          'Límites de Escalabilidad (Max Instances): Control de concurrencia y prevención de sobrecarga en sistemas backend.',
+          'Observabilidad Integrada: Inspección de latencia a nivel de 100 ms y trazas de ejecución en Cloud Logging.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l5-s1',
+            stepNumber: 1,
+            title: 'Crear función gcfunction en Cloud Run Services',
+            description:
+              'En Cloud Console navega a Serverless > Cloud Run > Services, haz clic en WRITE A FUNCTION, nombra el servicio gcfunction, selecciona 2da generación, permite acceso público y fija el máximo de instancias en 5.',
+            command: `# Parámetros en Google Cloud Console:
+# Service name: gcfunction | Region: <REGION>
+# Authentication: Allow public access
+# Execution environment: Second generation
+# Revision scaling: Maximum number of instances: 5`,
+            tip: 'Limitar el número máximo de instancias concurrentes previene que picos repentinos de tráfico agoten las conexiones a bases de datos relacionales como Cloud SQL.',
+          },
+          {
+            id: 'appdev-l5-s2',
+            stepNumber: 2,
+            title: 'Desplegar la implementación base helloHttp',
+            description:
+              'En el editor en línea integrado, conserva la implementación predeterminada de index.js con el framework de funciones de Google y haz clic en SAVE and REDEPLOY.',
+            command: `# Código fuente en index.js:
+const functions = require('@google-cloud/functions-framework');
+functions.http('helloHttp', (req, res) => {
+  res.send(\`Hello \${req.query.name || req.body.name || 'World'}!\`);
+});`,
+          },
+          {
+            id: 'appdev-l5-s3',
+            stepNumber: 3,
+            title: 'Probar la función con carga útil JSON',
+            description:
+              'En la pestaña TEST, envía el evento desencadenante {"message":"Hello World!"} o invoca la URL pública directamente desde Cloud Shell con curl.',
+            command: `curl -X POST https://<REGION>-<PROJECT_ID>.cloudfunctions.net/gcfunction \\
+  -H "Content-Type: application/json" \\
+  -d '{"message":"Hello World!"}'`,
+          },
+          {
+            id: 'appdev-l5-s4',
+            stepNumber: 4,
+            title: 'Inspeccionar registros de ejecución en Cloud Logging',
+            description:
+              'En la pestaña Observability > Logs, valida los tiempos de ejecución, arranque en frío y confirmaciones de respuesta HTTP 200.',
+            command: `# En Google Cloud Console:
+# Service Details > Observability > Logs
+# O por CLI en Cloud Shell:
+gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=gcfunction" --limit=10`,
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-6',
+        labNumber: 6,
+        title: 'Deploy a Cloud Run Function via the Command Line',
+        durationMinutes: 15,
+        type: 'guided',
+        description:
+          'Escribe y despliega una Cloud Run function de 2ª generación orientada a eventos mediante la CLI de gcloud: decodifica mensajes de Pub/Sub en Base64 con CloudEvents, vincula un disparador de topic y audita registros en Cloud Logging.',
+        keyConcepts: [
+          'gcloud functions deploy: Banderas troncales (--gen2, --trigger-topic, --entry-point, --service-account).',
+          'Decodificación Base64: Los mensajes de Cloud Pub/Sub empaquetan los datos en buffers codificados en Base64.',
+          'Eventarc en 2ª Generación: Los eventos no HTTP se transmiten como CloudEvents estructurados mediante Eventarc.',
+          'Cuentas de Servicio Dedicadas: Asignación de identidades de ejecución con privilegios mínimos en lugar de credenciales por defecto.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l6-s1',
+            stepNumber: 1,
+            title: 'Preparar código fuente gcf_hello_world con CloudEvents',
+            description:
+              'Crea el directorio de trabajo, el archivo index.js para decodificar mensajes Pub/Sub en base64 y el archivo package.json con Functions Framework.',
+            command: `gcloud config set run/region REGION
+mkdir -p gcf_hello_world && cd gcf_hello_world
+
+cat <<'EOF' > index.js
+const functions = require('@google-cloud/functions-framework');
+
+functions.cloudEvent('helloPubSub', cloudEvent => {
+  const base64name = cloudEvent.data.message.data;
+  const name = base64name ? Buffer.from(base64name, 'base64').toString() : 'World';
+  console.log(\`Hello, \${name}!\`);
+});
+EOF
+
+cat <<'EOF' > package.json
+{
+  "name": "gcf_hello_world",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.0.0"
+  }
+}
+EOF
+npm install`,
+          },
+          {
+            id: 'appdev-l6-s2',
+            stepNumber: 2,
+            title: 'Desplegar función reactiva con disparador Pub/Sub',
+            description:
+              'Ejecuta el despliegue especificando el entorno de 2da generación (--gen2), el disparador de topic (--trigger-topic=cf-demo) y la cuenta de servicio dedicada.',
+            command: `gcloud functions deploy nodejs-pubsub-function \\
+  --gen2 \\
+  --runtime=nodejs20 \\
+  --region=REGION \\
+  --source=. \\
+  --entry-point=helloPubSub \\
+  --trigger-topic=cf-demo \\
+  --stage-bucket=$PROJECT_ID-bucket \\
+  --service-account=cloudfunctionsa@$PROJECT_ID.iam.gserviceaccount.com \\
+  --allow-unauthenticated`,
+            tip: 'En 2ª generación, --trigger-topic aprovisiona automáticamente un trigger de Eventarc y una suscripción a nivel de Pub/Sub.',
+          },
+          {
+            id: 'appdev-l6-s3',
+            stepNumber: 3,
+            title: 'Verificar estado del servicio con gcloud functions describe',
+            description:
+              'Consulta la configuración activa y corrobora que el estado de la función reporte State: ACTIVE.',
+            command: `gcloud functions describe nodejs-pubsub-function --region=REGION`,
+          },
+          {
+            id: 'appdev-l6-s4',
+            stepNumber: 4,
+            title: 'Publicar mensaje en Pub/Sub y leer logs en Cloud Logging',
+            description:
+              'Envía un mensaje de prueba al topic cf-demo para activar la ejecución de la función y consulta las trazas emitidas.',
+            command: `# Publicar mensaje:
+gcloud pubsub topics publish cf-demo --message="Cloud Function Gen2"
+
+# Leer logs generados:
+gcloud functions logs read nodejs-pubsub-function --region=REGION`,
+            tip: 'En el examen ACE, verificar la entrega y procesamiento de mensajes en la combinación Pub/Sub + Cloud Run functions es un patrón de microservicios estándar.',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-7',
+        labNumber: 7,
+        title: 'Manage Pub/Sub in the Google Cloud Console',
+        durationMinutes: 10,
+        type: 'guided',
+        description:
+          'Aprende a crear temas (Topics) y suscripciones de tipo Pull en Google Cloud Pub/Sub utilizando la interfaz web de la consola: publica mensajes de prueba y extráelos confirmando su recepción desde Cloud Shell.',
+        keyConcepts: [
+          'Modelo Publicador-Suscriptor: Desacoplamiento asíncrono entre productores y consumidores de datos.',
+          'Topics de Pub/Sub: Canales de mensajería con retención duradera multi-zonal de hasta 7 días.',
+          'Suscripciones Pull: Mecanismo de sondeo activo donde el consumidor solicita los mensajes a su propio ritmo.',
+          'Confirmación de Mensajes (ACK): Prevención de reenvíos al confirmar la recepción dentro del plazo ack_deadline.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l7-s1',
+            stepNumber: 1,
+            title: 'Crear el topic MyTopic en la consola de Pub/Sub',
+            description:
+              'En Cloud Console navega a Analytics > Pub/Sub > Topics, haz clic en Create topic y asigna el Topic ID MyTopic.',
+            command: `# Navegación en Google Cloud Console:
+# Navigation menu > Analytics > Pub/Sub > Topics > Create topic
+# Topic ID: MyTopic (genera el recurso projects/<PROJECT_ID>/topics/MyTopic)`,
+          },
+          {
+            id: 'appdev-l7-s2',
+            stepNumber: 2,
+            title: 'Crear suscripción de tipo Pull (MySub)',
+            description:
+              'En el menú de opciones de MyTopic, selecciona Create subscription, nombra la suscripción MySub y elige el Delivery Type Pull.',
+            command: `# Parámetros en Google Cloud Console:
+# Topic: projects/<PROJECT_ID>/topics/MyTopic
+# Subscription ID: MySub
+# Delivery Type: Pull (Sondeo activo)
+# Acknowledgment deadline: 10 seconds`,
+            tip: 'Las suscripciones Pull son recomendadas para cargas de trabajo en lote y servicios que ejecutan en Compute Engine o GKE detrás de cortafuegos.',
+          },
+          {
+            id: 'appdev-l7-s3',
+            stepNumber: 3,
+            title: 'Publicar mensaje de prueba en MyTopic',
+            description:
+              'En los detalles de MyTopic, ve a la pestaña Messages, haz clic en Publish Message, ingresa "Hello World" y publica.',
+            command: `# En Google Cloud Console:
+# Topics > MyTopic > Pestaña "Messages" > Clic en "Publish Message"
+# Message: Hello World > Clic en "Publish"`,
+          },
+          {
+            id: 'appdev-l7-s4',
+            stepNumber: 4,
+            title: 'Consumir el mensaje con confirmación automática en Cloud Shell',
+            description:
+              'Ejecuta el comando gcloud pubsub subscriptions pull con la bandera --auto-ack para extraer el mensaje y confirmar su recepción.',
+            command: `gcloud pubsub subscriptions pull --auto-ack MySub`,
+            tip: 'La bandera --auto-ack envía automáticamente el acuse de recibo a Pub/Sub, eliminando el mensaje de la cola de la suscripción para evitar retransmisiones.',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-8',
+        labNumber: 8,
+        title: 'Pub/Sub: Qwik Start - Command Line',
+        durationMinutes: 10,
+        type: 'guided',
+        description:
+          'Domina las operaciones completas de mensajería asíncrona mediante la CLI gcloud pubsub: creación y depuración de temas y suscripciones, publicación concurrente y extracción unitaria y por lotes con --limit y --auto-ack.',
+        keyConcepts: [
+          'gcloud pubsub topics: Comandos de creación, listado y eliminación de canales de mensajería.',
+          'gcloud pubsub subscriptions: Configuración de suscripciones Pull asociadas a topics específicos.',
+          'Bandera --auto-ack: Confirmación automática inmediata del mensaje en la lectura para sacarlo de la cola.',
+          'Bandera --limit: Extracción de múltiples mensajes en una sola invocación por lotes para control de flujo.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l8-s1',
+            stepNumber: 1,
+            title: 'Crear, listar y eliminar temas con gcloud pubsub topics',
+            description:
+              'Aprovisiona los temas myTopic, Test1 y Test2, visualízalos en formato descriptivo y elimina los temas temporales.',
+            command: `gcloud pubsub topics create myTopic
+gcloud pubsub topics create Test1
+gcloud pubsub topics create Test2
+gcloud pubsub topics list
+gcloud pubsub topics delete Test1
+gcloud pubsub topics delete Test2`,
+          },
+          {
+            id: 'appdev-l8-s2',
+            stepNumber: 2,
+            title: 'Crear y gestionar suscripciones asociadas a un tema',
+            description:
+              'Crea suscripciones vinculadas a myTopic, lista las suscripciones activas del tema y depura las suscripciones de prueba.',
+            command: `gcloud pubsub subscriptions create --topic myTopic mySubscription
+gcloud pubsub subscriptions create --topic myTopic Test1
+gcloud pubsub subscriptions create --topic myTopic Test2
+gcloud pubsub topics list-subscriptions myTopic
+gcloud pubsub subscriptions delete Test1
+gcloud pubsub subscriptions delete Test2`,
+            tip: 'Los mensajes enviados a un tema sin suscripciones activas se descartan permanentemente; las suscripciones deben crearse antes de iniciar la publicación.',
+          },
+          {
+            id: 'appdev-l8-s3',
+            stepNumber: 3,
+            title: 'Publicar mensajes y extraerlos unitariamente con --auto-ack',
+            description:
+              'Envía varios mensajes al tema y extrae uno por uno con confirmación automática hasta vaciar la cola.',
+            command: `gcloud pubsub topics publish myTopic --message "Hello"
+gcloud pubsub topics publish myTopic --message "Publisher likes to eat Pizza"
+gcloud pubsub subscriptions pull mySubscription --auto-ack`,
+          },
+          {
+            id: 'appdev-l8-s4',
+            stepNumber: 4,
+            title: 'Extracción concurrente por lotes con la bandera --limit',
+            description:
+              'Publica un lote de mensajes y recupéralos simultáneamente en una única llamada especificando el límite máximo.',
+            command: `gcloud pubsub topics publish myTopic --message "Batch Message 1"
+gcloud pubsub topics publish myTopic --message "Batch Message 2"
+gcloud pubsub topics publish myTopic --message "Batch Message 3"
+gcloud pubsub subscriptions pull mySubscription --limit=3`,
+            tip: 'En el examen ACE, la bandera --limit optimiza la eficiencia de red al reducir el número de peticiones pull necesarias para procesar colas masivas.',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-9',
+        labNumber: 9,
+        title: 'Publish and Subscribe to Messages in Pub/Sub Using Python',
+        durationMinutes: 10,
+        type: 'guided',
+        description:
+          'Desarrolla flujos de mensajería asíncrona en Python con la librería cliente oficial google-cloud-pubsub: crea temas y suscripciones programáticamente, publica eventos y consúmelos mediante streaming pull asíncrono con callbacks y acuse explícito.',
+        keyConcepts: [
+          'google-cloud-pubsub SDK: Librería de alto rendimiento sobre gRPC bidireccional para publicación y consumo.',
+          'PublisherClient: Generación de topic_path y publicación de cargas útiles obligatoriamente codificadas en bytes.',
+          'SubscriberClient y Streaming Pull: Escucha concurrente de mensajes con función callback y acuse explícito message.ack().',
+          'Aislamiento con Entornos Virtuales: Uso de venv para control estricto de dependencias en Cloud Shell.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l9-s1',
+            stepNumber: 1,
+            title: 'Configurar entorno virtual e instalar el SDK oficial',
+            description:
+              'Inicializa el entorno virtual de Python, instala la librería google-cloud-pubsub y clona los snippets oficiales.',
+            command: `python3 -m venv venv && source venv/bin/activate
+pip install --upgrade google-cloud-pubsub
+git clone https://github.com/googleapis/python-pubsub.git
+cd python-pubsub/samples/snippets`,
+          },
+          {
+            id: 'appdev-l9-s2',
+            stepNumber: 2,
+            title: 'Crear y listar temas con el SDK de Python',
+            description:
+              'Ejecuta el script publisher.py para invocar PublisherClient.create_topic() y listar los topics del proyecto.',
+            command: `# Crear topic MyTopic:
+python publisher.py $GOOGLE_CLOUD_PROJECT create MyTopic
+
+# Listar topics registrados:
+python publisher.py $GOOGLE_CLOUD_PROJECT list`,
+            tip: 'En el SDK de Python, las cargas útiles a publicar deben enviarse siempre codificadas como bytes (ej. data.encode("utf-8")).',
+          },
+          {
+            id: 'appdev-l9-s3',
+            stepNumber: 3,
+            title: 'Crear suscripción Pull con subscriber.py',
+            description:
+              'Aprovisiona la suscripción MySub vinculada a MyTopic mediante SubscriberClient.create_subscription().',
+            command: `# Crear suscripción MySub:
+python subscriber.py $GOOGLE_CLOUD_PROJECT create MyTopic MySub
+
+# Listar suscripciones del proyecto:
+python subscriber.py $GOOGLE_CLOUD_PROJECT list-in-project`,
+          },
+          {
+            id: 'appdev-l9-s4',
+            stepNumber: 4,
+            title: 'Publicar mensajes y consumirlos con streaming pull asíncrono',
+            description:
+              'Publica mensajes con gcloud pubsub topics publish y recíbelos en tiempo real mediante la función de callback de subscriber.py.',
+            command: `# Publicar mensajes de prueba:
+gcloud pubsub topics publish MyTopic --message "Hello"
+gcloud pubsub topics publish MyTopic --message "Publisher likes to eat Pizza"
+
+# Escuchar y procesar mensajes con callback y message.ack():
+python subscriber.py $GOOGLE_CLOUD_PROJECT receive MySub`,
+            tip: 'Omitir message.ack() en el callback del suscriptor provoca que Pub/Sub reenvíe el mensaje al vencer el ack_deadline (at-least-once delivery).',
+          },
+        ],
+      },
+      {
+        id: 'appdev-lab-10',
+        labNumber: 10,
+        title: 'Set Up an App Dev Environment on Google Cloud: Challenge Lab',
+        durationMinutes: 25,
+        type: 'challenge',
+        description:
+          'Pon a prueba tus habilidades resolviendo un escenario integral para Jooli Inc. (proyecto Memories): crea un bucket de Cloud Storage, un topic de Cloud Pub/Sub, despliega una Cloud Run Function de 2ª generación en Node.js 22 con trigger de Storage y librería sharp para generar miniaturas de 64x64, y revoca el acceso de IAM al ingeniero anterior.',
+        keyConcepts: [
+          'Evaluación Práctica Desatendida: Resolución autónoma de requerimientos arquitectónicos bajo tiempo límite de 25 minutos.',
+          'Pipeline Serverless Integrado: Cloud Storage (Eventarc) -> Cloud Run Functions (gen2 Node.js 22 + sharp) -> Cloud Pub/Sub.',
+          'Gobernanza IAM: Revocación estricta de accesos obsoletos (roles/viewer) en cumplimiento del principio de menor privilegio.',
+        ],
+        steps: [
+          {
+            id: 'appdev-l10-s1',
+            stepNumber: 1,
+            title: 'Crear el bucket de Cloud Storage para almacenar fotografías',
+            description:
+              'Aprovisiona un bucket en la región asignada por el reto utilizando la CLI gcloud storage.',
+            command: `export REGION="<REGION_DEL_LAB>"
+export BUCKET_NAME="<BUCKET_NAME_ASIGNADO>"
+gcloud storage buckets create gs://$BUCKET_NAME --location=$REGION`,
+          },
+          {
+            id: 'appdev-l10-s2',
+            stepNumber: 2,
+            title: 'Crear el topic de Cloud Pub/Sub para notificaciones',
+            description:
+              'Crea el topic de Pub/Sub especificado donde la función publicará el nombre de las miniaturas generadas.',
+            command: `export TOPIC_NAME="<TOPIC_NAME_ASIGNADO>"
+gcloud pubsub topics create $TOPIC_NAME`,
+          },
+          {
+            id: 'appdev-l10-s3',
+            stepNumber: 3,
+            title: 'Desplegar Cloud Run Function (gen2, Node.js 22, trigger Cloud Storage) y probar procesamiento',
+            description:
+              'Prepara package.json e index.js con sharp, despliega la función con trigger en el evento object.v1.finalized y sube una imagen de prueba.',
+            command: `export FUNCTION_NAME="<FUNCTION_NAME_ASIGNADA>"
+mkdir -p ~/thumbnail-func && cd ~/thumbnail-func
+
+# Despliegue en 2ª generación con Node.js 22
+gcloud functions deploy $FUNCTION_NAME \\
+  --gen2 \\
+  --runtime=nodejs22 \\
+  --region=$REGION \\
+  --source=. \\
+  --entry-point=$FUNCTION_NAME \\
+  --trigger-event-filters="type=google.cloud.storage.object.v1.finalized" \\
+  --trigger-event-filters="bucket=$BUCKET_NAME"
+
+# Probar subiendo imagen de prueba
+curl -O https://storage.googleapis.com/cloud-training/gsp315/map.jpg
+gcloud storage cp map.jpg gs://$BUCKET_NAME/map.jpg`,
+            tip: 'Verifica que la función filtre archivos con sufijo 64x64_thumbnail para evitar bucles de ejecución infinitos en Cloud Storage.',
+          },
+          {
+            id: 'appdev-l10-s4',
+            stepNumber: 4,
+            title: 'Revocar el acceso del ingeniero anterior en IAM',
+            description:
+              'Elimina el rol básico Viewer asignado a la cuenta Username 2 en la política IAM del proyecto.',
+            command: `export USER2_EMAIL="<USERNAME_2_DEL_LAB>"
+gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
+  --member="user:$USER2_EMAIL" \\
+  --role="roles/viewer"`,
+            tip: 'En el examen ACE, la revocación oportuna de privilegios innecesarios o de cuentas inactivas es un principio de seguridad crítico evaluado en el Dominio 4.',
+          },
+        ],
+      },
+    ],
+    quiz: [
+      {
+        id: 'c637-q1',
+        question:
+          '¿Cuál es la herramienta de línea de comandos moderna y oficial recomendada por Google Cloud para la administración rápida y concurrente de Cloud Storage?',
+        options: [
+          'gsutil',
+          'gcloud storage',
+          'gcloud compute storage',
+          'cloud-storage-cli',
+        ],
+        correctIndex: 1,
+        explanation:
+          'gcloud storage es la CLI moderna que aprovecha paralelismo y concurrencia nativa, superando ampliamente en rendimiento a la herramienta histórica gsutil.',
+        examTrapTip: 'Aunque gsutil existe por compatibilidad, las nuevas preguntas del examen ACE apuntan a gcloud storage.',
+      },
+      {
+        id: 'c637-q2',
+        question:
+          'Un operador desea monitorizar el porcentaje de utilización de memoria RAM de una máquina virtual Compute Engine en Cloud Monitoring, pero la métrica no aparece en Metrics Explorer. ¿Qué acción debe realizar?',
+        options: [
+          'Cambiar el tipo de máquina a una serie N2 con memoria extendida.',
+          'Instalar el Google Cloud Ops Agent dentro de la máquina virtual.',
+          'Habilitar el modo de red avanzada en la interfaz de la VPC.',
+          'Reiniciar la máquina virtual con acceso a la Cloud Logging API.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'El hipervisor de Compute Engine solo observa métricas externas (CPU, bytes de red). La memoria RAM reside dentro del espacio de usuario del sistema operativo y exige la presencia del Ops Agent para ser recolectada.',
+        examTrapTip: 'Memoria RAM y espacio libre en disco en VMs = Ops Agent siempre.',
+      },
+      {
+        id: 'c637-q3',
+        question:
+          '¿Qué ocurre en Cloud Pub/Sub si un suscriptor de tipo Pull recibe un mensaje pero no envía una confirmación (ack) antes de que expire el ack_deadline?',
+        options: [
+          'El mensaje se elimina permanentemente de la cola de la suscripción.',
+          'El topic se pausa automáticamente hasta que el suscriptor responda.',
+          'Pub/Sub vuelve a poner el mensaje a disposición para ser entregado a otro suscriptor.',
+          'El mensaje se envía a una cuenta de facturación de penalización.',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Si no se recibe un ack dentro del plazo límite establecido (ack_deadline), Pub/Sub asume que el consumidor falló y reintenta la entrega para garantizar la entrega de al menos una vez (at-least-once delivery).',
+      },
+      {
+        id: 'c637-q4',
+        question:
+          'Para cumplir con el principio de menor privilegio al otorgar permisos de lectura de archivos a un desarrollador en un bucket de Cloud Storage, ¿qué tipo de rol de IAM debes seleccionar?',
+        options: [
+          'El rol básico Viewer (roles/viewer) a nivel de proyecto.',
+          'El rol básico Editor (roles/editor) a nivel de organización.',
+          'El rol predefinido Storage Object Viewer (roles/storage.objectViewer).',
+          'El rol Owner (roles/owner) a nivel de bucket.',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Los roles predefinidos como roles/storage.objectViewer otorgan únicamente los permisos necesarios sobre los objetos sin exponer el resto de los recursos del proyecto, a diferencia de los roles básicos.',
+      },
+    ],
+    glossary: [
+      {
+        term: 'Cloud Storage Bucket',
+        definition:
+          'Contenedor básico de Google Cloud que aloja datos en forma de objetos binarios (blobs), con nombres únicos a nivel global y alcance geográfico regional, bi-regional o multi-regional.',
+      },
+      {
+        term: 'Uniform Bucket-Level Access (UBLA)',
+        definition:
+          'Mecanismo de gobernanza que unifica el control de acceso a Cloud Storage exclusivamente mediante políticas de IAM a nivel de bucket, deshabilitando el uso de listas de control de acceso (ACLs) individuales por objeto.',
+      },
+      {
+        term: 'Cloud Pub/Sub Topic',
+        definition:
+          'Canal de mensajería asíncrona nombrado al cual los publicadores envían mensajes para que sean distribuidos de forma desacoplada hacia una o múltiples suscripciones.',
+      },
+      {
+        term: 'Pull Subscription',
+        definition:
+          'Modalidad de suscripción en Cloud Pub/Sub donde los clientes consumidores inician solicitudes activas para recibir lotes de mensajes desde la cola y enviar confirmaciones (ack).',
+      },
+      {
+        term: 'Cloud Run functions (2nd gen)',
+        definition:
+          'Solución de cómputo serverless de propósito único basada en eventos que corre sobre la infraestructura de Cloud Run, permitiendo mayor tiempo de ejecución, concurrencia y despliegues con gcloud functions deploy.',
+      },
+      {
+        term: 'Google Cloud Ops Agent',
+        definition:
+          'Software de telemetría de sistema unificado que se instala dentro de instancias de Compute Engine para enviar logs a Cloud Logging y métricas de memoria RAM y disco a Cloud Monitoring.',
+      },
+      {
+        term: 'IAM Policy Binding',
+        definition:
+          'Asociación formal dentro de una política de Identity and Access Management que vincula a uno o más miembros (principals) con un rol específico sobre un recurso de Google Cloud.',
+      },
+    ],
+  },
 ];
 

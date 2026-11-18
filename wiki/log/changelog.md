@@ -4,6 +4,208 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-18] - Ingesta de Laboratorio 9: Publish and Subscribe to Messages in Pub/Sub Using Python (Lab GSP094 / 592549)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab9-pubsub-python-sdk.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab9-pubsub-python-sdk.md) con las instrucciones completas del laboratorio oficial GSP094 (Skills ID: `592549`, 1 crédito, 10 min, 16,466 estrellas), detallando las 8 tareas operativas: entorno virtual aislado (`venv`), instalación de `google-cloud-pubsub`, gestión programática de temas con `publisher.py` (`PublisherClient`), aprovisionamiento de suscripciones con `subscriber.py` (`SubscriberClient`), publicación con `gcloud` y recepción asíncrona concurrente mediante streaming pull con funciones callback y confirmación explícita `message.ack()`.
+  * Documentadas las 2 evaluaciones formativas: naturaleza asíncrona fiable del servicio (True) y definición de topic como canal compartido.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 9: Publish and Subscribe to Messages in Pub/Sub Using Python (Lab ID: GSP094 / 592549)** detallando los contratos de la librería cliente (cargas útiles obligatoriamente codificadas en bytes, canal gRPC bidireccional streaming pull y necesidad estricta de invocar `message.ack()` para evitar reentregas por expiración de `ack_deadline`).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 10 minutos en `appdev-lab-9` y actualizados los 4 pasos formativos con scripts Python SDK y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 8: Pub/Sub: Qwik Start - Command Line (Lab GSP095 / 592548)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab8-pubsub-command-line.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab8-pubsub-command-line.md) con las instrucciones completas del laboratorio oficial GSP095 (Skills ID: `592548`, No cost, 10 min, 16,466 estrellas), detallando las 4 tareas operativas: ciclo de vida de topics (`create`, `list`, `delete`), ciclo de vida de suscripciones (`create --topic`, `list-subscriptions`, `delete`), publicación individual y extracción unitaria con confirmación (`--auto-ack`), y extracción de lotes concurrentes con la bandera `--limit`.
+  * Documentada la evaluación formativa sobre la obligatoriedad de suscripciones para recibir mensajes publicados (True).
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 8: Pub/Sub: Qwik Start - Command Line (Lab ID: GSP095 / 592548)** documentando la trampa de examen ACE sobre descarte irreversible de mensajes publicados antes de crear suscripciones, y el uso de la bandera `--limit` para optimización de consumo de red y buffers.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 10 minutos en `appdev-lab-8` e integrados los 4 pasos formativos con comandos gcloud CLI y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 7: Manage Pub/Sub in the Google Cloud Console (Lab GSP096 / 592547)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab7-manage-pubsub-console.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab7-manage-pubsub-console.md) con las instrucciones completas del laboratorio oficial GSP096 (Skills ID: `592547`, No cost, 10 min, 16,466 estrellas), detallando las 5 tareas operativas: creación del topic `MyTopic`, suscripción de tipo Pull `MySub` (plazo de acuse de 10s y retención de 7 días), publicación de mensajes en texto plano y extracción con confirmación automática (`gcloud pubsub subscriptions pull --auto-ack MySub`).
+  * Registradas las 2 evaluaciones formativas: relación publicador/topic y suscriptor/suscripción, y la naturaleza asíncrona altamente escalable de Pub/Sub (True).
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 7: Manage Pub/Sub in the Google Cloud Console (Lab ID: GSP096 / 592547)** contrastando la semántica operativa de las suscripciones Pull (para procesos batch y trabajadores detrás de NAT) frente a Push (para invocación de webhooks HTTPS serverless), la garantía de entrega al menos una vez (*at-least-once*) y la necesidad de idempotencia en consumidores al vencer `ack_deadline`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 10 minutos en `appdev-lab-7` e integrados los 4 pasos formativos con comandos gcloud CLI y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 6: Deploy a Cloud Run Function via the Command Line (Lab GSP080 / 592546)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab6-deploy-cloud-run-function-cli.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab6-deploy-cloud-run-function-cli.md) con las instrucciones completas del laboratorio oficial GSP080 (Skills ID: `592546`, 1 crédito, 15 min, 16,466 estrellas), detallando las 5 tareas operativas: estructuración de código `gcf_hello_world` en Node.js, procesamiento de CloudEvents con decodificación Base64 de cargas útiles Pub/Sub, despliegue mediante `gcloud functions deploy` (`--gen2`, `--trigger-topic=cf-demo`, `--service-account`), verificación de estado activo con `describe`, publicación de mensajes asíncronos y lectura de logs mediante `gcloud functions logs read`.
+  * Documentada la evaluación formativa sobre las ventajas operativas del modelo serverless (True).
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 6: Deploy a Cloud Run Function via the Command Line (Lab ID: GSP080 / 592546)** detallando la integración de Eventarc en funciones de 2ª generación, el patrón obligatorio de decodificación Base64 en buffers de Pub/Sub y la asignación obligatoria de cuentas de servicio con privilegios mínimos en producción.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 15 minutos en `appdev-lab-6` y actualizados los 4 pasos formativos con comandos gcloud CLI y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 5: Deploy a Cloud Run Function via the Google Cloud Console (Lab GSP081 / 592545)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab5-deploy-cloud-run-function-console.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab5-deploy-cloud-run-function-console.md) con las instrucciones completas del laboratorio oficial GSP081 (Skills ID: `592545`, 1 crédito, 15 min, 16,466 estrellas), detallando las 5 tareas operativas: creación del servicio serverless `gcfunction` en Cloud Run Services, habilitación de entorno de 2ª generación, configuración de acceso público (`allUsers` + `roles/run.invoker`), fijación de límite de escalabilidad a 5 instancias concurrentes, despliegue de `helloHttp` en Node.js, pruebas de invocación con carga útil JSON (`{"message":"Hello World!"}`) y supervisión de trazas en Cloud Logging.
+  * Documentadas las 2 evaluaciones formativas: naturaleza serverless orientada a eventos (True) y tipo de disparador utilizado (HTTPS).
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 5: Deploy a Cloud Run Function via the Google Cloud Console (Lab ID: GSP081 / 592545)** vinculando la arquitectura Knative de 2ª generación con las preguntas de examen ACE sobre contención de costes y protección de bases de datos backend mediante el parámetro `--max-instances`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 15 minutos en `appdev-lab-5` e integrados los 4 pasos formativos con comandos gcloud CLI y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 4: Monitor a Compute Engine Instance with Cloud Monitoring (Lab GSP089 / 592544)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab4-monitor-compute-cloud-monitoring.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab4-monitor-compute-cloud-monitoring.md) con las instrucciones completas del laboratorio oficial GSP089 (Skills ID: `592544`, 1 crédito, 20 min, 16,466 estrellas), detallando las 7 tareas operativas: creación de VM `lamp-1-vm` con HTTP permitido, instalación de Apache/PHP, despliegue del Google Cloud Ops Agent, Uptime Checks de frecuencia a 1 minuto, políticas de alertas con métricas `agent.googleapis.com/interface/traffic` y notificación por email, diseño de panel personalizado con widgets de CPU Load y Received Packets, y auditoría de eventos de parada y arranque en Cloud Logging.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 4: Monitor a Compute Engine Instance with Cloud Monitoring (Lab ID: GSP089 / 592544)** con la resolución exhaustiva de la trampa clásica del examen ACE respecto a la ceguera del hipervisor sobre la memoria RAM y particiones de disco de la VM sin el Ops Agent.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 20 minutos en `appdev-lab-4` e integrados los 5 pasos operativos con sus comandos específicos y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 3: Manage Access Control with IAM (Lab GSP064 / 592543)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab3-manage-access-control-iam.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab3-manage-access-control-iam.md) con las instrucciones completas del laboratorio oficial GSP064 (Skills ID: `592543`, 1 crédito, 15 min, 16,466 estrellas), detallando las 4 tareas operativas: exploración de roles básicos (`roles/browser`, `roles/viewer`, `roles/editor`, `roles/owner`) y permisos administrativos (`resourcemanager.projects.setIamPolicy`), creación de bucket de prueba con `sample.txt`, revocación del rol `Viewer` y ventana de propagación de hasta 80 segundos, y concesión de permisos de menor privilegio con `roles/storage.objectViewer` verificados mediante `gcloud storage ls`.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 3: Manage Access Control with IAM (Lab ID: GSP064 / 592543)** detallando la comparativa entre roles básicos (primitivos) y roles predefinidos, la ventana de latencia de propagación de políticas y los comandos equivalentes `gcloud projects add-iam-policy-binding` y `remove-iam-policy-binding`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizada la duración oficial a 15 minutos en `appdev-lab-3` y desglosados los 4 pasos formativos con comandos gcloud CLI y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 2: Manage Cloud Storage with the Google Cloud CLI (Lab GSP074 / 592542)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab2-manage-cloud-storage-cli.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab2-manage-cloud-storage-cli.md) con las instrucciones completas del laboratorio oficial GSP074 (Skills ID: `592542`, 1 crédito, 15 min, 16,466 estrellas), detallando los comandos `gcloud storage` para creación de buckets, subida (`ada.jpg`), descarga (`cp -r`), prefijos de carpetas virtuales (`image-folder/`), listado detallado (`ls -l`), asignación de ACLs públicas (`--add-acl-grant=entity=allUsers,role=READER`), revocación de acceso (`--remove-acl-grant=allUsers`) y borrado destructivo (`rm`).
+  * Registradas las 3 preguntas formativas: clase de almacenamiento predeterminada configurable (True), definición de ACLs para control de buckets/objetos (True) y revocación de permisos públicos eliminando `allUsers`.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 2: Manage Cloud Storage with the Google Cloud CLI (Lab ID: GSP074 / 592542)** contrastando el estándar moderno `gcloud storage` frente a la herramienta heredada `gsutil`, las implicaciones de aplicar ACLs granulares frente a UBLA, y la persistencia de objetos en claves planas delimitadas por `/`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración a 15 minutos en `appdev-lab-2` e integrados los 5 pasos operativos con sus comandos específicos y tips de examen ACE.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Challenge Lab: Set Up an App Dev Environment on Google Cloud (Lab GSP315 / 592550)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-challenge-lab-gsp315.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-challenge-lab-gsp315.md) detallando el escenario completo del proyecto Memories de Jooli Inc. (Lab GSP315, Skills ID: `592550`, 25 minutos, 1 crédito, 16,246 estrellas), las 4 tareas evaluadas, el código Node.js 22 con `@google-cloud/functions-framework`, `@google-cloud/storage`, `@google-cloud/pubsub`, `sharp` y el script de resolución automatizada con gcloud CLI.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Actualizada la sección **Lab 10: Set Up an App Dev Environment on Google Cloud: Challenge Lab (Lab ID: GSP315 / 592550)** documentando la arquitectura de procesamiento reactivo en 4 fases, parámetros de despliegue gen2, solución al bug de filtrado de miniaturas para evitar bucles infinitos en Cloud Storage, y revocación estricta de privilegios IAM (`roles/viewer`).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `appdev-lab-10` ajustando la duración a 25 minutos y desglosando los 4 pasos operativos específicos del reto con comandos CLI listos para ejecución y validación.
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Laboratorio 1: Manage Cloud Storage with the Google Cloud Console (Lab GSP073 / 592541)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-lab1-manage-cloud-storage-console.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-lab1-manage-cloud-storage-console.md) con las instrucciones completas del laboratorio oficial GSP073 (Skills ID: `592541`, 1 crédito, 10 min, 16,246 estrellas), cubriendo las 5 tareas operativas de Cloud Storage: creación de bucket con restricciones globales DNS, subida de objetos (`kitten.png`), compartición pública con `allUsers` (`roles/storage.objectViewer`), carpetas virtuales (`folder1/folder2/`) y eliminación segura con confirmación `DELETE`.
+  * Documentadas las 2 evaluaciones formativas: unicidad global de nombres de bucket (True) y unicidad local de nombres de objeto (True).
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Enriquecida la sección **Lab 1: Manage Cloud Storage with the Google Cloud Console (Lab ID: GSP073 / 592541)** con el desglose exhaustivo de las 5 tareas, reglas de nomenclatura para el examen ACE (3-63 caracteres, sin IP, sin `goog` o `google`), UBLA vs Fine-Grained, desactivación de *Public Access Prevention (PAP)* y URL pública formateada.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Ajustada la duración oficial del Lab 1 a 10 minutos e integrados los 5 pasos operativos con sus respectivos tips de examen y comandos explicativos para la interfaz web.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
+## [2026-11-18] - Ingesta de Curso 637: Set Up an App Dev Environment on Google Cloud
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-app-dev-environment-overview.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-app-dev-environment-overview.md) estructurando el temario del Skill Badge oficial (Template ID: `637`, 20 estrellas, 1 hora 15 minutos), con el desglose de sus 9 laboratorios guiados y el Challenge Lab integrador.
+* **Síntesis Curricular (`wiki/courses/set-up-an-app-dev-environment-on-google-cloud.md`)**:
+  * Creada la guía integral del curso que consolida:
+    1. *Arquitectura troncal orientada a almacenamiento*: Cloud Storage, IAM, Cloud Run Functions, Pub/Sub y Cloud Monitoring.
+    2. *Matriz técnica de los 10 laboratorios*: IDs de laboratorio (592541 a 592550), tecnologías evaluadas y comandos clave.
+    3. *Desglose operativo paso a paso*: CLI moderno `gcloud storage` vs legacy `gsutil`, control granular con IAM (roles predefinidos vs básicos), monitoreo con Ops Agent en Compute Engine, despliegue de Cloud Run Functions gen2 y arquitectura de colas con Cloud Pub/Sub (CLI y Python SDK).
+    4. *Challenge Lab (592550) Pre-flight & Solución Arquitectónica*: Checklist de verificación para la creación de infraestructura completa bajo restricciones de tiempo y validación automática.
+    5. *Trampas frecuentes en el examen ACE*: ACLs vs UBLA, visibilidad de métricas de memoria de VMs con Ops Agent, expiración de acuse (`ack_deadline`) en Pub/Sub y banderas `gcloud functions deploy`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Registrado el curso `gcp-course-637` (`set-up-an-app-dev-environment-google-cloud`) con 10 laboratorios detallados, enlaces directos a la plataforma de Google Skills, matriz de tecnologías evaluadas, trampas de examen, cuestionario interactivo de 4 preguntas y glosario especializado.
+* **Pruebas Unitarias (`tests/unit/appDevEnvironmentCourse.test.ts`)**:
+  * Creada una nueva suite con 7 pruebas unitarias verificando la integridad del catálogo, los 10 laboratorios, preguntas de evaluación y glosario.
+  * Suite completa ejecutada en WSL: 52/52 pruebas superadas (100% éxito en 8 suites).
+* **Índice General**:
+  * Registradas las referencias modulares en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Secciones 1 y 5).
+
+---
+
 ## [2026-11-18] - Ingesta de Lección 35: Course Summary y Cierre Curricular (Course 60)
 
 ### Agente Responsable:
