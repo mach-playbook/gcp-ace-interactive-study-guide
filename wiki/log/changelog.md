@@ -4,6 +4,24 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-18] - Ingesta de Nuevo Curso: Essential Google Cloud Infrastructure: Foundation (Course Template ID: 50)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-essential-cloud-infrastructure-foundation.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-essential-cloud-infrastructure-foundation.md) con el temario oficial completo del curso Template ID 50 (6 horas 45 minutos, nivel Intermedio, 192 estrellas), detallando los 3 módulos:
+    * Módulo 1: Interacting with Google Cloud (Cloud Console, Cloud Shell, SDK, Marketplace LAMP stack, Projects).
+    * Módulo 2: Virtual Networks (VPC global, subredes regionales, expansión de subredes, direccionamiento IP, DNS interno, rutas, cortafuegos, Private Google Access y Cloud NAT).
+    * Módulo 3: Virtual Machines (Compute Engine, familias de máquinas, ciclo de vida, discos persistentes, Local SSD, imágenes, Spot VMs y configuración de servidor dedicado Minecraft).
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Creado el documento maestro del curso con arquitectura visual ASCII, especificaciones operativas de los 6 laboratorios requeridos (Labs 690261, 690264, 690279, 690283, 690292 y 690301) y las 5 trampas clave para el examen Associate Cloud Engineer (ACE).
+* **Índice General**:
+  * Registradas las referencias modulares en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Secciones 1 y 5).
+
+---
+
 ## [2026-11-18] - Ingesta de Laboratorio 9: Publish and Subscribe to Messages in Pub/Sub Using Python (Lab GSP094 / 592549)
 
 ### Agente Responsable:

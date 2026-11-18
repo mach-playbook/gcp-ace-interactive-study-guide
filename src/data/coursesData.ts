@@ -3247,5 +3247,505 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
       },
     ],
   },
+  {
+    id: 'gcp-course-50',
+    slug: 'essential-google-cloud-infrastructure-foundation',
+    templateId: '50',
+    title: 'Essential Google Cloud Infrastructure: Foundation',
+    shortDescription:
+      'Aprende a diseñar, aprovisionar y operar componentes troncales de infraestructura en Google Cloud: Compute Engine, VPCs en modo personalizado, subredes, cortafuegos, Private Google Access, Cloud NAT y almacenamiento persistente.',
+    duration: '6 Horas 45 Minutos',
+    level: 'Intermedio / Infraestructura Troncal ACE',
+    category: 'Compute & Networking',
+    badge: 'Google Cloud Skills Course',
+    overview:
+      'Este curso acelerado profundiza en los servicios medulares de infraestructura y plataforma de Google Cloud, centrándose de forma intensiva en Compute Engine y Virtual Private Cloud (VPC). A través de conferencias y 6 laboratorios prácticos requeridos, los participantes exploran y despliegan redes virtuales personalizadas, subredes regionales, reglas de firewall, rutas, Private Google Access, Cloud NAT, y máquinas virtuales con almacenamiento en discos persistentes.',
+    classificationMatrix: [
+      {
+        lbType: 'VPC Custom Mode',
+        layer: 'Capa 3 / Red SDN',
+        scope: 'Global',
+        trafficScheme: 'Interior / Híbrido',
+        architecture: 'Red virtual definida por software con Andromeda',
+        useCase: 'Control total de direccionamiento IP sin solapamiento para arquitecturas empresariales seguras e híbridas.',
+      },
+      {
+        lbType: 'Private Google Access',
+        layer: 'Capa 3 / Transporte interno',
+        scope: 'Regional (por subred)',
+        trafficScheme: 'VPC privada hacia APIs de Google',
+        architecture: 'Enrutamiento interno hacia VIPs públicas de Google Cloud',
+        useCase: 'Permite que VMs sin IP externa accedan a Cloud Storage, BigQuery y APIs de Google sin salir a internet público.',
+      },
+      {
+        lbType: 'Cloud NAT',
+        layer: 'Capa 3 / 4 (Salida de red)',
+        scope: 'Regional (con Cloud Router)',
+        trafficScheme: 'Egress exclusivo (Inside a Outside)',
+        architecture: 'NAT administrado definido por software y sin servidores proxy intermedios',
+        useCase: 'Salida a internet para parches, actualizaciones y APIs externas sin exponer VMs a tráfico entrante no solicitado.',
+      },
+      {
+        lbType: 'Persistent Disk (Zonal / Regional)',
+        layer: 'Almacenamiento en bloque',
+        scope: 'Zonal o Regional (2 zonas)',
+        trafficScheme: 'Adjunto a Compute Engine vía red de almacenamiento Colossus',
+        architecture: 'Bloques de almacenamiento en red desacoplados del ciclo de vida de la VM',
+        useCase: 'Sistemas de archivos de SO y datos persistentes con soporte para snapshots incrementales y modo Read-Only compartido.',
+      },
+    ],
+    healthCheckRanges: [
+      {
+        cidr: '35.235.240.0/20',
+        purpose: 'Rango de Identity-Aware Proxy (IAP) para túneles SSH y RDP seguros hacia VMs sin IP externa.',
+      },
+      {
+        cidr: '199.36.153.8/30',
+        purpose: 'Rango restringido de Google Cloud (restricted.googleapis.com) para Private Google Access compatible con VPC Service Controls.',
+      },
+      {
+        cidr: '199.36.153.4/30',
+        purpose: 'Rango privado de Google Cloud (private.googleapis.com) para acceso interno a la mayoría de APIs de Google.',
+      },
+    ],
+    examTraps: [
+      {
+        trap: 'Creer que una subred en Google Cloud se puede reducir de tamaño modificando su máscara CIDR.',
+        solution:
+          'Las subredes en Google Cloud solo se pueden expandir hacia prefijos numéricamente menores (ej. /24 a /20). Nunca se pueden reducir; para achicarla es obligatorio crear una nueva subred y migrar los recursos.',
+      },
+      {
+        trap: 'Confundir el alcance geográfico de una red VPC con el de una subred o una máquina virtual.',
+        solution:
+          'La red VPC tiene alcance GLOBAL (abarca todas las regiones del mundo sin necesidad de routers). Las subredes son REGIONALES y pueden asociar recursos en cualquier zona de la región. Las VMs y los discos persistentes estándar son ZONALES.',
+      },
+      {
+        trap: 'Pensar que Cloud NAT permite que usuarios externos de internet se conecten a servicios dentro de una VM sin IP pública.',
+        solution:
+          'Cloud NAT es estrictamente de salida (egress-only). Permite conexiones originadas dentro de la VPC hacia internet, pero descarta cualquier intento de conexión entrante no solicitada desde el exterior.',
+      },
+      {
+        trap: 'Asumir que Private Google Access habilita el acceso general a internet para una VM sin IP pública.',
+        solution:
+          'Private Google Access solo otorga conectividad hacia las APIs y servicios públicos de Google (*.googleapis.com como Cloud Storage). No permite navegar por internet ni descargar paquetes desde repositorios externos como GitHub.',
+      },
+      {
+        trap: 'Olvidar la regla de prioridad en los cortafuegos de Compute Engine al resolver conflictos.',
+        solution:
+          'Las reglas de cortafuegos de Google Cloud se evalúan de menor a mayor valor numérico de prioridad (0 es la máxima prioridad y 65535 es la más baja). La primera regla coincidente que se encuentre determina la acción (ALLOW o DENY).',
+      },
+    ],
+    labs: [
+      {
+        id: 'infra-lab-1',
+        labNumber: 1,
+        title: 'Explore the Google Cloud Console and Cloud Shell',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Familiarización práctica con el entorno de gestión web de Google Cloud (Cloud Console) y la interfaz de línea de comandos basada en navegador (Cloud Shell), configurando identidades activas, proyectos y variables de entorno.',
+        keyConcepts: [
+          'Cloud Console GUI Navigation',
+          'Cloud Shell 5 GB Persistent Storage ($HOME)',
+          'gcloud config list & set',
+          'Cloud Shell Ephemeral VM Lifecycle',
+        ],
+        steps: [
+          {
+            id: 'infra-lab1-step1',
+            stepNumber: 1,
+            title: 'Verificar la cuenta activa y el proyecto predeterminado en Cloud Shell',
+            description:
+              'Abre Cloud Shell e inspecciona las credenciales activas del SDK y el identificador de proyecto actual.',
+            command: 'gcloud auth list && gcloud config list project',
+            tip: 'Cloud Shell viene pre-autenticado con las credenciales de la sesión actual de la consola.',
+          },
+          {
+            id: 'infra-lab1-step2',
+            stepNumber: 2,
+            title: 'Configurar la región y la zona por defecto de Compute Engine',
+            description:
+              'Fija las variables de configuración de compute/region y compute/zone para evitar tener que especificarlas en cada comando CLI subsecuente.',
+            command: 'gcloud config set compute/region us-central1 && gcloud config set compute/zone us-central1-a',
+            tip: 'Los valores fijados con gcloud config set compute/zone aplican como defaults solo en la sesión del entorno local.',
+          },
+          {
+            id: 'infra-lab1-step3',
+            stepNumber: 3,
+            title: 'Explorar las variables de entorno predefinidas en Cloud Shell',
+            description:
+              'Comprueba la variable GOOGLE_CLOUD_PROJECT y el directorio persistente de usuario.',
+            command: 'echo $GOOGLE_CLOUD_PROJECT && pwd && ls -la ~',
+            tip: 'El directorio home persiste en un disco de 5 GB respaldado entre sesiones de Cloud Shell.',
+          },
+        ],
+      },
+      {
+        id: 'infra-lab-2',
+        labNumber: 2,
+        title: 'Deploy a LAMP Stack with Google Cloud Marketplace',
+        durationMinutes: 40,
+        type: 'guided',
+        description:
+          'Aprovisionamiento ágil de una arquitectura web clásica LAMP (Linux, Apache, MySQL, PHP) en Compute Engine mediante las plantillas automatizadas de Google Cloud Marketplace.',
+        keyConcepts: [
+          'Google Cloud Marketplace',
+          'Automated IaaS Provisioning',
+          'Firewall Rule Auto-creation (HTTP/HTTPS)',
+          'LAMP Stack Administration',
+        ],
+        steps: [
+          {
+            id: 'infra-lab2-step1',
+            stepNumber: 1,
+            title: 'Buscar y seleccionar la solución LAMP Stack en Cloud Marketplace',
+            description:
+              'En el menú de navegación de Cloud Console, accede a Marketplace y busca "LAMP Stack packaged by Bitnami" o la versión certificada de Google Click to Deploy.',
+            tip: 'Marketplace muestra el costo estimado mensual de infraestructura y licenciamiento antes de iniciar el despliegue.',
+          },
+          {
+            id: 'infra-lab2-step2',
+            stepNumber: 2,
+            title: 'Configurar e iniciar el despliegue de la solución',
+            description:
+              'Selecciona la zona geográfica, el tipo de máquina (ej. e2-medium), el tamaño del disco persistente y asegúrate de marcar las casillas para permitir tráfico HTTP y HTTPS.',
+            tip: 'Marketplace genera automáticamente las reglas de cortafuegos correspondientes con etiquetas de red aplicadas a la VM.',
+          },
+          {
+            id: 'infra-lab2-step3',
+            stepNumber: 3,
+            title: 'Verificar el servidor web y acceder a la página de inicio',
+            description:
+              'Copia la dirección IP externa de la instancia creada e ingrésala en una nueva pestaña del navegador para validar que Apache responde con éxito.',
+            tip: 'Las credenciales de administrador de MySQL y la contraseña de la aplicación se proporcionan en la pantalla de resumen del despliegue.',
+          },
+        ],
+      },
+      {
+        id: 'infra-lab-3',
+        labNumber: 3,
+        title: 'Create and Configure VPC Networks',
+        durationMinutes: 60,
+        type: 'guided',
+        description:
+          'Diseño y creación de redes virtuales personalizadas (Custom Mode VPCs) con subredes en múltiples regiones, implementación de reglas de cortafuegos para SSH e ICMP y validación de conectividad inter-red.',
+        keyConcepts: [
+          'Custom Mode VPC vs Auto Mode',
+          'Subnet CIDR Non-overlapping Design',
+          'Firewall Rules (Ingress, Egress, Priority, Tags)',
+          'Cross-Subnet Internal Routing',
+        ],
+        steps: [
+          {
+            id: 'infra-lab3-step1',
+            stepNumber: 1,
+            title: 'Crear la red VPC personalizadamanagementnet y su subred',
+            description:
+              'Aprovisiona una nueva red en modo personalizado para aislar las cargas de gestión con un bloque CIDR dedicado.',
+            command: 'gcloud compute networks create managementnet --subnet-mode=custom && gcloud compute networks subnets create managementsubnet-us --network=managementnet --region=us-central1 --range=10.130.0.0/20',
+            tip: 'El modo custom no crea subredes automáticamente, dando control total sobre el espacio de direccionamiento IP.',
+          },
+          {
+            id: 'infra-lab3-step2',
+            stepNumber: 2,
+            title: 'Crear la red VPC privatenet con dos subredes regionales',
+            description:
+              'Crea una segunda VPC con subredes en regiones distintas (us-central1 y europe-west1) para simular conectividad multi-región.',
+            command: 'gcloud compute networks create privatenet --subnet-mode=custom && gcloud compute networks subnets create privatesubnet-us --network=privatenet --region=us-central1 --range=172.16.0.0/24 && gcloud compute networks subnets create privatesubnet-eu --network=privatenet --region=europe-west1 --range=172.20.0.0/20',
+            tip: 'Los rangos privados dentro de la misma VPC no pueden solaparse.',
+          },
+          {
+            id: 'infra-lab3-step3',
+            stepNumber: 3,
+            title: 'Configurar reglas de cortafuegos para permitir SSH, RDP e ICMP',
+            description:
+              'Permite el tráfico de administración hacia las instancias dentro de las redes personalizadas creadas.',
+            command: 'gcloud compute firewall-rules create managementnet-allow-icmp-ssh-rdp --direction=INGRESS --priority=1000 --network=managementnet --action=ALLOW --rules=icmp,tcp:22,tcp:3389 --source-ranges=0.0.0.0/0',
+            tip: 'La prioridad 1000 es la habitual para reglas personalizadas y tiene precedencia sobre las reglas implícitas (65535).',
+          },
+        ],
+      },
+      {
+        id: 'infra-lab-4',
+        labNumber: 4,
+        title: 'Implement Private Google Access and Cloud NAT',
+        durationMinutes: 50,
+        type: 'guided',
+        description:
+          'Configuración de Private Google Access a nivel de subred para acceder a buckets de Cloud Storage sin IP externa, y aprovisionamiento de Cloud NAT para habilitar salida a internet segura para parches de software.',
+        keyConcepts: [
+          'Private Google Access (Subnet Level)',
+          'Cloud Router for BGP/NAT Coordination',
+          'Cloud NAT Egress-Only Architecture',
+          'Internal IP Only VM Operations',
+        ],
+        steps: [
+          {
+            id: 'infra-lab4-step1',
+            stepNumber: 1,
+            title: 'Habilitar Private Google Access en la subred de la instancia privada',
+            description:
+              'Modifica la subred existente para que las VMs sin IP pública puedan resolver y comunicarse con las APIs de Google Cloud.',
+            command: 'gcloud compute networks subnets update privatesubnet-us --region=us-central1 --enable-private-ip-google-access',
+            tip: 'Private Google Access no tiene costo de servicio adicional y no requiere Cloud NAT ni Internet Gateway.',
+          },
+          {
+            id: 'infra-lab4-step2',
+            stepNumber: 2,
+            title: 'Crear un Cloud Router en la región de la VPC',
+            description:
+              'Aprovisiona un Cloud Router regional requerido como plano de control para gestionar la traducción de direcciones de red.',
+            command: 'gcloud compute routers create nat-router-us --network=privatenet --region=us-central1',
+            tip: 'Cloud Router no procesa los paquetes de datos; solo programa las tablas NAT en el kernel virtual de Andromeda.',
+          },
+          {
+            id: 'infra-lab4-step3',
+            stepNumber: 3,
+            title: 'Aprovisionar la pasarela Cloud NAT sobre el Cloud Router',
+            description:
+              'Configura la puerta de enlace NAT para asignar IPs externas automáticamente y dar salida a todas las subredes de la región.',
+            command: 'gcloud compute routers nats create nat-config-us --router=nat-router-us --region=us-central1 --auto-allocate-nat-external-ips --nat-all-subnet-ip-ranges --enable-logging',
+            tip: 'Cloud NAT proporciona conectividad 1 a muchos estrictamente saliente (egress). Bloquea conexiones entrantes desde internet.',
+          },
+        ],
+      },
+      {
+        id: 'infra-lab-5',
+        labNumber: 5,
+        title: 'Create Virtual Machines',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Creación de máquinas virtuales en Compute Engine mediante Cloud Console y gcloud CLI, analizando machine types, zonas de disponibilidad, asociación de subredes e instalación automatizada mediante Startup Scripts.',
+        keyConcepts: [
+          'Compute Engine Machine Families (E2, N2)',
+          'Zonal Placement and Availability Zones',
+          'Startup Scripts via Metadata',
+          'Internal vs External IP Allocation',
+        ],
+        steps: [
+          {
+            id: 'infra-lab5-step1',
+            stepNumber: 1,
+            title: 'Crear una máquina virtual en us-central1-a mediante Cloud Console',
+            description:
+              'Crea una instancia my-vm-1 de tipo e2-medium asociada a la subred default, con disco Debian 12 de 10 GB.',
+            tip: 'Verifica los costos estimados por hora y por mes que se actualizan dinámicamente en el panel derecho de la consola.',
+          },
+          {
+            id: 'infra-lab5-step2',
+            stepNumber: 2,
+            title: 'Crear una segunda máquina virtual mediante gcloud con script de inicio',
+            description:
+              'Aprovisiona my-vm-2 en una zona distinta mediante la línea de comandos, inyectando un script de inicio para instalar Nginx.',
+            command: 'gcloud compute instances create my-vm-2 --machine-type=e2-medium --zone=us-central1-b --metadata=startup-script=\'#! /bin/bash\napt-get update\napt-get install -y nginx\' --tags=http-server',
+            tip: 'El script de inicio se ejecuta con privilegios de root cada vez que la máquina virtual arranca.',
+          },
+          {
+            id: 'infra-lab5-step3',
+            stepNumber: 3,
+            title: 'Verificar la conectividad interna entre ambas instancias',
+            description:
+              'Conéctate por SSH a my-vm-1 y ejecuta ping hacia la IP interna y el nombre DNS de my-vm-2.',
+            command: 'ping -c 3 my-vm-2.us-central1-b.c.$GOOGLE_CLOUD_PROJECT.internal',
+            tip: 'Google Cloud proporciona resolución DNS interna automática para todas las VMs dentro de la misma red VPC.',
+          },
+        ],
+      },
+      {
+        id: 'infra-lab-6',
+        labNumber: 6,
+        title: 'Create and Configure Virtual Machines (Minecraft Server)',
+        durationMinutes: 60,
+        type: 'guided',
+        description:
+          'Construcción de un servidor de juegos con estado (stateful Minecraft server) en Compute Engine, separando el disco de arranque del disco de datos persistente dedicado, configurando montaje ext4 con nofail y abriendo puertos en el cortafuegos.',
+        keyConcepts: [
+          'Stateful Architecture with Dedicated Persistent Disks',
+          'Disk Attachment & Linux Mount Configuration (/etc/fstab)',
+          'Custom Firewall Ports (TCP 25565)',
+          'Data Preservation across VM Re-creations',
+        ],
+        steps: [
+          {
+            id: 'infra-lab6-step1',
+            stepNumber: 1,
+            title: 'Crear una instancia VM y un disco persistente adicional dedicado',
+            description:
+              'Aprovisiona una instancia mc-server y crea un disco persistente SSD de 50 GB en la misma zona para alojar los mundos del juego.',
+            command: 'gcloud compute instances create mc-server --machine-type=e2-medium --zone=us-central1-a --tags=minecraft-server && gcloud compute disks create minecraft-disk --size=50GB --zone=us-central1-a --type=pd-ssd',
+            tip: 'El disco y la VM deben residir exactamente en la misma zona para poder asociarse.',
+          },
+          {
+            id: 'infra-lab6-step2',
+            stepNumber: 2,
+            title: 'Adjuntar, formatear y montar el disco persistente en Linux',
+            description:
+              'Asocia el disco a la VM en caliente, dale formato ext4 y agrégalo a /etc/fstab utilizando el UUID del disco.',
+            command: 'gcloud compute instances attach-disk mc-server --disk=minecraft-disk --zone=us-central1-a --device-name=minecraft-disk',
+            tip: 'Usar nofail en /etc/fstab previene que la máquina falle en arrancar si el disco de datos llegara a estar ausente.',
+          },
+          {
+            id: 'infra-lab6-step3',
+            stepNumber: 3,
+            title: 'Crear la regla de firewall para el puerto TCP 25565',
+            description:
+              'Permite el tráfico entrante al puerto del servidor de Minecraft asociándolo a la etiqueta de red especificada.',
+            command: 'gcloud compute firewall-rules create allow-minecraft --direction=INGRESS --priority=1000 --action=ALLOW --rules=tcp:25565 --target-tags=minecraft-server --source-ranges=0.0.0.0/0',
+            tip: 'Las etiquetas de destino (target tags) aseguran que la regla aplique únicamente a las VMs con la etiqueta minecraft-server.',
+          },
+        ],
+      },
+    ],
+    videos: [
+      {
+        id: 'infra-mod1-overview',
+        title: 'Module 1: Interacting with Google Cloud',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        duration: '1h 15m',
+        summary:
+          'Presentación de las interfaces de administración de Google Cloud: Cloud Console (web), Cloud Shell (terminal con 5 GB persistentes), Cloud SDK (gcloud, gsutil, bq) y Marketplace para despliegues llave en mano.',
+        keyTakeaways: [
+          'Cloud Shell incluye el Google Cloud SDK preconfigurado con utilidades de desarrollo y 5 GB de almacenamiento persistente en $HOME.',
+          'Cloud Marketplace aprovisiona infraestructura (IaaS) gestionada por el cliente dentro de su propio proyecto.',
+          'Las variables de entorno como $GOOGLE_CLOUD_PROJECT simplifican la automatización mediante scripts de shell.',
+        ],
+      },
+      {
+        id: 'infra-mod2-vpc',
+        title: 'Module 2: Virtual Networks',
+        moduleName: 'Módulo 2: Virtual Networks',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        duration: '2h 45m',
+        summary:
+          'Inmersión en la red troncal de Google: Virtual Private Cloud (VPC) global, subredes regionales, reglas de cortafuegos basadas en etiquetas y prioridades, Private Google Access y Cloud NAT.',
+        keyTakeaways: [
+          'Las redes VPC tienen alcance global; las subredes son regionales y pueden extenderse a lo largo de todas las zonas de una región.',
+          'El tamaño de una subred se puede expandir (ej. /24 a /20) pero nunca se puede reducir.',
+          'Private Google Access permite alcanzar servicios de Google (*.googleapis.com) sin IP externa.',
+          'Cloud NAT proporciona salida segura a internet (egress-only) para parches sin exponer puertos entrantes.',
+        ],
+      },
+      {
+        id: 'infra-mod3-compute',
+        title: 'Module 3: Virtual Machines',
+        moduleName: 'Módulo 3: Virtual Machines',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        duration: '2h 45m',
+        summary:
+          'Exploración a fondo de Compute Engine: familias de máquinas (E2, N2, C2, M2), ciclo de vida de VMs, opciones de almacenamiento en Persistent Disk vs Local SSD, Spot VMs e imágenes personalizadas.',
+        keyTakeaways: [
+          'Los Persistent Disks están desacoplados del cómputo y se pueden redimensionar en caliente sin reiniciar la VM.',
+          'Un disco persistente se puede adjuntar en modo Read-Only a múltiples máquinas simultáneamente en la misma zona.',
+          'Las Spot VMs ofrecen ahorros sustanciales (60-91%) a cambio de la posibilidad de ser revocadas con 30 segundos de aviso.',
+          'Los scripts de inicio (startup scripts) se ejecutan con privilegios de root durante cada arranque del sistema operativo.',
+        ],
+      },
+    ],
+    quiz: [
+      {
+        id: 'infra-q1',
+        question:
+          'Un equipo de operaciones necesita que una máquina virtual sin dirección IP externa descargue paquetes y actualizaciones de seguridad desde repositorios públicos en internet, sin permitir que atacantes externos inicien conexiones hacia dicha VM. ¿Qué componente debes implementar?',
+        options: [
+          'Habilitar Private Google Access en la subred de la máquina virtual.',
+          'Configurar Cloud NAT junto con un Cloud Router en la región de la VPC.',
+          'Crear una regla de firewall de ingreso con prioridad 0 para todo el tráfico de internet.',
+          'Asignar una dirección IP externa estática y bloquear los puertos con iptables.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Cloud NAT permite que instancias sin IP externa inicien conexiones salientes hacia internet para descargar paquetes o acceder a servicios externos, garantizando que ninguna entidad externa pueda iniciar tráfico hacia la VM.',
+        examTrapTip:
+          'Private Google Access solo da acceso a servicios y APIs de Google (como Cloud Storage), no a repositorios de internet general.',
+      },
+      {
+        id: 'infra-q2',
+        question:
+          'Estás planificando el espacio de direccionamiento IP de una subred de producción en una VPC en modo Custom. La subred se creó inicialmente con el rango CIDR 10.10.1.0/24 y la empresa necesita cuadruplicar el número de direcciones disponibles. ¿Qué acción es permitida por Google Cloud?',
+        options: [
+          'Reducir el prefijo expandiendo el rango a 10.10.0.0/22 mediante el comando gcloud compute networks subnets expand-ip-range.',
+          'Modificar la máscara de la subred existente a 10.10.1.0/26.',
+          'Eliminar la VPC completa ya que las subredes en modo Custom son inmutables.',
+          'Crear una ruta personalizada con una métrica inferior a 100.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Google Cloud permite expandir el rango de IP principal de una subred modificando el prefijo hacia un número menor (ej. de /24 a /22), siempre que el nuevo rango no se traslape con otras subredes de la VPC.',
+        examTrapTip:
+          'Recuerda la regla de oro: las subredes se pueden expandir, pero NUNCA se pueden reducir.',
+      },
+      {
+        id: 'infra-q3',
+        question:
+          '¿Cuál es la diferencia fundamental entre un disco persistente (Persistent Disk) estándar y un disco SSD local (Local SSD) en Compute Engine?',
+        options: [
+          'Los discos Local SSD persisten los datos permanentemente cuando la VM se detiene, mientras que los Persistent Disks se borran.',
+          'Los Local SSD se encuentran físicamente conectados al servidor host que ejecuta la VM ofreciendo altísimas IOPS y muy baja latencia, pero sus datos se pierden si la VM se detiene.',
+          'Los Persistent Disks solo pueden montarse en una única máquina en modo Read-Only.',
+          'Los Local SSD se pueden redimensionar dinámicamente sin apagar la VM.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Los discos Local SSD están conectados físicamente al host del servidor, proporcionando altísimo rendimiento pero con naturaleza efímera (los datos se pierden si la instancia se detiene o termina). Los Persistent Disks se almacenan en red y sus datos se conservan independientemente del ciclo de vida de la VM.',
+        examTrapTip:
+          'Para el examen ACE: Si una carga de trabajo requiere altísimas IOPS para caché efímera o espacio swap, elige Local SSD. Si requiere persistencia de datos y snapshots, usa Persistent Disk.',
+      },
+      {
+        id: 'infra-q4',
+        question:
+          'Tienes dos reglas de firewall de ingreso en una red VPC que aplican a la misma instancia: la Regla A (Prioridad 1000) permite el puerto 80 desde 0.0.0.0/0, y la Regla B (Prioridad 500) deniega el puerto 80 desde 0.0.0.0/0. ¿Qué ocurrirá con el tráfico entrante al puerto 80?',
+        options: [
+          'El tráfico será permitido porque la acción ALLOW siempre tiene precedencia sobre DENY.',
+          'El tráfico será denegado porque la Regla B tiene un valor numérico de prioridad menor (500), lo que significa una precedencia más alta.',
+          'El tráfico se distribuirá de forma aleatoria al 50% entre ambas reglas.',
+          'El sistema arrojará un error de conflicto de cortafuegos y bloqueará todo el tráfico de la red.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Las reglas de cortafuegos en Google Cloud se evalúan en orden estricto de menor a mayor valor numérico de prioridad. 500 se evalúa antes que 1000, por lo que la regla de denegación (Regla B) se aplica primero.',
+        examTrapTip:
+          'En cortafuegos de GCP: Menor número = Mayor prioridad.',
+      },
+    ],
+    glossary: [
+      {
+        term: 'Virtual Private Cloud (VPC)',
+        definition:
+          'Red virtual global definida por software que conecta de forma aislada y segura recursos de Compute Engine y GKE a través de la infraestructura troncal de Google.',
+      },
+      {
+        term: 'Custom Mode VPC',
+        definition:
+          'Modalidad de red VPC recomendada para entornos de producción donde no se crean subredes automáticas, otorgando al administrador control estricto sobre el direccionamiento IP y regiones.',
+      },
+      {
+        term: 'Private Google Access',
+        definition:
+          'Funcionalidad a nivel de subred que permite a instancias de Compute Engine sin direcciones IP externas comunicarse con APIs y servicios de Google utilizando sus direcciones IP internas.',
+      },
+      {
+        term: 'Cloud NAT',
+        definition:
+          'Servicio administrado de traducción de direcciones de red que proporciona salida a internet altamente disponible para instancias privadas sin exponerlas a conexiones entrantes.',
+      },
+      {
+        term: 'Persistent Disk (PD)',
+        definition:
+          'Dispositivo de almacenamiento en bloque virtualizado y duradero en red, desacoplado del ciclo de vida de las máquinas virtuales y respaldable mediante snapshots incrementales.',
+      },
+      {
+        term: 'Spot VM / Preemptible VM',
+        definition:
+          'Instancia de Compute Engine que aprovecha capacidad excedente de cómputo con descuentos significativos (60-91%), con la condición de que Compute Engine puede reclamarla en cualquier momento.',
+      },
+      {
+        term: 'Identity-Aware Proxy (IAP)',
+        definition:
+          'Servicio de seguridad que permite establecer túneles cifrados TCP (SSH/RDP) hacia VMs de Compute Engine sin direcciones IP públicas a través del rango 35.235.240.0/20.',
+      },
+    ],
+  },
 ];
 
