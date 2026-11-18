@@ -97,6 +97,13 @@ describe('Unit Tests: Course 60 - Google Cloud Fundamentals: Core Infrastructure
     expect(videoTitles).toContain('Cloud Load Balancing');
     expect(videoTitles).toContain('Cloud DNS and Cloud CDN');
     expect(videoTitles).toContain('Connecting networks to Google VPC');
+    expect(videoTitles).toContain('Cloud Run');
+    expect(videoTitles).toContain('Development in the cloud');
+    expect(videoTitles).toContain('Prompt Engineering');
+    expect(videoTitles).toContain('Course summary');
+
+    const lab4 = course60?.labs.find((l) => l.id === 'core-lab-4');
+    expect(lab4?.steps.length).toBe(6);
 
     course60?.videos?.forEach((video) => {
       expect(video.id).toBeDefined();

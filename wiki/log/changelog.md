@@ -4,6 +4,131 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-18] - Ingesta de Lección 35: Course Summary y Cierre Curricular (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-course-summary.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-course-summary.md) con la transcripción completa de la sesión final de clausura (Video ID: `689589`, YouTube: `9lbfxj-K3Qo`, Puntos acumulados: 16,246), síntesis recapitulativa de los 7 módulos del curso (IaaS/PaaS, Jerarquía/IAM, Redes/Compute Engine/Load Balancing, Almacenamiento políglota, Contenedores/GKE, Serverless Cloud Run/Functions y Gemini/Prompt Engineering) y hoja de ruta hacia la certificación Google Cloud ACE.
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial incorporando la Lección 35 (*Course summary*).
+  * Redactada la sección **🎓 8. Resumen Curricular Consolidado y Hoja de Ruta de Certificación ACE**:
+    1. *8.1 Matriz de Competencias Adquiridas*: Tabla integradora de los 7 módulos oficiales cruzando foco tecnológico, competencias troncales y herramientas clave.
+    2. *8.2 Mapeo Directo a los 4 Dominios del Examen ACE*: Distribución porcentual y temática (Configuración del entorno ~23%, Planificación e implementación ~30%, Operación exitosa ~27%, Acceso y seguridad ~20%).
+    3. *8.3 Recursos Oficiales de Certificación y Próximos Pasos*: Enlaces a la guía de examen de Google Cloud, rutas formativas y simuladores de examen.
+  * Renumeradas coherentemente las secciones finales (**🛠️ 9. Laboratorios Prácticos del Curso**, **🎯 10. Árbol de Decisión de Cómputo para el Examen ACE** y **💡 11. Trampas Frecuentes en el Examen ACE**).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Añadida la lección `vid-60-35` (*Course summary*) al curso `google-cloud-fundamentals-core-infrastructure` con su reproductor oficial de YouTube (`9lbfxj-K3Qo`), duración (`3:56`), resumen ejecutivo y 5 conclusiones clave para la certificación ACE.
+* **Verificación y Pruebas**:
+  * Actualizada la suite de pruebas unitarias (`tests/unit/coreInfrastructureCourse.test.ts`) verificando la presencia de 'Course summary' en los videos catalogados.
+  * Ejecutada la suite completa de pruebas unitarias y BDD en WSL con 45/45 pruebas aprobadas (100% de éxito).
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-18] - Ingesta de Cuestionario Oficial: Quiz Módulo 7 - Prompt Engineering (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-quiz-module-7-prompt-engineering.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-quiz-module-7-prompt-engineering.md) con el banco oficial de preguntas, respuestas oficiales y justificaciones técnicas para el Módulo 7 (Passing score: 75%, Puntos acumulados: 16,070):
+    1. *You need an LLM to convert unstructured text into a rigid, custom JSON structure. Which prompting technique should you implement?* -> **A few-shot prompt that includes illustrative output examples.** (provisión de ejemplos demostrativos para forzar esquemas deterministas y sin desviaciones).
+    2. *What is the primary defining function of generative AI?* -> **Generate original text, images, code, or other media using generative models.** (creación de nuevo contenido original sintetizado a partir de patrones estadísticos aprendidos).
+    3. *Which practice aligns with Google-recommended guidelines for prompt construction?* -> **Maintain concise phrasing and direct instructions.** (instrucciones claras, precisas y oraciones concisas para maximizar atención y fiabilidad).
+    4. *How can you avoid hallucinations when training or prompting a large language model (LLM)?* -> **Train the model on a clean, curated dataset.** (datos limpios y curados en el entrenamiento, junto con contexto y restricciones delimitadas en inferencia).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Redactada e integrada la subsección **7.4 Evaluación y Conceptos de Examen del Módulo 7 (Quiz de Prompt Engineering y Gemini)** detallando los fundamentos arquitectónicos evaluados.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Incorporadas las 4 preguntas oficiales (`c-m7-q1`, `c-m7-q2`, `c-m7-q3`, `c-m7-q4`) al banco de evaluación interactiva del curso `google-cloud-fundamentals-core-infrastructure`.
+* **Verificación y Pruebas**:
+  * Ejecutada la suite completa de pruebas unitarias y BDD en WSL con 45/45 pruebas aprobadas (100% de éxito).
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-17] - Ingesta de Lección 34: Prompt Engineering (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-prompt-engineering.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-prompt-engineering.md) con la transcripción completa oficial de la Lección 34 (Video ID: `689587`, YouTube: `5zoKVf-cnf4`, Puntos: 16,060), taxonomía comparativa entre IA, Gen AI y LLMs, escala masiva en petabytes y parámetros, pre-training (autocompletado probabilístico) frente a fine-tuning, diagnóstico exhaustivo de alucinaciones (datos insuficientes, datos sucios, falta de contexto o restricciones), integración nativa de Gemini en Google Cloud Console y Cloud Shell, taxonomía de 4 tipos de prompts (zero-shot, one-shot, few-shot, role prompts), anatomía estructural (preamble e input) y las 5 mejores prácticas para ingenieros cloud.
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial incorporando la Lección 34 (*Prompt Engineering*).
+  * Redactada la sección **🤖 7. Módulo 7: Gemini y Prompt Engineering en Google Cloud (Google Cloud: Prompt Engineer Guide)**:
+    1. *7.1 Fundamentos de Gen AI, Arquitectura de LLMs y Gemini en Google Cloud*: Diagrama jerárquico de IA a LLMs, parámetros como memoria aprendida, pre-training probabilístico, fine-tuning y causas de alucinaciones.
+    2. *7.2 Anatomía del Prompt: Preamble vs Input y los 4 Tipos de Prompts*: Distinción entre preámbulo (contexto, persona, restricciones) e input (solicitud central), y características de zero-shot, one-shot, few-shot y role prompts.
+    3. *7.3 Las 5 Mejores Prácticas de Prompt Engineering para Operaciones Cloud*: Instrucciones explícitas, enfoque positivo, respuestas de contingencia (fallback outputs), personas técnicas y oraciones concisas.
+  * Renumeradas coherentemente las secciones posteriores (**🛠️ 8. Laboratorios Prácticos**, **🎯 9. Árbol de Decisión de Cómputo** y **💡 10. Trampas Frecuentes en el Examen ACE**), añadiendo trampas específicas de IA generativa (grounding con datos corporativos, alucinaciones en sintaxis CLI y contraste entre few-shot y fine-tuning).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Añadida la lección `vid-60-34` (*Prompt Engineering*) al curso `google-cloud-fundamentals-core-infrastructure` con su reproductor de YouTube oficial (`5zoKVf-cnf4`), resumen técnico completo y 5 conclusiones clave orientadas a la certificación ACE.
+* **Verificación y Pruebas**:
+  * Actualizada la suite de pruebas unitarias (`tests/unit/coreInfrastructureCourse.test.ts`) asegurando la presencia de 'Prompt Engineering' en los videos catalogados.
+  * Ejecutada la suite completa de pruebas unitarias y BDD con 45/45 pruebas aprobadas (100% de éxito).
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-17] - Ingesta de Cuestionario Oficial: Quiz Módulo 6 - Development in the Cloud (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-core-quiz-module-6-development.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-quiz-module-6-development.md) con el banco oficial de preguntas, respuestas oficiales y justificaciones técnicas para el Módulo 6 (Passing score: 66%, Puntos acumulados: 16,020):
+    1. *Why might a Google Cloud customer choose to use Cloud Run functions?* -> **Their application contains event-driven code that they don't want to provision compute resources for.** (ejecución puntual ante eventos sin aprovisionar ni pagar por servidores dedicados en reposo).
+    2. *Which of these statements about Cloud Run functions are correct? Select three.* -> **Is integrated with Cloud Logging**, **Is a scalable functions-as-a-service platform**, **Can be used to extend Cloud services** (integración sin agentes en observabilidad, autoescalado elástico a cero y código de enlace reactivo para Storage, Firestore y Pub/Sub).
+    3. *Which scenario is best suited for using Cloud Run instead of Cloud Run functions?* -> **Hosting a dynamic web application that allows users to upload and share photos.** (las aplicaciones web dinámicas completas con UI, autenticación y múltiples rutas requieren contenedores en Cloud Run, a diferencia de tareas atómicas de eventos).
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Redactada e integrada la subsección **6.4 Evaluación y Conceptos de Examen del Módulo 6 (Quiz de Desarrollo en la Nube y Serverless)** detallando los fundamentos arquitectónicos y los criterios de discriminación entre FaaS y CaaS evaluados en el examen ACE.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Incorporadas las preguntas del Módulo 5 (`c-m5-q1`, `c-m5-q2`) y Módulo 6 (`c-m6-q1`, `c-m6-q2`, `c-m6-q3`) al banco de evaluación interactiva del curso.
+* **Verificación y Pruebas**:
+  * Verificada la suite completa de pruebas unitarias y BDD en WSL con 45/45 pruebas aprobadas (100% de éxito).
+* **Índice General**:
+  * Registrada la referencia modular en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
+## [2026-11-17] - Ingesta de Lecciones Finales Módulo 6: Serverless en Cloud Run, Cloud Run Functions y Laboratorio Hello Cloud Run (Course 60)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada y Modularización**:
+  * Procesado el insumo en bruto [`wiki/raw/gcp-fundamentals-core-infrastructure-last-lessons.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/gcp-fundamentals-core-infrastructure-last-lessons.md).
+  * Ingestado [`wiki/raw/skills-core-cloud-run.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-cloud-run.md) con la transcripción oficial de la Lección 32 (Video ID: `689583`, YouTube: `R3Ec_4tC3oc`, Puntos: 15,990), principios serverless, Knative, autoescalado instantáneo a cero, modelo de cobro a 100 ms + tarifa por millón de solicitudes, flujo de trabajo en 3 etapas (código, Dockerfile/Buildpacks, Artifact Registry) y soporte para binarios Linux de 64 bits.
+  * Ingestado [`wiki/raw/skills-core-development-in-the-cloud.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-development-in-the-cloud.md) con la transcripción oficial de la Lección 33 (Video ID: `689584`, YouTube: `zoq8Lajo7dE`, Puntos: 16,000), concepto de pegamento en la nube (*cloud glue code*), arquitectura orientada a eventos (desacoplamiento de procesamiento multimedia en Cloud Storage y colas en Pub/Sub), invocación síncrona HTTP y runtimes soportados (Node.js, Python, Go, Java, .NET Core, Ruby, PHP).
+  * Ingestado [`wiki/raw/skills-core-hello-cloud-run.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-core-hello-cloud-run.md) con la guía técnica completa del Laboratorio 4 (Lab ID: `CBL333` / `689585`, Puntos: 16,010), abarcando habilitación de APIs (`run.googleapis.com`, `artifactregistry.googleapis.com`), aplicación Express en Node.js, repositorios Docker en Artifact Registry, compilación en la nube con Cloud Build (`gcloud builds submit`), despliegue con `--allow-unauthenticated` y limpieza preventiva de costes.
+* **Síntesis Curricular (`wiki/courses/google-cloud-fundamentals-core-infrastructure.md`)**:
+  * Actualizada la Videoteca Oficial incorporando la Lección 32 (*Cloud Run*) y la Lección 33 (*Development in the cloud*).
+  * Redactada la sección **⚡ 6. Módulo 6: Desarrollo y Cómputo Serverless en la Nube (Developing Applications in the Cloud)**:
+    1. *6.1 Cloud Run: Contenedores Serverless, Knative y Arquitectura Stateless*: Diagrama ASCII de flujo cliente-GFE-Knative-contenedores, portabilidad Knative, autoescalado a 0, facturación con granularidad a 100 ms y certificados HTTPS automáticos.
+    2. *6.2 Cloud Run Functions: Cómputo Ligero Orientado a Eventos (FaaS)*: Desacoplamiento de tareas operativas y de negocio, disparadores asíncronos (Cloud Storage, Pub/Sub) vs invocación síncrona HTTP y modelos de tarificación al milisegundo.
+    3. *6.3 Comparativa Arquitectónica de Cómputo*: Matriz evaluativa multidimensional contrastando Compute Engine (IaaS), GKE (CaaS), Cloud Run (Serverless CaaS) y Cloud Run Functions (Serverless FaaS).
+  * Renumerada y expandida la sección de Laboratorios Oficiales (**🛠️ 7. Laboratorios Prácticos del Curso**), actualizando el **Lab 4: Hello Cloud Run** con las 6 tareas operativas completas, comandos de CLI y consideraciones críticas de examen.
+  * Renumeradas las secciones finales (**🎯 8. Árbol de Decisión de Cómputo** y **💡 9. Trampas Frecuentes en el Examen ACE**) incorporando trampas de examen específicas para arquitecturas serverless (naturaleza *stateless*, requerimiento de escuchar en variable `PORT`, bandera `--allow-unauthenticated` y uso de Google Cloud Buildpacks sin Dockerfile).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Incorporadas las lecciones `vid-60-32` (*Cloud Run*) y `vid-60-33` (*Development in the cloud*) en el curso `google-cloud-fundamentals-core-infrastructure` con sus respectivos reproductores de YouTube oficiales (`R3Ec_4tC3oc` y `zoq8Lajo7dE`), resúmenes técnicos y conclusiones clave para la certificación ACE.
+  * Actualizado el laboratorio práctico `core-lab-4` (*Hello Cloud Run*) a 60 minutos con sus 6 pasos de laboratorio detallados y comandos reproducibles.
+* **Verificación y Pruebas**:
+  * Actualizada la suite de pruebas unitarias (`tests/unit/coreInfrastructureCourse.test.ts`) verificando la presencia de los videos 32 y 33 y la consistencia de los 6 pasos del laboratorio 4.
+  * Ejecutada la suite completa de pruebas unitarias y BDD resultando en 45/45 pruebas aprobadas (100% éxito).
+* **Índice General**:
+  * Registradas las referencias modulares en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
+
+---
+
 ## [2026-11-13] - Ingesta de Cuestionario Oficial: Quiz Módulo 5 - Containers in the Cloud (Course 60)
 
 ### Agente Responsable:

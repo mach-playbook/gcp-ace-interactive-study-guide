@@ -52,6 +52,10 @@ El curso **Google Cloud Fundamentals: Core Infrastructure** establece los cimien
 | **Lección 29: Introduction to containers** | M5: Contenedores | [Ver en YouTube (fkyu-gVr4IU)](https://www.youtube.com/watch?v=fkyu-gVr4IU) | Virtualización del SO vs hardware (VMs), empaquetado de dependencias, arranque en segundos, portabilidad extrema (laptop a la nube), densidad de microservicios y GKE como puente entre IaaS y PaaS. |
 | **Lección 30: Kubernetes** | M5: Contenedores | [Ver en YouTube (4NTyB0eEB_A)](https://www.youtube.com/watch?v=4NTyB0eEB_A) | Plataforma open source de orquestación, arquitectura de clúster (Control Plane y Nodos Compute Engine), Pods (IP compartida y sidecars), Deployments (réplicas y auto-reparación), Services (IP fija y Cloud NLB automático), enfoque declarativo (`kubectl apply`) y Rolling Updates sin inactividad. |
 | **Lección 31: Google Kubernetes Engine** | M5: Contenedores | [Ver en YouTube (HMcFwcqNjOY)](https://www.youtube.com/watch?v=HMcFwcqNjOY) | Servicio gestionado de Kubernetes en GCP, Control Plane administrado, comparación de modos Autopilot (recomendado, pago por pod, seguridad y gestión desatendida) vs Standard (control de nodos), Node pools, Cluster Autoscaler, Auto-upgrades, Auto-repair y observabilidad nativa. |
+| **Lección 32: Cloud Run** | M6: Desarrollo en la Nube | [Ver en YouTube (R3Ec_4tC3oc)](https://www.youtube.com/watch?v=R3Ec_4tC3oc) | Plataforma serverless de contenedores stateless basada en Knative, autoescalado a 0, facturación con granularidad a 100ms, flujo de 3 pasos (código, contenedor/Buildpacks, Artifact Registry y despliegue) y certificados HTTPS automáticos. |
+| **Lección 33: Development in the cloud** | M6: Desarrollo en la Nube | [Ver en YouTube (zoq8Lajo7dE)](https://www.youtube.com/watch?v=zoq8Lajo7dE) | Cómputo asíncrono y ligero FaaS con Cloud Run functions, arquitectura dirigida por eventos (triggers de Cloud Storage y Pub/Sub), invocación síncrona HTTP, cobro por 100ms solo durante ejecución y soporte para Node.js, Python, Go, Java, .NET, Ruby y PHP. |
+| **Lección 34: Prompt Engineering** | M7: Asistencia con Gemini | [Ver en YouTube (5zoKVf-cnf4)](https://www.youtube.com/watch?v=5zoKVf-cnf4) | Guía oficial de prompt engineering: taxonomía Gen AI vs LLMs, parámetros, pre-training vs fine-tuning, mitigación de alucinaciones, Gemini como colaborador integrado en Cloud Console/Cloud Shell, 4 tipos de prompts (zero/one/few-shot, role prompts), preamble vs input y 5 mejores prácticas operativas. |
+| **Lección 35: Course summary** | Cierre Curricular | [Ver en YouTube (9lbfxj-K3Qo)](https://www.youtube.com/watch?v=9lbfxj-K3Qo) | Recapitulación ejecutiva de los 7 módulos del curso (IaaS/PaaS, Jerarquía/IAM, Redes/VMs/Load Balancing, Storage/BBDD, Contenedores/GKE, Cloud Run/Functions y Gemini/Prompt Engineering) y hoja de ruta hacia la certificación Google Cloud Associate Cloud Engineer (ACE). |
 
 ---
 
@@ -1489,7 +1493,299 @@ El cuestionario oficial del Módulo 5 evalúa los fundamentos estructurales de K
 
 ---
 
-## 🛠️ 6. Laboratorios Prácticos del Curso
+## ⚡ 6. Módulo 6: Desarrollo y Cómputo Serverless en la Nube (Developing Applications in the Cloud)
+
+### 6.1 Cloud Run: Contenedores Serverless, Knative y Arquitectura Stateless
+
+Cloud Run es una plataforma de cómputo administrada que permite ejecutar contenedores sin estado (*stateless*) activados por peticiones web (HTTP/HTTPS) o eventos de mensajería asíncrona de Cloud Pub/Sub.
+
+```
+Petición Cliente (HTTPS) / Evento Pub/Sub
+                │
+                ▼
+┌────────────────────────────────────────────────────────┐
+│             Google Front End (GFE)                     │
+│  - Terminación SSL/TLS automática (Certificado gratis) │
+│  - Enrutamiento Anycast global a la región destino     │
+└──────────────────────────────────┬─────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────┐
+│            Plano de Control Cloud Run (Knative)        │
+│  - Autoescalado dinámico instantáneo                   │
+│  - Escalado a 0 réplicas cuando cesa el tráfico        │
+│  - Despacho de concurrencia hacia instancias activas   │
+└──────────────────────────────────┬─────────────────────┘
+                                   │
+                                   ▼
+     ┌─────────────────────────────┼─────────────────────────────┐
+     ▼                             ▼                             ▼
+┌──────────────┐             ┌──────────────┐             ┌──────────────┐
+│ Contenedor 1 │             │ Contenedor 2 │             │ Contenedor N │
+│ App Web      │             │ App Web      │             │ App Web      │
+│ (Puerto PORT)│             │ (Puerto PORT)│             │ (Puerto PORT)│
+└──────────────┘             └──────────────┘             └──────────────┘
+```
+
+#### 1. Principios Fundamentales de Cloud Run
+* **Abstracción Total de Servidores (*Serverless*):** Elimina cualquier tarea de aprovisionamiento de máquinas virtuales, mantenimiento de clústeres, parcheo de sistemas operativos o configuración de balanceadores de carga.
+* **Basado en Estándares Abiertos (Knative):** Construido sobre **Knative**, un estándar abierto de Kubernetes para cargas serverless. Esto otorga portabilidad absoluta: las mismas imágenes y configuraciones pueden ejecutarse en Cloud Run gestionado por Google, en clústeres propios de Google Kubernetes Engine (GKE) o en cualquier entorno on-premises o multi-nube con Knative instalado.
+* **Escalado Rápido a Cero (*Scale-to-Zero*):** Cuando no existen solicitudes activas, Cloud Run reduce las réplicas del contenedor exactamente a cero, eliminando el coste de capacidad ociosa. Ante la llegada de una nueva petición, aprovisiona un contenedor en milisegundos para responder.
+* **Modelo de Facturación por Uso Real (Granularidad de 100 ms):**
+  * Se factura únicamente por el tiempo de vCPU y memoria consumido mientras el contenedor atiende peticiones activas, redondeando al múltiplo de 100 milisegundos más próximo.
+  * También se incluye una tarifa nominal por cada millón de solicitudes HTTP atendidas.
+  * Si el contenedor está inactivo (0 peticiones), el coste de cómputo es de 0 dólares.
+* **Certificados HTTPS y Cifrado Automático:** Al desplegar un servicio, Cloud Run aprovisiona de forma automática una URL única bajo el dominio `*.a.run.app` con certificado TLS gestionado por Google sin coste adicional.
+
+#### 2. Flujo de Trabajo del Desarrollador (Developer Workflow)
+El ciclo de desarrollo en Cloud Run se ejecuta en 3 fases:
+1. **Escribir el Código Fuente:** Desarrollar la lógica en cualquier lenguaje preferido. La aplicación debe levantar un servidor web que escuche en el puerto definido por la variable de entorno `PORT` (por defecto `8080`).
+2. **Empaquetar la Imagen:**
+   * **Enfoque basado en Contenedor (*Container-based*):** El desarrollador define un `Dockerfile` con dependencias optimizadas y compila la imagen mediante Cloud Build o Docker CLI.
+   * **Enfoque basado en Código Fuente (*Source-based*):** El desarrollador despliega el código directamente con `gcloud run deploy --source .`. Cloud Run utiliza **Cloud Buildpacks** (proyecto open-source de CNCF) para analizar el código fuente, detectar el runtime, compilar las dependencias y generar un contenedor seguro de forma transparente.
+3. **Almacenamiento y Despliegue:** La imagen se aloja en **Artifact Registry** y se despliega hacia Cloud Run con `gcloud run deploy`.
+
+#### 3. Soporte Políglota y Requisitos de Ejecución
+* **Compatibilidad de Binarios:** Cloud Run puede ejecutar cualquier binario compilado para arquitectura Linux de 64 bits (x86_64).
+* **Ecosistema Políglota:** Compatible con Node.js, Python, Go, Java, .NET Core, Ruby, PHP, C++, así como lenguajes heredados o de propósito específico (COBOL, Perl, Haskell, Rust, Fortran).
+* **Naturaleza Sin Estado (*Stateless*):** Los contenedores pueden ser apagados o reiniciados en cualquier momento por el motor de autoescalado. La persistencia de datos a largo plazo no debe residir en el sistema de archivos del contenedor, sino delegarse a Cloud Storage, Cloud SQL, Spanner o Firestore.
+
+---
+
+### 6.2 Cloud Run Functions: Cómputo Ligero Orientado a Eventos (FaaS)
+
+Cloud Run functions (la evolución arquitectónica de Cloud Functions) es una solución de cómputo asíncrona, ligera y sin servidores diseñada para ejecutar código de propósito único en respuesta a eventos del entorno cloud.
+
+```
+       Fuentes de Eventos
+┌───────────────────────────────┐
+│ Cloud Storage                 │──── Evento de Objeto ────┐
+│ (Creación, cambio, borrado)   │                          │
+└───────────────────────────────┘                          │
+                                                           ▼
+┌───────────────────────────────┐               ┌───────────────────────┐
+│ Cloud Pub/Sub                 │──── Mensaje ──▶│ Cloud Run functions   │
+│ (Telemetría, colas de eventos)│               │ (Ejecución efímera,   │
+└───────────────────────────────┘               │  código de negocio    │
+                                                │  puntual)             │
+┌───────────────────────────────┐               └───────────────────────┘
+│ Invocación Síncrona HTTP      │──── Webhook ─▶           │
+│ (APIs, webhooks, micro-tareas)│                          ▼
+└───────────────────────────────┘                 Facturación a 100 ms
+                                                  (Solo mientras ejecuta)
+```
+
+#### 1. Propósito y Filosofía: "Pegamento en la Nube" (*Cloud Glue Code*)
+* Muchas aplicaciones modernas se componen de componentes desacoplados guiados por eventos (por ejemplo: la subida de una imagen por parte de un usuario requiere redimensionamiento, creación de miniaturas en varios tamaños y guardado en un repositorio).
+* Integrar este tipo de tareas en la aplicación monolítica obliga a sobredimensionar servidores dedicados para picos esporádicos.
+* Con Cloud Run functions, se escribe una función ligera y aislada que responde únicamente cuando ocurre el evento. No hay infraestructura que administrar ni mantener cuando no hay actividad.
+
+#### 2. Modalidades de Invocación y Disparadores (Triggers)
+* **Disparadores Asíncronos (Event Triggers):**
+  * **Cloud Storage:** Reacciona a eventos en buckets (`google.cloud.storage.object.v1.finalized`, archivado, borrado). Ideal para procesamiento de pipelines ETL, extracción OCR, compresión y transcodificación.
+  * **Pub/Sub:** Reacciona a la publicación de mensajes en temas (`topics`). Ideal para procesamiento masivo de datos de IoT, ingesta de telemetría y desacoplamiento de microservicios.
+* **Invocación Síncrona (HTTP Triggers):**
+  * La función responde a solicitudes HTTP directas. Ideal para webhooks (Stripe, GitHub), pasarelas de pago y micro-APIs REST.
+
+#### 3. Runtimes y Lenguajes Oficiales
+Soporta código fuente nativo en Node.js, Python, Go, Java, .NET Core, Ruby y PHP, aprovisionando el entorno de ejecución de forma automática sin requerir la creación de un Dockerfile.
+
+#### 4. Modelo Financiero
+* Se factura redondeando al intervalo de 100 milisegundos más próximo.
+* El cobro aplica **estrictamente durante el tiempo de ejecución de la función**. En reposo, el coste es exactamente 0 dólares.
+
+---
+
+### 6.3 Comparativa Arquitectónica de Cómputo en Google Cloud
+
+| Criterio | Compute Engine | Google Kubernetes Engine (GKE) | Cloud Run | Cloud Run Functions |
+| :--- | :--- | :--- | :--- | :--- |
+| **Modelo Cloud** | IaaS | CaaS (Contenedores) | Serverless CaaS | Serverless FaaS |
+| **Unidad de Despliegue** | Máquina Virtual (VM) | Pod / Deployment | Contenedor OCI / Docker | Función de código fuente |
+| **Tiempo de Arranque** | Minutos | Segundos | Milisegundos | Milisegundos |
+| **Escalado a Cero** | No (salvo apagado manual) | No (mínimo 1 nodo en Standard) | Sí (0 instancias en inactividad) | Sí (0 instancias en inactividad) |
+| **Control de SO / Kernel** | Control total de kernel y red | Parcial (Standard) / Nulo (Autopilot) | Nulo (Sandbox de gVisor) | Nulo (Entorno administrado) |
+| **Modelo de Cobro** | vCPU/RAM por segundo continuo | Por VM (Standard) o por Pod (Autopilot) | Por 100 ms de ejecución + peticiones | Por 100 ms de ejecución activa |
+| **Caso de Uso Óptimo** | Cargas heredadas, licencias comerciales, bases de datos no administradas | Microservicios interdependientes, Service Mesh, arquitecturas multi-tenant | Microservicios web stateless, APIs REST, aplicaciones contenerizadas | Glue code, transformaciones de Cloud Storage, webhooks |
+
+### 📝 6.4 Evaluación y Conceptos de Examen del Módulo 6 (Quiz de Desarrollo en la Nube y Serverless)
+
+El cuestionario oficial del Módulo 6 evalúa los criterios de adopción y selección entre Cloud Run y Cloud Run functions:
+
+#### 1. Justificación de Adopción de Cloud Run Functions
+* **Pregunta Oficial:** *Why might a Google Cloud customer choose to use Cloud Run functions?*
+* **Respuesta Correcta:** **Their application contains event-driven code that they don't want to provision compute resources for.** (Su aplicación contiene código dirigido por eventos para el cual no desean aprovisionar recursos de cómputo dedicados).
+* **Fundamento Arquitectónico:**
+  * Las arquitecturas serverless eliminan el desperdicio financiero de mantener máquinas virtuales o clústeres siempre encendidos para responder a eventos esporádicos.
+  * Cloud Run functions escala instantáneamente ante la llegada del evento y se apaga tras concluir el procesamiento, facturando únicamente los milisegundos de ejecución activa.
+
+#### 2. Capacidades Estructurales de Cloud Run Functions
+* **Pregunta Oficial:** *Which of these statements about Cloud Run functions are correct? Select three.*
+* **Respuestas Correctas:**
+  1. **Is integrated with Cloud Logging** (Integración automática sin instalación de agentes para registros stdout/stderr).
+  2. **Is a scalable functions-as-a-service platform** (Plataforma FaaS de escalado horizontal transparente).
+  3. **Can be used to extend Cloud services** (Capacidad para conectar y enriquecer servicios de Google Cloud como Cloud Storage, Pub/Sub o Firestore mediante lógica empresarial).
+* **Fundamento Arquitectónico:**
+  * Al ser 100% serverless, no requiere el aprovisionamiento previo de servidores ni VMs.
+  * No está limitado a solicitudes HTTP; admite disparadores asíncronos nativos basados en eventos de infraestructura.
+
+#### 3. Criterio de Selección: Cloud Run vs Cloud Run Functions
+* **Pregunta Oficial:** *Which scenario is best suited for using Cloud Run instead of Cloud Run functions?*
+* **Respuesta Correcta:** **Hosting a dynamic web application that allows users to upload and share photos.** (Alojar una aplicación web dinámica que permite a los usuarios subir y compartir fotos).
+* **Fundamento Arquitectónico:**
+  * Una aplicación web dinámica completa con interfaz de usuario, gestión de sesiones, enrutamiento complejo y múltiples endpoints requiere un servidor web integral empaquetado en un contenedor (Cloud Run).
+  * Tareas atómicas como generar miniaturas al subir un archivo o enviar notificaciones por correo ante nuevos documentos son funciones individuales de propósito único disparadas por eventos (Cloud Run functions).
+
+---
+
+## 🤖 7. Módulo 7: Gemini y Prompt Engineering en Google Cloud (Google Cloud: Prompt Engineer Guide)
+
+### 7.1 Fundamentos de Gen AI, Arquitectura de LLMs y Gemini en Google Cloud
+
+La inteligencia artificial generativa (*Generative AI* o *Gen AI*) y los modelos de lenguaje de gran tamaño (*Large Language Models* o *LLMs*) potencian la productividad técnica de desarrolladores, arquitectos y operadores en Google Cloud mediante asistencia en tiempo real.
+
+```
+┌────────────────────────────────────────────────────────┐
+│ Inteligencia Artificial (IA - desde 1950s)             │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │ IA Generativa (Gen AI - auge desde 2021)         │  │
+│  │ (Texto, imágenes, código, video, audio)          │  │
+│  │  ┌────────────────────────────────────────────┐  │  │
+│  │  │ Large Language Models (LLMs)               │  │  │
+│  │  │ (Lenguaje natural, código fuente, chat)    │  │  │
+│  │  │  - Petabytes de entrenamiento              │  │  │
+│  │  │  - Miles de millones / billones parámetros │  │  │
+│  │  └────────────────────────────────────────────┘  │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+```
+
+#### 1. Diferenciación Conceptual: IA vs Gen AI vs LLMs
+* **Inteligencia Artificial (IA):** Disciplina formal originada a mediados de la década de 1950 dedicada a simular capacidades cognitivas humanas mediante computación.
+* **IA Generativa (Gen AI):** Subconjunto de la IA centrado en modelos capaces de sintetizar nuevo contenido original (texto, imágenes, código fuente, video y audio) aprendiendo los patrones latentes y la estructura subyacente de grandes volúmenes de datos.
+* **Large Language Models (LLMs):** Especialización de Gen AI enfocada en tareas lingüísticas y de programación.
+  * **Dimensión (*Large*):** Caracterizados por conjuntos de entrenamiento que alcanzan la escala de petabytes y arquitecturas con miles de millones (*billions*) o billones (*trillions*) de **parámetros** (pesos numéricos que representan el conocimiento consolidado durante el entrenamiento).
+  * **Propósito General (*General-Purpose*):** Capaces de resolver problemas transversales gracias a las regularidades gramaticales y semánticas del lenguaje humano.
+
+#### 2. Ciclo de Entrenamiento: Pre-training vs Fine-tuning
+* **Pre-training (Pre-entrenamiento):** Fase de ingesta masiva y no supervisada de texto, código y datos multimodales. El modelo aprende a calcular la probabilidad de la siguiente palabra o token más probable ("autocompletado sofisticado").
+* **Fine-tuning (Ajuste Fino):** Calibración posterior del modelo pre-entrenado mediante un dataset significativamente más reducido y curado para optimizar su desempeño en objetivos especializados (por ejemplo, resolución de incidentes cloud, generación de sintaxis `gcloud` o diagnóstico de redes).
+
+#### 3. Alucinaciones (Hallucinations): Diagnóstico y Mitigación
+* **Definición:** Respuestas sintácticamente impecables emitidas por el modelo que resultan ser fácticamente incorrectas, inventadas o ilógicas.
+* **Causas Raíz:**
+  1. Modelo no expuesto a suficientes datos durante el entrenamiento.
+  2. Datos de entrenamiento ruidosos, contradictorios o desactualizados.
+  3. Ausencia de contexto específico en el prompt suministrado por el usuario.
+  4. Falta de restricciones (*constraints*) explícitas sobre el formato o las fronteras de respuesta.
+* **Limitaciones Críticas para Ingenieros Cloud:**
+  * Un LLM no tiene conocimiento intrínseco de los datos privados o repositorios internos de una empresa a menos que se le suministren en el contexto o mediante técnicas de *Grounding* / RAG.
+  * El modelo no cuenta con acceso en tiempo real a eventos actuales si no está conectado a herramientas externas.
+  * El LLM tiende a asumir que la información provista en el prompt es verídica y no solicita aclaraciones por iniciativa propia.
+
+#### 4. Gemini en Google Cloud: Colaborador Continuo (*Always-on Collaborator*)
+* Asistente de IA generativa integrado de forma nativa en Google Cloud Console, Cloud Shell y estaciones de trabajo de desarrollo (Cloud Workstations), sin instalaciones locales adicionales.
+* Posee acceso directo a la documentación oficial de Google Cloud, guías de arquitectura de referencia y mejores prácticas del Well-Architected Framework.
+* Es capaz de analizar requerimientos de infraestructura, sugerir topologías de red (ej. arquitecturas *hub-and-spoke* con VPC Peering y Cloud Interconnect) y generar comandos ejecutables de la CLI `gcloud` con inserción directa en Cloud Shell.
+
+---
+
+### 7.2 Anatomía del Prompt: Preamble vs Input y los 4 Tipos de Prompts
+
+Un **prompt** es la instrucción, pregunta o indicación de texto enviada al modelo para iniciar una respuesta. El **Prompt Engineering** es la práctica de diseñar, estructurar y articular dicha entrada para maximizar la exactitud del resultado y erradicar respuestas espurias.
+
+#### 1. Componentes Estructurales de un Prompt
+* **Preamble (Preámbulo):** Bloque introductorio que suministra el contexto operativo, el rol o persona que debe adoptar el modelo, las restricciones de formato y ejemplos guía. Establece el marco de referencia previo a la ejecución.
+* **Input (Entrada / Solicitud Central):** La pregunta, texto, bloque de logs o requerimiento técnico concreto sobre el cual debe operar la instrucción del preámbulo.
+
+#### 2. Las 4 Categorías Fundamentales de Prompts
+1. **Zero-shot Prompting:**
+   * La instrucción se envía sin ejemplos previos ni datos de referencia.
+   * *Ejemplo:* `"¿Cómo configuro una subred dual-stack en Google Cloud?"`
+   * *Uso óptimo:* Preguntas directas de conocimiento general o solicitudes sintácticas básicas.
+2. **One-shot Prompting:**
+   * Proporciona exactamente un ejemplo representativo que ilustra la relación entrada-salida o el formato esperado antes de la solicitud real.
+   * *Ejemplo:* `"Convierte nombres de servicios a su API: Compute Engine -> compute.googleapis.com. Cloud Run -> ?"`
+3. **Few-shot Prompting:**
+   * Proporciona dos o más ejemplos completos para enseñar patrones complejos de extracción, formato JSON o clasificación técnica.
+   * *Uso óptimo:* Tareas donde el formato de respuesta debe ser estrictamente determinista (ej. extraer métricas de logs de Cloud Logging a un esquema JSON predefinido).
+4. **Role Prompts (Personas):**
+   * Asigna explícitamente un rol profesional y marco de referencia al modelo.
+   * *Ejemplo:* `"Actúa como un arquitecto de soluciones certificado en Google Cloud. Diseña una topología de red VPC para una entidad bancaria que conecte múltiples regiones sin duplicar políticas de firewall."`
+   * *Impacto:* Calibra el vocabulario técnico, el nivel de rigor arquitectónico y enfoca los patrones de diseño hacia estándares corporativos (como arquitecturas *hub-and-spoke* con Shared VPC).
+
+---
+
+### 7.3 Las 5 Mejores Prácticas de Prompt Engineering para Operaciones Cloud
+
+1. **Instrucciones Detalladas y Explícitas:** Sustituir peticiones genéricas por parámetros exactos (región, tipo de máquina, nombre de red, formato dual-stack IPv4/IPv6, versión de runtime).
+2. **Delimitar Fronteras y Enfoque Positivo:** Instruir al modelo de forma prioritaria sobre **qué debe hacer**, en lugar de listas extensas de prohibiciones negativas.
+3. **Mecanismos de Salida de Contingencia (*Fallback Outputs*):** Indicarle al modelo frases de contingencia si no posee suficiente información (ej. *"Si faltan datos para generar el comando gcloud, responde indicando exactamente qué parámetro se requiere antes de generar el script"*).
+4. **Adoptar una Persona Técnica Especializada:** Delimitar el rol (Arquitecto Cloud, Ingeniero SRE, Auditor de Seguridad IAM) para modular la profundidad y los supuestos de la solución.
+5. **Oraciones Breves y Tareas Encadenadas:** Descomponer problemas arquitectónicos complejos en una secuencia de oraciones concisas o prompts encadenados paso a paso (*step-by-step reasoning*).
+
+### 📝 7.4 Evaluación y Conceptos de Examen del Módulo 7 (Quiz de Prompt Engineering y Gemini)
+
+El cuestionario oficial del Módulo 7 evalúa los principios de interacción efectiva con modelos de lenguaje y Gemini:
+
+#### 1. Generación de Estructuras Rígidas (Few-Shot Prompting)
+* **Pregunta Oficial:** *You need a large language model (LLM) to convert unstructured text into a rigid, custom JSON structure. Which prompting technique should you implement?*
+* **Respuesta Correcta:** **A few-shot prompt that includes illustrative output examples.** (Un prompt few-shot que incluye ejemplos ilustrativos de salida).
+* **Fundamento Arquitectónico:**
+  * Cuando se requiere una salida técnica estructurada (como JSON para automatizaciones de Cloud Functions, esquemas de bases de datos o manifiestos YAML de Kubernetes), el *few-shot prompting* suministra pares representativos de entrada-salida para que el modelo replique con exactitud la sintaxis requerida sin desviarse del formato.
+
+#### 2. Definición Esencial de Inteligencia Artificial Generativa
+* **Pregunta Oficial:** *What is the primary defining function of generative AI?*
+* **Respuesta Correcta:** **Generate original text, images, code, or other media using generative models.** (Generar texto original, imágenes, código u otros medios mediante modelos generativos).
+* **Fundamento Arquitectónico:**
+  * La IA tradicional se centraba en clasificación, detección o predicción matemática; la IA generativa utiliza redes neuronales profundas para sintetizar contenido completamente nuevo a partir de patrones probabilísticos aprendidos de grandes conjuntos de datos.
+
+#### 3. Construcción de Prompts Confiables
+* **Pregunta Oficial:** *You are designing prompts to guide a large language model (LLM) toward clear and reliable responses. Which practice aligns with Google-recommended guidelines for prompt construction?*
+* **Respuesta Correcta:** **Maintain concise phrasing and direct instructions.** (Mantener un fraseo conciso e instrucciones directas).
+* **Fundamento Arquitectónico:**
+  * Las instrucciones largas y ambiguas con múltiples oraciones subordinadas generan dispersión en la atención del modelo y aumentan la probabilidad de alucinaciones. Es una directriz estándar de Google dividir solicitudes complejas en oraciones directas y tareas atómicas.
+
+#### 4. Mitigación de Alucinaciones en LLMs
+* **Pregunta Oficial:** *How can you avoid hallucinations when training or prompting a large language model (LLM)?*
+* **Respuesta Correcta:** **Train the model on a clean, curated dataset.** (Entrenar el modelo en un conjunto de datos limpio y curado).
+* **Fundamento Arquitectónico:**
+  * Las alucinaciones se producen por datos ruidosos o contaminados en el entrenamiento, o por ausencia de contexto y restricciones en el prompt. El uso de datasets limpios y supervisados durante el fine-tuning, complementado con límites explícitos en tiempo de inferencia, minimiza sustancialmente las respuestas erróneas.
+
+---
+
+## 🎓 8. Resumen Curricular Consolidado y Hoja de Ruta de Certificación ACE
+
+El curso **Google Cloud Fundamentals: Core Infrastructure** constituye la base conceptual y operativa sobre la cual se construye la preparación técnica para la certificación **Google Cloud Associate Cloud Engineer (ACE v4.0)**. A lo largo de sus 7 módulos temáticos, se establecen los patrones arquitectónicos, las buenas prácticas de gobernanza y las herramientas de línea de comandos indispensables para operar en Google Cloud.
+
+### 8.1 Matriz de Competencias Adquiridas en los 7 Módulos
+
+| Módulo Oficial | Foco Tecnológico Principal | Competencias Troncales | Herramientas / Servicios Clave |
+| :--- | :--- | :--- | :--- |
+| **M1: Introducción a GCP** | Fundamentos Cloud y Modelos de Servicio | Distinción entre IaaS, PaaS y Serverless; arquitectura de red troncal global de Google; modelo de seguridad en 6 capas; principios de facturación y descuentos SUD. | Compute Engine, Red Privada Global, Titan, Cloud Billing. |
+| **M2: Recursos y Acceso** | Gobernanza, Identidad y Control de Acceso | Jerarquía de 4 niveles (Organización → Carpetas → Proyectos → Recursos); políticas IAM aditivas; cuentas de servicio; federación con Cloud Identity; las 4 vías de interacción. | Resource Manager, IAM, Service Accounts, Cloud Identity, Cloud Shell, gcloud CLI. |
+| **M3: Redes y Cómputo** | Infraestructura Básica y Tráfico | Diseño de redes VPC globales y subredes regionales; reglas de firewall con stateful inspection; autoscaling de VMs; balanceo de carga L4/L7; interconexión híbrida. | Virtual Private Cloud (VPC), Compute Engine, Spot VMs, Cloud Load Balancing, Cloud VPN. |
+| **M4: Almacenamiento** | Persistencia y Motores de Datos | Selección políglota de almacenamiento: blobs (Cloud Storage), relacional transaccional (Cloud SQL y Spanner), NoSQL (Firestore y Bigtable) y OLAP (BigQuery). | Cloud Storage (4 clases), Cloud SQL, Spanner, Firestore, Bigtable. |
+| **M5: Contenedores** | Empaquetado y Orquestación K8s | Virtualización a nivel de SO; Pods, Deployments, Services y Rolling Updates; clústeres gestionados GKE en modos Autopilot (recomendado) y Standard. | Docker / OCI, Kubernetes (K8s), Google Kubernetes Engine (GKE), Artifact Registry. |
+| **M6: Desarrollo Serverless** | Cómputo Sin Servidor Orientado a Eventos | Despliegue de contenedores stateless en Cloud Run (Knative, escala a cero, cobro a 100 ms); micro-funciones FaaS dirigidas por eventos en Cloud Storage y Pub/Sub. | Cloud Run, Cloud Run functions, Google Cloud Buildpacks, Cloud Build. |
+| **M7: Gemini y Prompting** | Asistencia Operativa con Inteligencia Artificial | Principios de IA Generativa y LLMs; mitigación de alucinaciones; Gemini en Cloud Console y Cloud Shell; técnicas zero/few-shot, preámbulo e input estructurado. | Gemini for Google Cloud, Prompt Engineering, Cloud Shell Assistant. |
+
+### 8.2 Mapeo Directo a los 4 Dominios del Examen Google Cloud ACE
+
+La adquisición de estas habilidades se alinea con los cuatro dominios oficiales evaluados en el examen de certificación Associate Cloud Engineer:
+* **Dominio 1: Configuración del entorno de soluciones en la nube (~23%):** Jerarquía de recursos, configuración de cuentas de facturación, proyectos, roles IAM y herramientas de línea de comandos (Módulos 1 y 2).
+* **Dominio 2: Planificación e implementación de soluciones en la nube (~30%):** Aprovisionamiento y dimensionamiento de cómputo (Compute Engine, GKE, Cloud Run), redes VPC y motores de persistencia de datos (Módulos 3, 4, 5 y 6).
+* **Dominio 3: Garantía de la operación exitosa de soluciones en la nube (~27%):** Gestión de clústeres GKE, servicios en Cloud Run, ciclo de vida de almacenamiento y automatización operativa (Módulos 3, 4, 5 y 6).
+* **Dominio 4: Configuración de acceso y seguridad (~20%):** Gestión de identidades (Cloud Identity), asignación de roles predefinidos, cuentas de servicio para VMs y pods, y claves de acceso (Módulo 2).
+
+### 8.3 Recursos Oficiales de Certificación y Próximos Pasos
+* **Guía Oficial de Certificación:** Consulta la guía temática de ACE en [cloud.google.com/certification/cloud-engineer](https://cloud.google.com/certification/cloud-engineer).
+* **Rutas de Aprendizaje Adicionales:** Continúa con cursos especializados de redes, seguridad y Kubernetes en [cloud.google.com/training](https://cloud.google.com/training).
+* **Simulaciones de Examen:** Practica con los cuestionarios interactivos y los laboratorios guiados de esta plataforma para afianzar la sintaxis de la CLI `gcloud`.
+
+---
+
+## 🛠️ 9. Laboratorios Prácticos del Curso
 
 ### Lab 1: Getting Started with Cloud Marketplace (Lab ID: 689558)
 * **Objetivo Oficial:** Desplegar de forma rápida y automatizada una pila completa de desarrollo web LAMP sobre una instancia de Compute Engine mediante un solo clic usando Google Cloud Marketplace.
@@ -1658,47 +1954,148 @@ El cuestionario oficial del Módulo 5 evalúa los fundamentos estructurales de K
 
 ---
 
-### Lab 4: Hello Cloud Run
-* **Objetivo**: Desplegar una aplicación web contenerizada en Cloud Run de forma serverless con autoescalado a cero.
-* **Comandos gcloud**:
-  ```bash
-  # 1. Establecer región predeterminada
-  gcloud config set run/region us-central1
+### Lab 4: Hello Cloud Run (Lab ID: CBL333 / 689585)
+* **Objetivo Oficial:** Desarrollar, contenerizar y desplegar una aplicación web ligera escrita en Node.js sobre Cloud Run de forma totalmente serverless, utilizando Artifact Registry para el almacenamiento seguro de imágenes Docker y Cloud Build para la compilación desatendida en la nube.
+* **Metadatos del Laboratorio:** Nivel Introductorio | Duración: 60 minutos | Créditos: 5.
+* **Arquitectura de la Solución:**
+  * **Código Fuente de Aplicación:** Servidor web Express en Node.js que procesa peticiones HTTP en la ruta raíz (`/`) y escucha en el puerto dinámico definido por la variable de entorno `PORT` (por defecto `8080`).
+  * **Empaquetado (Docker):** `Dockerfile` multi-etapa con imagen base `node:20-slim`, separando la copia de dependencias (`package*.json`) para aprovechar la caché de capas de Docker.
+  * **Compilación y Registro (Cloud Build & Artifact Registry):** Repositorio Docker regional en Artifact Registry con autenticación integrada y compilación gestionada sin requerir un demonio Docker local.
+  * **Cómputo Serverless (Cloud Run):** Despliegue con acceso público no autenticado (`--allow-unauthenticated`), escalado dinámico a cero y endpoint seguro HTTPS gestionado.
+* **Flujo Operativo Paso a Paso:**
+  1. **Habilitar APIs y Configurar Entorno en Cloud Shell (Task 1):**
+     ```bash
+     # Habilitar servicios de Cloud Run y Artifact Registry
+     gcloud services enable run.googleapis.com artifactregistry.googleapis.com
 
-  # 2. Desplegar contenedor oficial
-  gcloud run deploy hello-cloudrun \
-      --image=gcr.io/google-samples/hello-app:1.0 \
-      --region=us-central1 \
-      --allow-unauthenticated
+     # Establecer región de cómputo predeterminada
+     gcloud config set compute/region us-central1
+     export LOCATION=us-central1
+     ```
+  2. **Escribir la Aplicación Node.js (Task 2):**
+     ```bash
+     mkdir helloworld && cd helloworld
 
-  # 3. Describir servicio y obtener URL pública
-  gcloud run services describe hello-cloudrun --region=us-central1
-  ```
+     # Crear package.json con dependencia de Express
+     cat <<'EOF' > package.json
+     {
+       "name": "helloworld",
+       "description": "Simple hello world sample in Node",
+       "version": "1.0.0",
+       "main": "index.js",
+       "scripts": {
+         "start": "node index.js"
+       },
+       "author": "Google LLC",
+       "license": "Apache-2.0",
+       "dependencies": {
+         "express": "^4.17.1"
+       }
+     }
+     EOF
+
+     # Crear index.js con servidor Express escuchando en PORT
+     cat <<'EOF' > index.js
+     const express = require('express');
+     const app = express();
+     const port = process.env.PORT || 8080;
+
+     app.get('/', (req, res) => {
+       const name = process.env.NAME || 'World';
+       res.send(`Hello ${name}!`);
+     });
+
+     app.listen(port, () => {
+       console.log(`helloworld: listening on port ${port}`);
+     });
+     EOF
+     ```
+  3. **Crear Repositorio en Artifact Registry (Task 3):**
+     ```bash
+     # Crear repositorio de formato Docker
+     gcloud artifacts repositories create my-repository \
+         --repository-format=docker \
+         --location=$LOCATION \
+         --description="Docker repository"
+
+     # Configurar autenticación para el endpoint regional de Docker
+     gcloud auth configure-docker $LOCATION-docker.pkg.dev
+     ```
+  4. **Contenerizar la Aplicación con Cloud Build (Task 4):**
+     ```bash
+     # Crear Dockerfile optimizado
+     cat <<'EOF' > Dockerfile
+     FROM node:20-slim
+     WORKDIR /usr/src/app
+     COPY package*.json ./
+     RUN npm install --only=production
+     COPY . ./
+     CMD [ "npm", "start" ]
+     EOF
+
+     # Compilar y subir la imagen directamente a Artifact Registry con Cloud Build
+     gcloud builds submit --tag $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld
+
+     # (Opcional) Probar ejecución local en Cloud Shell
+     docker run -d -p 8080:8080 $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld
+     curl localhost:8080
+     ```
+  5. **Desplegar el Servicio en Cloud Run (Task 5):**
+     ```bash
+     # Desplegar con acceso público no autenticado
+     gcloud run deploy helloworld \
+         --image $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld \
+         --allow-unauthenticated \
+         --region=$LOCATION
+
+     # Obtener URL del servicio y validar
+     gcloud run services describe helloworld --region=$LOCATION --format="value(status.url)"
+     ```
+  6. **Limpieza de Recursos (Task 6):**
+     ```bash
+     # Eliminar imagen de Artifact Registry para evitar costes de almacenamiento
+     gcloud artifacts docker images delete $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld --quiet
+
+     # Eliminar el servicio de Cloud Run
+     gcloud run services delete helloworld --region=$LOCATION --quiet
+     ```
+* **Puntos Clave para la Certificación Google Cloud ACE:**
+  * **Puerto de Escucha Dinámico:** El contenedor DEBE escuchar en el puerto inyectado por la variable de entorno `PORT` (por defecto 8080). Si la aplicación escucha en un puerto rígido no mapeado, la inicialización del contenedor fallará el health check de inicio.
+  * **Artifact Registry vs Container Registry:** Container Registry (`gcr.io`) está discontinuado; el estándar oficial para el examen ACE es **Artifact Registry** (`<region>-docker.pkg.dev/<project>/<repo>/<image>`).
+  * **Control de Invocación con IAM:** La bandera `--allow-unauthenticated` asigna el rol `roles/run.invoker` al miembro `allUsers`. Si se requiere un servicio privado (comunicación servicio a servicio), se omite esa bandera y se autentica mediante tokens OIDC asignados a Service Accounts.
+  * **Compilación Desatendida:** `gcloud builds submit` evita la necesidad de configurar pipelines CI/CD complejos o demonios Docker locales para generar artefactos listos para producción.
 
 ---
 
-## 🎯 7. Árbol de Decisión de Cómputo para el Examen ACE
+## 🎯 10. Árbol de Decisión de Cómputo para el Examen ACE
 
 ```
 ¿La carga requiere acceso al kernel, controladores legados o SO personalizado?
 ├── SÍ ───> Compute Engine (VMs)
 └── NO
-    ├── ¿Es una aplicación contenerizada con orquestación compleja y plugins de red?
-    │   ├── SÍ (Control total de nodos) ────────> GKE Standard
-    │   └── SÍ (Operación serverless de nodos) ─> GKE Autopilot
+    ├── ¿Es una aplicación contenerizada con orquestación compleja, redes avanzadas o multi-tenant?
+    │   ├── SÍ (Control granular de VMs de nodos) ────────> GKE Standard
+    │   └── SÍ (Gestión desatendida y cobro por pod) ─────> GKE Autopilot
     └── NO
-        ├── ¿Es un contenedor o microservicio web sin estado (HTTP / Eventos)?
+        ├── ¿Es un contenedor o microservicio web sin estado (HTTP / Eventos Pub/Sub)?
         │   └── SÍ ───> Cloud Run
-        └── ¿Es una función de propósito único disparada por Storage o Pub/Sub?
+        └── ¿Es una función de propósito único disparada por Storage, Pub/Sub o Webhook?
             └── SÍ ───> Cloud Run Functions
 ```
 
 ---
 
-## 💡 8. Trampas Frecuentes en el Examen ACE
+## 💡 11. Trampas Frecuentes en el Examen ACE
 
 1. **Uso de Roles Básicos en Producción**: Las opciones que recomiendan asignar `roles/editor` o `roles/viewer` para otorgar acceso a buckets o VMs violan el principio de mínimo privilegio. Siempre preferir roles predefinidos (ej. `roles/storage.objectViewer`).
 2. **Archivos de Clave JSON en VMs**: Descargar archivos JSON de cuentas de servicio en el disco de una máquina virtual es un antipatrón de seguridad crítico. La práctica oficial recomendada es adjuntar la cuenta de servicio directamente a la VM mediante el Compute Engine Metadata Server.
 3. **Subredes en VPC Modo Personalizado**: A diferencia del modo Auto (que crea una subred por región), el modo Custom inicia con 0 subredes; deben ser aprovisionadas explícitamente.
 4. **Herencia Aditiva en IAM**: Los permisos concedidos en niveles superiores (Organización o Carpeta) no pueden ser denegados ni restringidos en proyectos o recursos hijos mediante políticas IAM tradicionales.
+5. **Estado Local en Contenedores de Cloud Run**: Cloud Run es estrictamente *stateless*; las instancias se crean y se destruyen dinámicamente según la demanda. Si una pregunta propone guardar archivos subidos o sesiones en el almacenamiento local del contenedor (`/tmp`), es una trampa. El almacenamiento persistente debe delegarse a Cloud Storage o bases de datos (Cloud SQL, Spanner, Firestore).
+6. **Puerto Hardcodeado en Cloud Run**: Cloud Run inyecta la variable de entorno `PORT` en el contenedor. Si el contenedor ignora `PORT` y escucha en un puerto distinto sin declararlo explícitamente mediante el flag `--port`, el servicio no responderá a las verificaciones de estado y el despliegue fallará.
+7. **Servicios Privados en Cloud Run**: Por defecto, un nuevo servicio de Cloud Run NO es accesible públicamente. Para permitir peticiones sin autenticación desde internet, se debe añadir explícitamente la bandera `--allow-unauthenticated` o asignar el rol `roles/run.invoker` a `allUsers`.
+8. **Compilación de Contenedores sin Dockerfile**: Cloud Run puede compilar y desplegar aplicaciones desde código fuente sin un `Dockerfile` previo mediante **Google Cloud Buildpacks** (`gcloud run deploy --source .`). Si una pregunta afirma que es obligatorio crear manualmente un Dockerfile para usar Cloud Run, es incorrecto.
+9. **Confundir Few-Shot Prompting con Fine-Tuning**: Few-shot consiste en incluir 2 o más ejemplos representativos directamente dentro del prompt (en tiempo de inferencia, sin alterar los pesos del modelo). El Fine-tuning es un proceso de entrenamiento supervisado que modifica los parámetros de la red neuronal mediante un dataset curado.
+10. **Asumir que Gemini Conoce Datos Corporativos Privados por Defecto**: Los LLMs solo operan con sus datos de pre-entrenamiento y lo que se les suministra explícitamente en el prompt. No acceden de manera autónoma a bases de datos ni repositorios internos de la empresa a menos que se implemente una solución de Grounding con Vertex AI Search o RAG.
+11. **Alucinaciones de Sintaxis en CLI**: Gemini puede generar flags o comandos inexistentes si el prompt carece de restricciones o contexto suficiente. La práctica recomendada para el examen ACE es revisar minuciosamente los comandos de la CLI `gcloud` generados por IA antes de su ejecución en entornos de producción.
 

@@ -1212,6 +1212,74 @@ gcloud compute forwarding-rules create http-content-rule \\
           'Comando CLI create-auto: Para desplegar un clúster Autopilot en producción se utiliza `gcloud container clusters create-auto <nombre> --region <region>`.',
         ],
       },
+      {
+        id: 'vid-60-32',
+        title: 'Cloud Run',
+        moduleName: 'Módulo 6: Desarrollo de Aplicaciones en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=R3Ec_4tC3oc',
+        youtubeId: 'R3Ec_4tC3oc',
+        duration: '3:50',
+        summary:
+          'Introducción a Cloud Run como plataforma de cómputo serverless administrada para ejecutar contenedores sin estado (stateless) activados por solicitudes web HTTP/HTTPS o eventos de Cloud Pub/Sub. Construida sobre Knative (estándar abierto de Kubernetes), ofrece portabilidad absoluta entre Cloud Run gestionado en GCP, clústeres de GKE o entornos híbridos. Resalta su autoescalado instantáneo a cero réplicas en inactividad, su modelo de facturación por uso real con granularidad de 100 milisegundos más tarifa por millón de peticiones (coste cero en reposo), certificados SSL/TLS automáticos y el flujo de desarrollo en 3 pasos: codificación de la aplicación web escuchando en PORT, empaquetado en contenedor (Dockerfile o Cloud Buildpacks) y despliegue hacia Artifact Registry y Cloud Run. Admite cualquier binario compilado para Linux de 64 bits en lenguajes modernos y tradicionales.',
+        keyTakeaways: [
+          'Plataforma Serverless sobre Knative: Cloud Run abstrae totalmente la infraestructura y balanceadores de carga, permitiendo ejecutar contenedores sin estado con portabilidad multi-nube gracias al estándar abierto Knative.',
+          'Escalado a Cero y Cobro por 100 ms: En ausencia de tráfico las instancias se reducen a 0 réplicas con costo cero; los cargos aplican exclusivamente por vCPU y memoria utilizados mientras se procesan peticiones, calculados al intervalo de 100 ms más cercano.',
+          'Flujo de 3 Pasos y Buildpacks: Permite flujos basados en contenedor (con Dockerfile propio) o basados en código fuente (Source-based con Google Cloud Buildpacks) que empaquetan la aplicación de forma automática y consistente.',
+          'HTTPS Automático: Cada servicio desplegado recibe una URL pública segura con cifrado TLS/HTTPS gestionado y aprovisionado automáticamente por Google.',
+          'Binarios Linux de 64 bits Políglotas: Compatible con cualquier lenguaje (Node.js, Python, Java, Go, C++, PHP, COBOL, Haskell, etc.) siempre que la aplicación escuche en el puerto web definido por la variable PORT.',
+        ],
+      },
+      {
+        id: 'vid-60-33',
+        title: 'Development in the cloud',
+        moduleName: 'Módulo 6: Desarrollo de Aplicaciones en la Nube',
+        youtubeUrl: 'https://www.youtube.com/watch?v=zoq8Lajo7dE',
+        youtubeId: 'zoq8Lajo7dE',
+        duration: '1:44',
+        summary:
+          'Exploración de arquitecturas dirigidas por eventos y cómputo ligero sin servidor mediante Cloud Run functions (antes Cloud Functions). Análisis de cómo desacoplar tareas asíncronas de propósito único (como el procesamiento y redimensionamiento de imágenes subidas por usuarios) de la aplicación principal para evitar el sobredimensionamiento de servidores. Detalla las dos modalidades de activación: disparadores asíncronos desde Cloud Storage y Pub/Sub, e invocaciones síncronas mediante solicitudes HTTP. Explica el modelo de cobro por milisegundo (redondeado a 100 ms) exclusivo durante el tiempo de ejecución y el soporte de código fuente en Node.js, Python, Go, Java, .NET Core, Ruby y PHP.',
+        keyTakeaways: [
+          'Cómputo FaaS Orientado a Eventos: Cloud Run functions permite escribir funciones pequeñas de propósito único para actuar como "pegamento en la nube" (glue code) conectando y extendiendo servicios de GCP sin gestionar servidores ni runtimes.',
+          'Desacoplamiento de Flujos de Negocio: Evita mantener servidores sobredimensionados para picos esporádicos de procesamiento (ej. manipulación de imágenes tras upload en Cloud Storage o ingesta masiva en Pub/Sub).',
+          'Disparadores Asíncronos vs Síncronos: Soporta ejecución asíncrona disparada por eventos de Cloud Storage y Pub/Sub, así como invocación síncrona mediante endpoints HTTP estándar.',
+          'Facturación al Milisegundo: El cobro se calcula redondeando a los 100 milisegundos más cercanos únicamente mientras el código de la función se encuentra en ejecución activa; coste cero en estado inactivo.',
+          'Soporte Políglota de Código Fuente: Permite escribir directamente en Node.js, Python, Go, Java, .NET Core, Ruby y PHP sin necesidad de gestionar archivos Dockerfile.',
+        ],
+      },
+      {
+        id: 'vid-60-34',
+        title: 'Prompt Engineering',
+        moduleName: 'Módulo 7: Asistencia con Gemini y Prompt Engineering',
+        youtubeUrl: 'https://www.youtube.com/watch?v=5zoKVf-cnf4',
+        youtubeId: '5zoKVf-cnf4',
+        duration: '12:50',
+        summary:
+          'Guía oficial de Google Cloud sobre Prompt Engineering e integración con Gemini. Comienza definiendo la taxonomía entre IA, Gen AI (auge desde 2021) y Large Language Models (LLMs), analizando su arquitectura: tamaño en petabytes, miles de millones o billones de parámetros (memoria del modelo) y capacidades de propósito general basadas en las reglas comunes del lenguaje humano. Detalla el ciclo de entrenamiento mediante pre-training (cálculo probabilístico no supervisado de la siguiente palabra) y fine-tuning (ajuste supervisado con datasets curados). Examina el fenómeno de las alucinaciones y sus cuatro causas (datos insuficientes, datos sucios, falta de contexto y ausencia de restricciones), así como las limitaciones intrínsecas de los LLMs. Presenta a Gemini como un colaborador permanente (always-on collaborator) integrado en Cloud Console y Cloud Shell capaz de sugerir arquitecturas (ej. VPC hub-and-spoke para Cymbal Bank) y redactar comandos de la CLI gcloud. Clasifica las cuatro categorías de prompts: zero-shot, one-shot, few-shot y role prompts (adopción de personas técnicas). Disecciona los dos componentes estructurales de un prompt: preamble (contexto, rol y restricciones) e input (solicitud central). Finalmente, establece las cinco mejores prácticas de prompt engineering para operaciones cloud: instrucciones detalladas y explícitas, definición de límites positivos, salidas de contingencia (fallback outputs), adopción de roles profesionales y redacción de oraciones breves y tareas simples encadenadas.',
+        keyTakeaways: [
+          'Gen AI vs LLMs: Generative AI abarca cualquier modelo que genere contenido multimodal (texto, imágenes, audio, video); los LLMs son un subconjunto enfocado específicamente en tareas lingüísticas y generación de código.',
+          'Parámetros y Pre-training: Los parámetros representan el conocimiento y memoria adquirida por la red neuronal durante el pre-entrenamiento, operando como un motor probabilístico sofisticado que calcula el token más probable.',
+          'Causas de Alucinaciones: Se originan por falta de datos suficientes, datos ruidosos o sucios, y principalmente por la carencia de contexto explícito o restricciones delimitadas en el prompt del usuario.',
+          '4 Tipos de Prompts: Zero-shot (sin ejemplos), One-shot (un ejemplo guía), Few-shot (dos o más ejemplos para patrones estrictos) y Role Prompts (asignación de personas o roles profesionales como Arquitecto Cloud).',
+          'Preamble vs Input y Buenas Prácticas: Todo prompt robusto combina un preámbulo (contexto, rol, restricciones y fallbacks) con un input claro, empleando oraciones concisas y definiendo instrucciones sobre qué hacer en lugar de qué no hacer.',
+        ],
+      },
+      {
+        id: 'vid-60-35',
+        title: 'Course summary',
+        moduleName: 'Cierre Curricular: Resumen del Curso',
+        youtubeUrl: 'https://www.youtube.com/watch?v=9lbfxj-K3Qo',
+        youtubeId: '9lbfxj-K3Qo',
+        duration: '3:56',
+        summary:
+          'Lección de clausura oficial del curso Google Cloud Fundamentals: Core Infrastructure. Sintetiza los aprendizajes clave de los siete módulos del temario: la introducción a modelos cloud (IaaS/PaaS) y redes troncales en el Módulo 1; jerarquía de recursos, políticas descendentes e IAM en el Módulo 2; máquinas virtuales de Compute Engine, autoescalado dinámico, compatibilidades avanzadas de VPC y Cloud Load Balancing en el Módulo 3; taxonomía de los 5 motores troncales de almacenamiento (Cloud Storage con sus 4 clases, Cloud SQL, Spanner, Firestore y Bigtable) en el Módulo 4; contenedorización y orquestación administrada con Kubernetes y GKE en el Módulo 5; desarrollo serverless en la nube mediante Cloud Run y Cloud Run functions en el Módulo 6; y prompt engineering aplicado a la asistencia con Gemini en el Módulo 7. Concluye trazando la hoja de ruta técnica hacia la certificación Google Cloud Associate Cloud Engineer (ACE).',
+        keyTakeaways: [
+          'Recapitulación Curricular: Consolidación de los fundamentos de cómputo, almacenamiento, redes virtuales, seguridad por capas y gobierno organizacional requeridos para operar en Google Cloud.',
+          'Pilar de Cómputo y Contenedores: Comprensión transversal del espectro de cómputo, desde IaaS granular con Compute Engine hasta CaaS orquestado con GKE y CaaS/FaaS serverless con Cloud Run.',
+          'Pilar de Redes y Almacenamiento: Dominio de la arquitectura global de VPC, balanceadores L4/L7, conectividad híbrida y la taxonomía de persistencia políglota para bases de datos relacionales y NoSQL.',
+          'Asistencia con Inteligencia Artificial: Integración de Gemini y técnicas de prompt engineering para acelerar el prototipado y la generación de comandos gcloud en Cloud Shell.',
+          'Hoja de Ruta hacia la Certificación ACE: Articulación de los conocimientos del curso con los cuatro dominios evaluados en el examen de certificación oficial Google Cloud Associate Cloud Engineer.',
+        ],
+      },
     ],
     classificationMatrix: [
       {
@@ -1565,44 +1633,125 @@ sudo service apache2 restart`,
         id: 'core-lab-4',
         labNumber: 4,
         title: 'Hello Cloud Run',
-        durationMinutes: 30,
+        durationMinutes: 60,
         type: 'guided',
         description:
-          'Despliega un microservicio web contenerizado en Cloud Run de forma totalmente serverless, escalando automáticamente desde cero bajo demanda.',
+          'Desarrolla, conteneriza y despliega una aplicación web ligera Express en Node.js sobre Cloud Run de forma totalmente serverless, utilizando Artifact Registry para el almacenamiento seguro de imágenes Docker y Cloud Build para la compilación desatendida en la nube.',
         keyConcepts: [
-          'Cloud Run: Cómputo serverless basado en Knative para contenedores stateless.',
-          'Escalado a cero: Costo nulo cuando no existen peticiones HTTP activas.',
-          'Acceso público: Opción --allow-unauthenticated para endpoints web.',
+          'Cloud Run Serverless: Cómputo administrado basado en Knative para contenedores stateless con escalado automático a cero y cobro por 100 ms.',
+          'Artifact Registry (*.pkg.dev): Repositorio central de artefactos e imágenes Docker con autenticación gcloud auth configure-docker.',
+          'Cloud Build (gcloud builds submit): Compilación desatendida y empaquetado de contenedores en la nube sin requerir demonio Docker local.',
+          'Inyección de variable PORT: Los contenedores deben escuchar en el puerto inyectado por el entorno (por defecto 8080).',
+          'Acceso público: Bandera --allow-unauthenticated para otorgar roles/run.invoker al miembro allUsers.',
         ],
         steps: [
           {
             id: 'c-lab4-step-1',
             stepNumber: 1,
-            title: 'Configurar región predeterminada para Cloud Run',
+            title: 'Habilitar APIs de Cloud Run y Artifact Registry y configurar entorno',
             description:
-              'Establece la región de ejecución de Cloud Run en la configuración de gcloud.',
-            command: `gcloud config set run/region us-central1`,
+              'Habilita las APIs necesarias en el proyecto de GCP y configura la región predeterminada y la variable de entorno LOCATION.',
+            command: `gcloud services enable run.googleapis.com artifactregistry.googleapis.com
+gcloud config set compute/region us-central1
+export LOCATION=us-central1`,
+            tip: 'Habilitar las APIs por CLI prepara el proyecto para aceptar peticiones de despliegue y creación de repositorios.',
           },
           {
             id: 'c-lab4-step-2',
             stepNumber: 2,
-            title: 'Desplegar contenedor de ejemplo en Cloud Run',
+            title: 'Escribir la aplicación web Node.js con Express',
             description:
-              'Despliega la imagen hello-app desde Google Container Registry permitiendo acceso público sin autenticación.',
-            command: `gcloud run deploy hello-cloudrun \\
-    --image=gcr.io/google-samples/hello-app:1.0 \\
-    --region=us-central1 \\
-    --allow-unauthenticated`,
+              'Crea el directorio helloworld, inicializa el manifiesto package.json con Express y codifica index.js escuchando en la variable de entorno PORT.',
+            command: `mkdir helloworld && cd helloworld
+
+cat <<'EOF' > package.json
+{
+  "name": "helloworld",
+  "description": "Simple hello world sample in Node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Google LLC",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+EOF
+
+cat <<'EOF' > index.js
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.get('/', (req, res) => {
+  const name = process.env.NAME || 'World';
+  res.send(\`Hello \${name}!\`);
+});
+
+app.listen(port, () => {
+  console.log(\`helloworld: listening on port \${port}\`);
+});
+EOF`,
+            tip: 'Es un requisito estricto en Cloud Run que la aplicación escuche en el puerto indicado por la variable PORT (por defecto 8080).',
           },
           {
             id: 'c-lab4-step-3',
             stepNumber: 3,
-            title: 'Inspeccionar endpoint público y validar servicio',
+            title: 'Crear repositorio en Artifact Registry y autenticar Docker',
             description:
-              'Consulta la URL HTTPS autogenerada por Cloud Run y lista los servicios activos en el proyecto.',
-            command: `gcloud run services describe hello-cloudrun --region=us-central1 --format="value(status.url)"
-gcloud run services list`,
-            tip: 'Cloud Run asigna automáticamente certificados SSL gestionados por Google a cada servicio.',
+              'Aprovisiona un repositorio Docker en Artifact Registry en la región seleccionada y configura las credenciales de autenticación para Docker.',
+            command: `gcloud artifacts repositories create my-repository \\
+    --repository-format=docker \\
+    --location=$LOCATION \\
+    --description="Docker repository"
+
+gcloud auth configure-docker $LOCATION-docker.pkg.dev`,
+            tip: 'Artifact Registry es el reemplazo oficial moderno de Container Registry (gcr.io) para almacenar imágenes OCI.',
+          },
+          {
+            id: 'c-lab4-step-4',
+            stepNumber: 4,
+            title: 'Crear Dockerfile y compilar imagen con Cloud Build',
+            description:
+              'Diseña un Dockerfile optimizado para Node.js y envía el código a Cloud Build para construir y publicar la imagen en Artifact Registry en un solo comando.',
+            command: `cat <<'EOF' > Dockerfile
+FROM node:20-slim
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+COPY . ./
+CMD [ "npm", "start" ]
+EOF
+
+gcloud builds submit --tag $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld`,
+            tip: 'gcloud builds submit empaqueta el directorio local y lo compila en la nube sin requerir un motor Docker local.',
+          },
+          {
+            id: 'c-lab4-step-5',
+            stepNumber: 5,
+            title: 'Desplegar contenedor en Cloud Run con acceso público',
+            description:
+              'Despliega el servicio en Cloud Run especificando la imagen de Artifact Registry, la región y la opción --allow-unauthenticated.',
+            command: `gcloud run deploy helloworld \\
+    --image $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld \\
+    --allow-unauthenticated \\
+    --region=$LOCATION
+
+gcloud run services describe helloworld --region=$LOCATION --format="value(status.url)"`,
+            tip: 'Cloud Run entrega una URL única asegurada con certificado HTTPS/TLS gestionado automáticamente por Google.',
+          },
+          {
+            id: 'c-lab4-step-6',
+            stepNumber: 6,
+            title: 'Limpiar recursos para evitar costes de almacenamiento',
+            description:
+              'Elimina la imagen de contenedor del repositorio en Artifact Registry y borra el servicio desplegado en Cloud Run.',
+            command: `gcloud artifacts docker images delete $LOCATION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/my-repository/helloworld --quiet
+gcloud run services delete helloworld --region=$LOCATION --quiet`,
+            tip: 'Aunque Cloud Run no factura en inactividad, las imágenes almacenadas en Artifact Registry generan cargos continuos si no se eliminan.',
           },
         ],
       },
@@ -1819,6 +1968,147 @@ gcloud run services list`,
           'Cloud Spanner es el servicio de base de datos relacional distribuida globalmente que proporciona escalabilidad horizontal elástica a escala de petabytes con consistencia externa fuerte (TrueTime API) y soporte completo para transacciones ACID y SQL ANSI.',
         examTrapTip:
           'Cloud SQL es relacional pero escala verticalmente hasta 64 TB; Bigtable y Firestore escalan horizontalmente pero no son bases de datos relacionales.',
+      },
+      {
+        id: 'c-m5-q1',
+        question: 'What is a Kubernetes pod in the context of Google Kubernetes Engine (GKE)?',
+        options: [
+          'A group of containers',
+          'A group of nodes',
+          'A group of VMs',
+          'A group of clusters',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Un Pod es la unidad básica y mínima desplegable en Kubernetes. Encapsula uno o más contenedores estrechamente interdependientes (sidecars) que comparten la misma interfaz de red IP, puertos y almacenamiento.',
+        examTrapTip:
+          'El Pod es la unidad mínima desplegable, no el contenedor individual ni la máquina virtual.',
+      },
+      {
+        id: 'c-m5-q2',
+        question:
+          'Where do the resources used to build Google Kubernetes Engine (GKE) clusters come from?',
+        options: [
+          'App Engine',
+          'Compute Engine',
+          'Bare-metal servers',
+          'Cloud Storage',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Los clústeres de GKE están compuestos por un grupo de máquinas virtuales de Compute Engine que actúan como los nodos de cómputo del clúster.',
+        examTrapTip:
+          'Los nodos de GKE provienen de Compute Engine, mientras que el Control Plane es administrado directamente por Google Cloud.',
+      },
+      {
+        id: 'c-m6-q1',
+        question: 'Why might a Google Cloud customer choose to use Cloud Run functions?',
+        options: [
+          'Their application has a legacy monolithic structure that they want to separate into microservices.',
+          'Cloud Run functions is a free service for hosting compute operations.',
+          'Their application contains event-driven code that they do not want to provision compute resources for.',
+          'Cloud Run functions is the primary way to run C++ applications in Google Cloud.',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Cloud Run functions es una plataforma serverless orientada a eventos diseñada para ejecutar lógica puntual ante cambios en recursos (como subidas a Cloud Storage o mensajes en Pub/Sub) sin pagar por infraestructura ociosa.',
+        examTrapTip:
+          'Cloud Run functions no mantiene VMs aprovisionadas; escala de 0 a miles bajo demanda y apaga instancias cuando concluye el evento.',
+      },
+      {
+        id: 'c-m6-q2',
+        question:
+          'Which of these statements about Cloud Run functions are correct? (Select the statement accurately describing its capabilities)',
+        options: [
+          'Is a scalable functions-as-a-service platform, is integrated with Cloud Logging, and can be used to extend Cloud services.',
+          'Require servers or VMs to be provisioned prior to deployment.',
+          'Can only be invoked by sending HTTP requests and does not support asynchronous triggers.',
+          'Charges a fixed monthly flat rate regardless of whether functions run.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Cloud Run functions es una solución FaaS escalable que canaliza registros de forma nativa a Cloud Logging, admite tanto invocación HTTP como triggers de Cloud Storage y Pub/Sub, y se cobra por 100 ms de uso activo.',
+        examTrapTip:
+          'Cloud Run functions no requiere VMs dedicadas y no está restringida a HTTP; reacciona a eventos asíncronos del ecosistema cloud.',
+      },
+      {
+        id: 'c-m6-q3',
+        question:
+          'Which scenario is best suited for using Cloud Run instead of Cloud Run functions?',
+        options: [
+          'Generating thumbnails for images uploaded to a Cloud Storage bucket.',
+          'Sending an email notification whenever a new document is added to a specific folder in Cloud Storage.',
+          'Hosting a dynamic web application that allows users to upload and share photos.',
+          'Resizing images on demand when requested by a user through a web interface webhook.',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Una aplicación web dinámica completa con interfaz interactiva, enrutamiento múltiple y gestión de sesiones requiere un servidor web empaquetado en un contenedor (Cloud Run). Las tareas aisladas disparadas por eventos de archivos son idóneas para Cloud Run functions.',
+        examTrapTip:
+          'Aplica la regla: Aplicación web completa o API REST con contenedor -> Cloud Run. Tarea de propósito único disparada por un evento -> Cloud Run functions.',
+      },
+      {
+        id: 'c-m7-q1',
+        question:
+          'You need a large language model (LLM) to convert unstructured text into a rigid, custom JSON structure. Which prompting technique should you implement?',
+        options: [
+          'A role prompt that instructs the model to adopt a specific persona.',
+          'A zero-shot prompt with no guidance or context.',
+          'An open-ended creative prompt with minimal constraints.',
+          'A few-shot prompt that includes illustrative output examples.',
+        ],
+        correctIndex: 3,
+        explanation:
+          'El few-shot prompting proporciona dos o más ejemplos representativos de pares entrada-salida para que el modelo replique con exactitud un esquema estricto (como una estructura JSON personalizada) sin desviarse del formato.',
+        examTrapTip:
+          'Para formatos estrictos o esquemas fijos de salida (JSON, YAML), few-shot prompting es la técnica recomendada; zero-shot no garantiza consistencia en las claves.',
+      },
+      {
+        id: 'c-m7-q2',
+        question: 'What is the primary defining function of generative AI?',
+        options: [
+          'Generate original text, images, code, or other media using generative models.',
+          'Generate responses based strictly on real-time data.',
+          'Perform complex calculations and mathematical operations.',
+          'Make predictions about future events based on historical data.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'La IA Generativa (Gen AI) se define por la capacidad de sintetizar contenido nuevo y original (texto, imágenes, código, video o audio) a partir de modelos generativos que aprenden patrones de datos masivos.',
+        examTrapTip:
+          'Los LLMs no son calculadoras analíticas ni tienen acceso por defecto a datos en tiempo real sin grounding externo.',
+      },
+      {
+        id: 'c-m7-q3',
+        question:
+          'You are designing prompts to guide a large language model (LLM) toward clear and reliable responses. Which practice aligns with Google-recommended guidelines for prompt construction?',
+        options: [
+          'Maintain concise phrasing and direct instructions.',
+          'Avoid providing context or specific parameters.',
+          'Draft lengthy, complex sentences with multiple embedded clauses.',
+          'Rely exclusively on default parameters without testing alternative variations.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Las directrices oficiales de Google recomiendan redactar oraciones concisas, instrucciones directas y explícitas, dividiendo solicitudes complejas en tareas simples.',
+        examTrapTip:
+          'Oraciones largas con múltiples cláusulas subordinadas confunden al modelo y aumentan el riesgo de alucinaciones.',
+      },
+      {
+        id: 'c-m7-q4',
+        question:
+          'How can you avoid hallucinations when training or prompting a large language model (LLM)?',
+        options: [
+          'Train the LLM on a smaller dataset.',
+          'Train the model on a clean, curated dataset.',
+          'Omit context from your prompts.',
+          'Train the model to operate with very few constraints.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Entrenar el modelo con un conjunto de datos limpio y curado, combinado con prompts que incluyan suficiente contexto y restricciones delimitadas, es la mejor estrategia para mitigar alucinaciones.',
+        examTrapTip:
+          'Omitir contexto o reducir restricciones son causas directas de alucinaciones en los LLMs.',
       },
       {
         id: 'c-q1',
