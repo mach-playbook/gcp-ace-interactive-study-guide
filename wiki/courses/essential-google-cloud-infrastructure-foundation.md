@@ -13,6 +13,24 @@
 
 Este curso acelerado profundiza en los servicios medulares de infraestructura y plataforma de Google Cloud, centrándose de forma intensiva en **Compute Engine** y **Virtual Private Cloud (VPC)**. Los profesionales que se preparan para la certificación **Google Cloud Associate Cloud Engineer (ACE)** dominan aquí la planificación, el despliegue, la configuración y la resolución de incidencias en redes virtuales globales, subredes regionales, políticas de firewall, enrutamiento, servicios de acceso privado (Private Google Access y Cloud NAT), familias de máquinas virtuales, almacenamiento en disco persistente e imágenes de arranque.
 
+### 🌐 La Trilogía "Architecting with Google Compute Engine"
+Impartida por Rekha Niveda (Cloud Learning Services), esta serie conforma la columna vertebral técnica del track de Cloud Engineer:
+1. **Essential Cloud Infrastructure: Foundation (Este Curso):** Interacción (Console/Cloud Shell), Redes VPC (subredes, cortafuegos, PGA, Cloud NAT) y Compute Engine.
+2. **Essential Cloud Infrastructure: Core Services:** IAM y control de acceso, servicios de almacenamiento de datos, gestión y facturación de recursos, y monitoreo con Google Cloud Monitoring.
+3. **Elastic Cloud Infrastructure: Scaling and Automation:** Interconexión de redes híbridas, Cloud Load Balancing, autoscaling y automatización declarativa con Terraform.
+
+### 🚗 Analogía Urbana de la Infraestructura Cloud
+* **Infraestructura:** El marco subyacente de instalaciones fundamentales (carreteras, agua, energía, telecomunicaciones) = Redes VPC, centros de datos globales, fibra óptica y Compute Engine.
+* **Aplicaciones:** Los automóviles, bicicletas y edificios = Cargas de trabajo, microservicios, bases de datos y servidores web.
+* **Usuarios:** Los ciudadanos que hacen uso de los servicios = Clientes y empleados.
+
+### ⚙️ El Continuo de Soluciones de Cómputo
+Google Cloud ofrece un espectro progresivo de abstracción y control:
+* **Compute Engine (IaaS):** Máximo control y flexibilidad administrativa. Máquinas virtuales bajo demanda para gestionar el sistema operativo, parches y configuraciones de red.
+* **Google Kubernetes Engine - GKE (CaaS):** Orquestación de contenedores sobre clústeres gestionados por Google, combinando portabilidad y eficiencia.
+* **Cloud Run (Serverless Containers):** Plataforma gestionada basada en Knative; ejecuta contenedores sin estado activados por peticiones web o eventos Pub/Sub con escalado automático a cero.
+* **Cloud Run Functions (FaaS):** Código orientado a eventos que se ejecuta sin servidores dedicados, con cobro por milisegundo de ejecución efectiva.
+
 ---
 
 ## 🏛️ Desglose Modular y Arquitectura de Aprendizaje

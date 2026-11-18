@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-18] - Ingesta de Lección en Video: Course Introduction (Course 50 / Video 690256)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-course-introduction.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-course-introduction.md) con la transcripción completa de la lección inaugural presentada por Rekha Niveda (Cloud Learning Services), detallando la trilogía *Architecting with Google Compute Engine*, la analogía urbana de la infraestructura tecnológica y el continuo de opciones de cómputo en Google Cloud (Compute Engine, GKE, Cloud Run, Cloud Run Functions).
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Enriquecida la visión general del curso incorporando la arquitectura de la trilogía curricular de Compute Engine, la analogía urbana y el espectro de soluciones desde IaaS hasta FaaS.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Actualizada la lista de lecciones en video de `gcp-course-50` incorporando la lección inaugural con enlace directo a YouTube (`https://www.youtube.com/watch?v=-zTJk_MbmBg`), duración oficial (9m 10s) y puntos clave de examen.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando la presencia y atributos del video `Course Introduction`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-18] - Ingesta de Nuevo Curso: Essential Google Cloud Infrastructure: Foundation (Course Template ID: 50)
 
 ### Agente Responsable:

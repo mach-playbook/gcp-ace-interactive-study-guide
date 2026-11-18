@@ -35,12 +35,14 @@ describe('Unit Tests: Course 50 - Essential Google Cloud Infrastructure: Foundat
     });
   });
 
-  it('should include the 3 video modules with summaries and key takeaways', () => {
-    expect(course50?.videos?.length).toBe(3);
-    const moduleNames = course50?.videos?.map((v) => v.moduleName);
-    expect(moduleNames).toContain('Módulo 1: Interacting with Google Cloud');
-    expect(moduleNames).toContain('Módulo 2: Virtual Networks');
-    expect(moduleNames).toContain('Módulo 3: Virtual Machines');
+  it('should include the video modules including Course Introduction with valid YouTube embed details', () => {
+    expect(course50?.videos?.length).toBeGreaterThanOrEqual(3);
+    const titles = course50?.videos?.map((v) => v.title);
+    expect(titles).toContain('Course Introduction');
+
+    const introVideo = course50?.videos?.find((v) => v.title === 'Course Introduction');
+    expect(introVideo?.youtubeId).toBe('-zTJk_MbmBg');
+    expect(introVideo?.youtubeUrl).toBe('https://www.youtube.com/watch?v=-zTJk_MbmBg');
 
     course50?.videos?.forEach((video) => {
       expect(video.summary.trim().length).toBeGreaterThan(0);

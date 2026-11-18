@@ -3599,10 +3599,26 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
     ],
     videos: [
       {
+        id: 'infra-lesson-intro',
+        title: 'Course Introduction',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=-zTJk_MbmBg',
+        youtubeId: '-zTJk_MbmBg',
+        duration: '9m 10s',
+        summary:
+          'Bienvenida oficial a la serie "Architecting with Google Compute Engine" por Rekha Niveda. Presenta el ecosistema global de Google Cloud, la analogía urbana de la infraestructura, el espectro de soluciones desde IaaS hasta SaaS y el continuo de opciones de cómputo.',
+        keyTakeaways: [
+          'La infraestructura tecnológica es el marco de soporte fundamental (redes, fibra, centros de datos) equivalente a las carreteras y servicios de una ciudad.',
+          'Google Cloud ofrece un continuo de cómputo: Compute Engine (IaaS flexible), GKE (contenedores orquestados), Cloud Run (contenedores serverless Knative) y Cloud Run Functions (FaaS por eventos).',
+          'La serie curricular troncal comprende 3 cursos: Foundation (este curso), Core Services (IAM, Storage, Facturación, Monitoreo) y Elastic Infrastructure (Redes Híbridas, Balanceo de Carga, Terraform).',
+        ],
+      },
+      {
         id: 'infra-mod1-overview',
         title: 'Module 1: Interacting with Google Cloud',
         moduleName: 'Módulo 1: Interacting with Google Cloud',
-        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        youtubeUrl: 'https://www.youtube.com/watch?v=-zTJk_MbmBg',
+        youtubeId: '-zTJk_MbmBg',
         duration: '1h 15m',
         summary:
           'Presentación de las interfaces de administración de Google Cloud: Cloud Console (web), Cloud Shell (terminal con 5 GB persistentes), Cloud SDK (gcloud, gsutil, bq) y Marketplace para despliegues llave en mano.',
