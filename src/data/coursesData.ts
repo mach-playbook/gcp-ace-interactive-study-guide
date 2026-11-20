@@ -3615,17 +3615,17 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
       },
       {
         id: 'infra-mod1-overview',
-        title: 'Module 1: Interacting with Google Cloud',
+        title: 'Module Overview: Interacting with Google Cloud',
         moduleName: 'Módulo 1: Interacting with Google Cloud',
-        youtubeUrl: 'https://www.youtube.com/watch?v=-zTJk_MbmBg',
-        youtubeId: '-zTJk_MbmBg',
-        duration: '1h 15m',
+        youtubeUrl: 'https://www.youtube.com/watch?v=P9UusGOfEEk',
+        youtubeId: 'P9UusGOfEEk',
+        duration: '0m 35s',
         summary:
-          'Presentación de las interfaces de administración de Google Cloud: Cloud Console (web), Cloud Shell (terminal con 5 GB persistentes), Cloud SDK (gcloud, gsutil, bq) y Marketplace para despliegues llave en mano.',
+          'Panorama introductorio del Módulo 1 sobre cómo interactuar con Google Cloud: exploración práctica de la interfaz gráfica (Cloud Console) y la línea de comandos (Cloud Shell), despliegue automatizado en Cloud Marketplace sin configuración manual de software, VMs, almacenamiento o red, y demostración de Projects.',
         keyTakeaways: [
-          'Cloud Shell incluye el Google Cloud SDK preconfigurado con utilidades de desarrollo y 5 GB de almacenamiento persistente en $HOME.',
-          'Cloud Marketplace aprovisiona infraestructura (IaaS) gestionada por el cliente dentro de su propio proyecto.',
-          'Las variables de entorno como $GOOGLE_CLOUD_PROJECT simplifican la automatización mediante scripts de shell.',
+          'El Módulo 1 se centra en interactuar con GCP combinando la interfaz gráfica web (Cloud Console) y la interfaz de línea de comandos (Cloud Shell / gcloud CLI).',
+          'Google Cloud Marketplace permite desplegar soluciones completas sin configurar manualmente el software, instancias de VM, almacenamiento ni parámetros de red.',
+          'Los Projects en Google Cloud organizan recursos, facturación y controles de acceso como unidad base de trabajo en la consola y la CLI.',
         ],
       },
       {

@@ -31,6 +31,13 @@ Google Cloud ofrece un espectro progresivo de abstracción y control:
 * **Cloud Run (Serverless Containers):** Plataforma gestionada basada en Knative; ejecuta contenedores sin estado activados por peticiones web o eventos Pub/Sub con escalado automático a cero.
 * **Cloud Run Functions (FaaS):** Código orientado a eventos que se ejecuta sin servidores dedicados, con cobro por milisegundo de ejecución efectiva.
 
+### 🎬 Videoteca Oficial Ingestada (Módulo 1)
+1. **Course Introduction** (`Video 690256` | [YouTube](https://www.youtube.com/watch?v=-zTJk_MbmBg)): Bienvenida a la trilogía *Architecting with Google Compute Engine*, analogía urbana y espectro IaaS → FaaS.
+2. **Module Overview — Interacting with Google Cloud** (`Video 690258` | [YouTube](https://www.youtube.com/watch?v=P9UusGOfEEk)): Introducción al Módulo 1 enfocada en las formas prácticas de interactuar con GCP:
+   * **Interfaz Gráfica (GUI)** mediante Google Cloud Console e **Interfaz de Línea de Comandos (CLI)** mediante Cloud Shell en los laboratorios prácticos.
+   * **Google Cloud Marketplace:** Despliegue acelerado de soluciones completas sin necesidad de configurar manualmente el software, las instancias de Virtual Machine, el almacenamiento o los ajustes de red.
+   * **Demo de Proyectos (Projects):** Demostración práctica sobre cómo los proyectos actúan como frontera organizativa, de facturación y de permisos para los recursos de Google Cloud.
+
 ---
 
 ## 🏛️ Desglose Modular y Arquitectura de Aprendizaje

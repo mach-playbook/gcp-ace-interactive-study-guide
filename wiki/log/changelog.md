@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-20] - Ingesta de Lección en Video: Module Overview — Módulo 1 (Course 50 / Video 690258)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-mod1-overview.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-mod1-overview.md) con la transcripción oficial completa de la lección *Module Overview* del Módulo 1 (*Interacting with Google Cloud*, Video ID: `690258`, YouTube: `P9UusGOfEEk`, Puntos acumulados: 16,516), detallando el enfoque práctico en GUI (Cloud Console), CLI (Cloud Shell), despliegue automatizado en Cloud Marketplace sin configuración manual de software/VM/almacenamiento/red y demostración de Projects.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Añadida la subsección **Videoteca Oficial Ingestada (Módulo 1)** consolidando las lecciones `690256` y `690258` y los pilares operativos de interacción con GCP.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Actualizada la entrada `infra-mod1-overview` dentro de `gcp-course-50` reemplazando el enlace provisional por el video oficial de YouTube (`https://www.youtube.com/watch?v=P9UusGOfEEk`), título *Module Overview: Interacting with Google Cloud*, duración (`0m 35s`), resumen y puntos clave alineados con la transcripción.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando el título, `youtubeId` (`P9UusGOfEEk`) y `youtubeUrl` de la lección *Module Overview: Interacting with Google Cloud*.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-18] - Ingesta de Lección en Video: Course Introduction (Course 50 / Video 690256)
 
 ### Agente Responsable:
