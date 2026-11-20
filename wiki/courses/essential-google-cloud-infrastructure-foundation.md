@@ -37,6 +37,11 @@ Google Cloud ofrece un espectro progresivo de abstracción y control:
    * **Interfaz Gráfica (GUI)** mediante Google Cloud Console e **Interfaz de Línea de Comandos (CLI)** mediante Cloud Shell en los laboratorios prácticos.
    * **Google Cloud Marketplace:** Despliegue acelerado de soluciones completas sin necesidad de configurar manualmente el software, las instancias de Virtual Machine, el almacenamiento o los ajustes de red.
    * **Demo de Proyectos (Projects):** Demostración práctica sobre cómo los proyectos actúan como frontera organizativa, de facturación y de permisos para los recursos de Google Cloud.
+3. **Using Google Cloud** (`Video 690259` | [YouTube](https://www.youtube.com/watch?v=DvOb1yWbTcw)): Las 4 vías oficiales de interacción con Google Cloud:
+   * **Google Cloud Console:** Interfaz gráfica web en `console.cloud.google.com` con menú de navegación por productos y submenús (ej. `Compute Engine > VM instances`).
+   * **Cloud Shell y Google Cloud CLI (`gcloud`):** Terminal interactiva basada en navegador ejecutada en una VM temporal con **5 GB de almacenamiento en disco persistente** y Google Cloud CLI preinstalado (ej. `gcloud compute instances list`).
+   * **Client Libraries y APIs:** Divididas en **App APIs** (acceso a servicios optimizado por lenguaje como Node.js o Python) y **Admin APIs** (gestión programática de recursos y construcción de herramientas de automatización).
+   * **Google Cloud App (Android / iOS):** Gestión móvil para iniciar, detener y conectarse por SSH a instancias de Compute Engine, ver logs, configurar gráficas personalizables (CPU, red, RPS, errores de servidor), gestionar incidentes y recibir alertas de facturación sobre presupuestos.
 
 ---
 

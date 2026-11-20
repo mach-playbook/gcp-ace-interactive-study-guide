@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-20] - Ingesta de Lección en Video: Using Google Cloud (Course 50 / Video 690259)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-using-google-cloud.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-using-google-cloud.md) con la transcripción oficial completa de la lección *Using Google Cloud* del Módulo 1 (Video ID: `690259`, YouTube: `DvOb1yWbTcw`, Puntos acumulados: 16,526), detallando las 4 formas de interacción: Cloud Console (`console.cloud.google.com`), Cloud Shell (VM efímera con 5 GB persistentes y CLI preinstalado) + `gcloud`, Client Libraries (**App APIs** vs **Admin APIs**) y Google Cloud App para Android/iOS.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Expandida la **Videoteca Oficial Ingestada (Módulo 1)** incorporando la lección `690259` y el desglose técnico de las 4 interfaces de administración.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Añadida la lección `infra-mod1-using-gcp` (*Using Google Cloud*) dentro de `gcp-course-50` con reproductor oficial de YouTube (`https://www.youtube.com/watch?v=DvOb1yWbTcw`), duración (`3m 12s`), resumen y puntos clave orientados al examen ACE.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando el título, `youtubeId` (`DvOb1yWbTcw`) y `youtubeUrl` de *Using Google Cloud*.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-20] - Ingesta de Lección en Video: Module Overview — Módulo 1 (Course 50 / Video 690258)
 
 ### Agente Responsable:

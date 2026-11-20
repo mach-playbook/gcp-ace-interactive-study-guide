@@ -3629,6 +3629,22 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         ],
       },
       {
+        id: 'infra-mod1-using-gcp',
+        title: 'Using Google Cloud',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=DvOb1yWbTcw',
+        youtubeId: 'DvOb1yWbTcw',
+        duration: '3m 12s',
+        summary:
+          'Recorrido por las cuatro formas oficiales de interactuar con Google Cloud: Cloud Console (GUI web en console.cloud.google.com), Cloud Shell y Google Cloud CLI (gcloud), Client Libraries (App APIs y Admin APIs) y la Google Cloud App para dispositivos Android e iOS.',
+        keyTakeaways: [
+          'Cloud Shell proporciona una VM temporal en el navegador con 5 GB de disco persistente y el Google Cloud CLI (gcloud) preinstalado (ej. gcloud compute instances list).',
+          'Las Google Cloud Client Libraries distinguen dos categorías: App APIs (acceso a servicios optimizado por lenguaje como Node.js o Python) y Admin APIs (gestión de recursos y automatización).',
+          'Al ejecutar comandos CLI en laboratorios, ciertos recursos como los buckets de Cloud Storage exigen modificar el comando para asignar nombres globalmente únicos.',
+          'La Google Cloud App (Android/iOS) permite iniciar, detener y hacer SSH a VMs de Compute Engine, consultar logs, visualizar gráficas de métricas (CPU, red, RPS, errores), gestionar incidentes y recibir alertas de presupuesto.',
+        ],
+      },
+      {
         id: 'infra-mod2-vpc',
         title: 'Module 2: Virtual Networks',
         moduleName: 'Módulo 2: Virtual Networks',
