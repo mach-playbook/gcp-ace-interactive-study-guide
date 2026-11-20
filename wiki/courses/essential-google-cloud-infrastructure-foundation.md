@@ -42,6 +42,7 @@ Google Cloud ofrece un espectro progresivo de abstracción y control:
    * **Cloud Shell y Google Cloud CLI (`gcloud`):** Terminal interactiva basada en navegador ejecutada en una VM temporal con **5 GB de almacenamiento en disco persistente** y Google Cloud CLI preinstalado (ej. `gcloud compute instances list`).
    * **Client Libraries y APIs:** Divididas en **App APIs** (acceso a servicios optimizado por lenguaje como Node.js o Python) y **Admin APIs** (gestión programática de recursos y construcción de herramientas de automatización).
    * **Google Cloud App (Android / iOS):** Gestión móvil para iniciar, detener y conectarse por SSH a instancias de Compute Engine, ver logs, configurar gráficas personalizables (CPU, red, RPS, errores de servidor), gestionar incidentes y recibir alertas de facturación sobre presupuestos.
+4. **Lab Intro: Explore the Google Cloud Console and Cloud Shell** (`Video 690260` | [YouTube](https://www.youtube.com/watch?v=tGD5dD8I5dQ)): Preparación del primer laboratorio práctico comparando la creación de un bucket en **Cloud Storage** (almacenamiento unificado de objetos) primero mediante la interfaz gráfica (**Google Cloud Console**) y luego replicando la misma operación desde la línea de comandos (**Cloud Shell**) para ganar fluidez alternando entre ambos entornos.
 
 ---
 

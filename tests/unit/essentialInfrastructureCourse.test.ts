@@ -56,6 +56,13 @@ describe('Unit Tests: Course 50 - Essential Google Cloud Infrastructure: Foundat
     expect(usingGcpVideo?.youtubeId).toBe('DvOb1yWbTcw');
     expect(usingGcpVideo?.youtubeUrl).toBe('https://www.youtube.com/watch?v=DvOb1yWbTcw');
 
+    const lab1IntroVideo = course50?.videos?.find(
+      (v) => v.title === 'Lab Intro: Explore the Google Cloud Console and Cloud Shell'
+    );
+    expect(lab1IntroVideo).toBeDefined();
+    expect(lab1IntroVideo?.youtubeId).toBe('tGD5dD8I5dQ');
+    expect(lab1IntroVideo?.youtubeUrl).toBe('https://www.youtube.com/watch?v=tGD5dD8I5dQ');
+
     course50?.videos?.forEach((video) => {
       expect(video.summary.trim().length).toBeGreaterThan(0);
       expect(video.keyTakeaways.length).toBeGreaterThanOrEqual(3);

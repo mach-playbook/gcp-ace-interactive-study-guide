@@ -3645,6 +3645,21 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         ],
       },
       {
+        id: 'infra-mod1-lab1-intro',
+        title: 'Lab Intro: Explore the Google Cloud Console and Cloud Shell',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=tGD5dD8I5dQ',
+        youtubeId: 'tGD5dD8I5dQ',
+        duration: '0m 36s',
+        summary:
+          'Introducción al primer laboratorio práctico del curso: explorar la interfaz gráfica de Google Cloud Console para crear un bucket en Cloud Storage (almacenamiento unificado de objetos) y repetir la misma operación desde Cloud Shell (CLI).',
+        keyTakeaways: [
+          'Cloud Storage es el servicio de almacenamiento unificado de objetos (unified object storage) de Google Cloud.',
+          'El laboratorio ejecuta el mismo flujo operativo (creación de bucket) tanto en Google Cloud Console (GUI) como en Cloud Shell (CLI).',
+          'Dominar el cambio fluido entre Cloud Console y Cloud Shell es una competencia esencial para operar eficientemente en GCP y en el examen ACE.',
+        ],
+      },
+      {
         id: 'infra-mod2-vpc',
         title: 'Module 2: Virtual Networks',
         moduleName: 'Módulo 2: Virtual Networks',

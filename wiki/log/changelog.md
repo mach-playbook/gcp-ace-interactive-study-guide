@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-20] - Ingesta de Lección en Video: Lab Intro: Explore the Google Cloud Console and Cloud Shell (Course 50 / Video 690260)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-lab1-intro-console-cloud-shell.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-lab1-intro-console-cloud-shell.md) con la transcripción oficial de *Lab Intro: Explore the Google Cloud Console and Cloud Shell* (Video ID: `690260`, YouTube: `tGD5dD8I5dQ`, Puntos acumulados: 16,536), introduciendo la práctica comparativa de creación de un bucket en Cloud Storage mediante Cloud Console (GUI) y Cloud Shell (CLI).
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Añadida la lección `690260` a la **Videoteca Oficial Ingestada (Módulo 1)**.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Añadida la lección `infra-mod1-lab1-intro` dentro de `gcp-course-50` con reproductor oficial de YouTube (`https://www.youtube.com/watch?v=tGD5dD8I5dQ`), duración (`0m 36s`), resumen y puntos clave.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando el título, `youtubeId` (`tGD5dD8I5dQ`) y `youtubeUrl`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-20] - Ingesta de Lección en Video: Using Google Cloud (Course 50 / Video 690259)
 
 ### Agente Responsable:
