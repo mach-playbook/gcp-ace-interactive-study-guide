@@ -78,22 +78,28 @@ Google Cloud ofrece un espectro progresivo de abstracción y control:
 
 ## 🧪 Laboratorios Prácticos Requeridos
 
-### 1. Lab 1: Explore the Google Cloud Console and Cloud Shell (Lab ID: 690261)
-* **Objetivo:** Dominar la navegación dual entre la interfaz web (Cloud Console) y el entorno de terminal integrado con 5 GB de directorio `$HOME` persistente (Cloud Shell).
-* **Comandos Clave:**
+### 1. Lab 1: Explore the Google Cloud Console and Cloud Shell (Lab ID: CBL006 / 690261)
+* **Objetivo:** Dominar las dos interfaces integradas de Google Cloud —la interfaz gráfica web (**Cloud Console**) y la línea de comandos en navegador (**Cloud Shell**)— creando buckets de Cloud Storage en ambos entornos, subiendo archivos y estableciendo un estado persistente de variables de entorno entre reinicios de la VM efímera.
+* **Duración Oficial:** 20 minutos (5 créditos, nivel Introductory).
+* **Tareas y Comandos Clave:**
   ```bash
-  # Verificación de identidad y proyecto activo
-  gcloud auth list
-  gcloud config list project
-  
-  # Fijar región y zona predeterminadas
-  gcloud config set compute/region us-central1
-  gcloud config set compute/zone us-central1-a
-  
-  # Exploración de variables de entorno
-  echo $GOOGLE_CLOUD_PROJECT
+  # Task 3: Crear un bucket en Cloud Storage desde Cloud Shell
+  gcloud storage buckets create gs://[BUCKET_NAME]
+
+  # Task 4: Subir un archivo desde la VM de Cloud Shell al bucket
+  gcloud storage cp [MY_FILE] gs://[BUCKET_NAME]
+
+  # Task 5: Listar regiones y persistir variables en ~/infraclass/config y ~/.profile
+  gcloud compute regions list
+  mkdir infraclass && touch infraclass/config
+  echo INFRACLASS_REGION=$INFRACLASS_REGION >> ~/infraclass/config
+  echo INFRACLASS_PROJECT_ID=$INFRACLASS_PROJECT_ID >> ~/infraclass/config
+  echo "source infraclass/config" >> ~/.profile
   ```
-* **Trampa ACE:** Cloud Shell se suspende tras 20 minutos de inactividad y se reinicia en una nueva máquina virtual efímera; sin embargo, los datos en el directorio `$HOME` persisten gracias a un disco persistente adjunto de 5 GB.
+* **Comparativa Operativa (Task 6):**
+  * **Cloud Console:** Ejecución rápida en pocos clics, menús guiados con solo opciones válidas y validación dinámica *behind-the-scenes* mediante el SDK antes de enviar cambios.
+  * **Cloud Shell:** Control granular, acceso completo a opciones avanzadas/recientes y automatización repetible mediante scripts Bash o PowerShell. Incluye `gcloud`, `gcloud storage`, `kubectl`, `bq`, Web Preview y autorización integrada.
+* **Trampa ACE:** Cloud Shell se recicla tras **1 hora de inactividad** (o al cerrar el terminal), perdiendo configuraciones del sistema y variables de entorno en memoria; únicamente persiste el disco de **5 GB en `/home`**, por lo que cargar configuraciones desde **`~/.profile`** garantiza estado persistente automático en cada nueva sesión.
 
 ---
 

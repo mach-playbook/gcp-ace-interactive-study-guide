@@ -3340,43 +3340,60 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         id: 'infra-lab-1',
         labNumber: 1,
         title: 'Explore the Google Cloud Console and Cloud Shell',
-        durationMinutes: 45,
+        durationMinutes: 20,
         type: 'guided',
         description:
-          'Familiarización práctica con el entorno de gestión web de Google Cloud (Cloud Console) y la interfaz de línea de comandos basada en navegador (Cloud Shell), configurando identidades activas, proyectos y variables de entorno.',
+          'Laboratorio CBL006 (5 créditos): familiarización dual con Google Cloud Console (GUI) y Cloud Shell (CLI) creando buckets de Cloud Storage en ambos entornos, subiendo objetos y configurando estado persistente en ~/.profile.',
         keyConcepts: [
-          'Cloud Console GUI Navigation',
-          'Cloud Shell 5 GB Persistent Storage ($HOME)',
-          'gcloud config list & set',
-          'Cloud Shell Ephemeral VM Lifecycle',
+          'Cloud Console GUI & Notifications',
+          'Cloud Storage Buckets (Console vs gcloud storage)',
+          'Cloud Shell 5 GB Persistent /home (1h idle recycle)',
+          'Persistent Environment State via ~/.profile',
         ],
         steps: [
           {
             id: 'infra-lab1-step1',
             stepNumber: 1,
-            title: 'Verificar la cuenta activa y el proyecto predeterminado en Cloud Shell',
+            title: 'Crear un bucket de Cloud Storage desde Google Cloud Console',
             description:
-              'Abre Cloud Shell e inspecciona las credenciales activas del SDK y el identificador de proyecto actual.',
-            command: 'gcloud auth list && gcloud config list project',
-            tip: 'Cloud Shell viene pre-autenticado con las credenciales de la sesión actual de la consola.',
+              'Navega a Cloud Storage > Buckets > Create, asigna un nombre globalmente único dejando los valores por defecto, confirma la prevención de acceso público y revisa el panel de Notifications.',
+            tip: 'Cloud Console ofrece validación dinámica mediante el SDK antes de enviar cambios y muestra el historial de operaciones en Notifications.',
           },
           {
             id: 'infra-lab1-step2',
             stepNumber: 2,
-            title: 'Configurar la región y la zona por defecto de Compute Engine',
+            title: 'Explorar Cloud Shell y sus herramientas preinstaladas',
             description:
-              'Fija las variables de configuración de compute/region y compute/zone para evitar tener que especificarlas en cada comando CLI subsecuente.',
-            command: 'gcloud config set compute/region us-central1 && gcloud config set compute/zone us-central1-a',
-            tip: 'Los valores fijados con gcloud config set compute/zone aplican como defaults solo en la sesión del entorno local.',
+              'Activa Cloud Shell desde la barra superior para obtener una VM temporal de Compute Engine con 5 GB persistentes en /home, autorización integrada y herramientas listas (gcloud, gcloud storage, kubectl, bq).',
+            tip: 'Tras 1 hora de inactividad o al cerrar la terminal, la VM de Cloud Shell se recicla; solo el directorio /home persiste entre sesiones.',
           },
           {
             id: 'infra-lab1-step3',
             stepNumber: 3,
-            title: 'Explorar las variables de entorno predefinidas en Cloud Shell',
+            title: 'Crear un segundo bucket de Cloud Storage usando Cloud Shell',
             description:
-              'Comprueba la variable GOOGLE_CLOUD_PROJECT y el directorio persistente de usuario.',
-            command: 'echo $GOOGLE_CLOUD_PROJECT && pwd && ls -la ~',
-            tip: 'El directorio home persiste en un disco de 5 GB respaldado entre sesiones de Cloud Shell.',
+              'Replica la creación del bucket desde la línea de comandos utilizando gcloud storage y verifica su aparición en Cloud Console.',
+            command: 'gcloud storage buckets create gs://[BUCKET_NAME]',
+            tip: 'Los nombres de bucket en Cloud Storage deben ser únicos a nivel global en todo Google Cloud.',
+          },
+          {
+            id: 'infra-lab1-step4',
+            stepNumber: 4,
+            title: 'Subir un archivo local a Cloud Shell y copiarlo al bucket',
+            description:
+              'Utiliza More > Upload en la barra de Cloud Shell para subir un archivo local, verifícalo con ls y cópialo al bucket de Cloud Storage.',
+            command: "ls && gcloud storage cp '[MY_FILE]' gs://[BUCKET_NAME]",
+            tip: 'Envuelve el nombre del archivo entre comillas simples si contiene espacios en blanco.',
+          },
+          {
+            id: 'infra-lab1-step5',
+            stepNumber: 5,
+            title: 'Configurar variables de entorno persistentes mediante ~/.profile',
+            description:
+              'Lista las regiones disponibles, guarda INFRACLASS_REGION e INFRACLASS_PROJECT_ID en ~/infraclass/config y agrega source infraclass/config al final de ~/.profile para conservarlas tras reinicios de Cloud Shell.',
+            command:
+              'gcloud compute regions list && mkdir -p ~/infraclass && echo "INFRACLASS_REGION=[YOUR_REGION]" >> ~/infraclass/config && echo "INFRACLASS_PROJECT_ID=[YOUR_PROJECT_ID]" >> ~/infraclass/config && echo "source infraclass/config" >> ~/.profile',
+            tip: 'Para el examen ACE y los laboratorios: ~/.profile es el archivo utilizado para mantener un estado persistente de variables en Cloud Shell.',
           },
         ],
       },

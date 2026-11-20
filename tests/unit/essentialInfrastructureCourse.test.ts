@@ -24,6 +24,10 @@ describe('Unit Tests: Course 50 - Essential Google Cloud Infrastructure: Foundat
     expect(labTitles).toContain('Create Virtual Machines');
     expect(labTitles).toContain('Create and Configure Virtual Machines (Minecraft Server)');
 
+    const lab1 = course50?.labs.find((l) => l.id === 'infra-lab-1');
+    expect(lab1?.durationMinutes).toBe(20);
+    expect(lab1?.steps.length).toBe(5);
+
     course50?.labs.forEach((lab) => {
       expect(lab.durationMinutes).toBeGreaterThan(0);
       expect(lab.keyConcepts.length).toBeGreaterThan(0);

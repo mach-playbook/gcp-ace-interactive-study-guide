@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-20] - Ingesta de Laboratorio 1: Explore the Google Cloud Console and Cloud Shell (Course 50 / Lab CBL006 / 690261)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lab1-explore-console-and-cloud-shell.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lab1-explore-console-and-cloud-shell.md) con las instrucciones oficiales completas del laboratorio `CBL006` (Skills ID: `690261`, 20 minutos, 5 créditos, Introductory, Puntos acumulados: 16,546), detallando las 6 tareas operativas (creación de bucket en Cloud Console y en Cloud Shell con `gcloud storage buckets create`, subida y copia de archivos con `gcloud storage cp`, persistencia de variables en `~/infraclass/config` y `~/.profile`, y comparativa GUI vs CLI) así como las 2 preguntas de comprobación formativa.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Actualizada la sección **1. Lab 1: Explore the Google Cloud Console and Cloud Shell (Lab ID: CBL006 / 690261)** con los comandos exactos del laboratorio, la comparativa Cloud Console vs Cloud Shell y la corrección de precisión sobre el reciclaje de la VM de Cloud Shell tras **1 hora de inactividad** (resolución proactiva de contradicción frente a los 20 minutos previos).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `infra-lab-1` ajustando `durationMinutes` a `20` minutos, refinando `keyConcepts` y desglosando los 5 pasos operativos oficiales con comandos reproducibles y tips de examen ACE.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` verificando la duración (`20` min) y la estructura de los 5 pasos de `infra-lab-1`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-20] - Ingesta de Lección en Video: Lab Intro: Explore the Google Cloud Console and Cloud Shell (Course 50 / Video 690260)
 
 ### Agente Responsable:
