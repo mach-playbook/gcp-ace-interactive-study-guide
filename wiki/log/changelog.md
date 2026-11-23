@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Laboratorio 2: Create and Configure Multiple VPC Networks (Course 654 / Lab GSP211 / 464657)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-654-lab2-multiple-vpc-networks.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-654-lab2-multiple-vpc-networks.md) con las 4 tareas oficiales del laboratorio `GSP211` (Skills ID: `464657`, 25 minutos, 5 créditos, Intermediate, Manual actualizado Nov 13, 2026): creación de `managementnet` y `privatenet` en modo Custom con cortafuegos ICMP/SSH/RDP, despliegue de `managementnet-vm-1` y `privatenet-vm-1`, pruebas de aislamiento de IPs internas entre VPCs, y creación de la instancia multi-NIC `vm-appliance` (`e2-standard-4` con 3 NICs) analizando `sudo ifconfig`, `ip route`, DNS interno en `nic0` y policy routing.
+* **Síntesis Curricular (`wiki/courses/build-a-secure-google-cloud-network.md`)**:
+  * Actualizada la sección **Lab 2** con comandos oficiales, duración de 25 minutos y la trampa de examen ACE sobre la ruta por defecto única en `eth0` de VMs multi-NIC.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `secnet-lab-2` ajustando `durationMinutes` a `25` minutos y desglosando los 4 pasos oficiales del laboratorio `GSP211`.
+* **Pruebas Unitarias (`tests/unit/secureNetworkCourse.test.ts`)**:
+  * Añadidas aserciones de duración (`25` min) y pasos (`4`) para `secnet-lab-2`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-23] - Ingesta de Laboratorio 1: Securing Virtual Machines using Chrome Enterprise Premium (Course 654 / Lab GSP1036 / 592551)
 
 ### Agente Responsable:

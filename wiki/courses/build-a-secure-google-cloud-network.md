@@ -52,9 +52,20 @@ Este Skill Badge de nivel intermedio valida competencias prácticas para diseña
     gcloud compute start-iap-tunnel windows-iap 3389 --local-host-port=localhost:0 --zone=<ZONE>
     ```
 
-### Lab 2: Create and Configure Multiple VPC Networks (ID: 464657)
-* **Objetivo:** Crear múltiples redes VPC en modo personalizado (*Custom Mode*), desplegar instancias VM en distintas redes/regiones y verificar el aislamiento por defecto y las rutas internas entre redes.
-* **Fundamento Técnico:** Las redes VPC están completamente aisladas entre sí de forma predeterminada; una VM puede tener múltiples interfaces de red (`nic0`, `nic1`) conectadas a distintas VPCs simultáneamente siempre que las subredes residan en la misma región.
+### Lab 2: Create and Configure Multiple VPC Networks (Lab ID: GSP211 / 464657)
+* **Objetivo:** Crear dos redes VPC en modo personalizado (`managementnet` vía consola y `privatenet` vía CLI), configurar reglas de firewall para ICMP/SSH/RDP, contrastar conectividad interna vs externa entre VPCs y desplegar una instancia multi-NIC (`vm-appliance`) conectada a 3 redes VPC simultáneamente.
+* **Duración Oficial:** 25 minutos (5 créditos, nivel Intermediate).
+* **Comandos y Topología Clave:**
+  ```bash
+  gcloud compute networks create privatenet --subnet-mode=custom
+  gcloud compute networks subnets create privatesubnet-1 --network=privatenet --region=Region_1 --range=172.16.0.0/24
+  gcloud compute networks subnets create privatesubnet-2 --network=privatenet --region=Region_2 --range=172.20.0.0/20
+  gcloud compute firewall-rules create privatenet-allow-icmp-ssh-rdp \
+    --direction=INGRESS --priority=1000 --network=privatenet \
+    --action=ALLOW --rules=icmp,tcp:22,tcp:3389 --source-ranges=0.0.0.0/0
+  gcloud compute instances create privatenet-vm-1 --zone=<ZONE> --machine-type=e2-micro --subnet=privatesubnet-1
+  ```
+* **Trampa ACE (Multi-NIC & Routing):** En una instancia multi-NIC (`vm-appliance` `e2-standard-4` con `eth0` en `privatesubnet-1`, `eth1` en `managementsubnet-1` y `eth2` en `mynetwork`), el DNS interno y la única ruta por defecto (`default via 172.16.0.1 dev eth0`) pertenecen a la interfaz primaria **`nic0`/`eth0`**. Al intentar hacer ping a una subred remota de otra VPC adjunta (`mynet-vm-2`), el tráfico sale por `eth0` y falla a menos que se configure **policy routing** en Linux.
 
 ### Lab 3: Control Access to VPC Networks Using Firewall Rules and IAM (ID: 464658)
 * **Objetivo:** Desplegar dos servidores web Nginx, restringir el acceso HTTP externo aplicando reglas de cortafuegos filtradas por **Network Tags** y gestionar delegación segura mediante políticas IAM y **Service Accounts**.

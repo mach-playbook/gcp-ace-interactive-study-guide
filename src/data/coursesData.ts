@@ -3996,35 +3996,54 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         id: 'secnet-lab-2',
         labNumber: 2,
         title: 'Create and Configure Multiple VPC Networks',
-        durationMinutes: 45,
+        durationMinutes: 25,
         type: 'guided',
         description:
-          'Crea múltiples redes VPC personalizadas, despliega instancias de máquinas virtuales en distintas subredes y valida el aislamiento y la conectividad entre redes (Lab ID: 464657).',
+          'Laboratorio GSP211 (5 créditos): crea dos redes VPC Custom Mode (managementnet y privatenet) con reglas de firewall ICMP/SSH/RDP, valida el aislamiento entre VPCs frente a regiones y construye una VM multi-NIC (vm-appliance) con 3 interfaces.',
         keyConcepts: [
-          'Custom Mode VPC Networks',
-          'Aislamiento multi-VPC por defecto',
-          'Instancias multi-NIC entre VPCs',
-          'Reglas de firewall por red VPC',
+          'Custom Mode VPCs (managementnet & privatenet) vs Auto Mode',
+          'Aislamiento de IPs internas entre VPCs (incluso en misma región)',
+          'VM Multi-NIC (vm-appliance e2-standard-4 con 3 subredes sin solapamiento)',
+          'Ruta por defecto única en eth0, DNS interno en nic0 y policy routing',
         ],
         steps: [
           {
             id: 'secnet-l2-s1',
             stepNumber: 1,
-            title: 'Aprovisionar redes VPC en modo personalizado y subredes regionales',
+            title: 'Crear managementnet (Consola) y privatenet (CLI) con cortafuegos',
             description:
-              'Crea redes VPC sin subredes automáticas y define bloques CIDR no solapados por región.',
+              'Crea managementnet (managementsubnet-1 10.130.0.0/20) y privatenet (privatesubnet-1 172.16.0.0/24 y privatesubnet-2 172.20.0.0/20) en modo Custom junto con sus reglas de ingreso para icmp, tcp:22 y tcp:3389.',
             command:
-              'gcloud compute networks create privatenet --subnet-mode=custom && gcloud compute networks subnets create privatesubnet-us --network=privatenet --region=us-central1 --range=172.16.0.0/24',
-            tip: 'Evitar solapamiento CIDR facilita futuras integraciones con VPC Peering o Cloud VPN.',
+              'gcloud compute networks create privatenet --subnet-mode=custom && gcloud compute networks subnets create privatesubnet-1 --network=privatenet --region=Region_1 --range=172.16.0.0/24 && gcloud compute firewall-rules create privatenet-allow-icmp-ssh-rdp --direction=INGRESS --priority=1000 --network=privatenet --action=ALLOW --rules=icmp,tcp:22,tcp:3389 --source-ranges=0.0.0.0/0',
+            tip: 'Las redes Auto Mode (default, mynetwork) crean subredes en cada región; Custom Mode da control total sobre rangos CIDR.',
           },
           {
             id: 'secnet-l2-s2',
             stepNumber: 2,
-            title: 'Desplegar VMs y probar conectividad entre redes VPC',
+            title: 'Desplegar managementnet-vm-1 y privatenet-vm-1',
             description:
-              'Verifica mediante ping que las IPs internas entre distintas VPCs no se alcanzan salvo a través de una interfaz externa o una VM multi-NIC.',
-            command: 'gcloud compute instances list --format="table(name,networkInterfaces[].network,networkInterfaces[].networkIP)"',
-            tip: 'En una VM con múltiples NICs, cada interfaz debe conectarse a una VPC diferente dentro de la misma región.',
+              'Crea instancias e2-micro en managementsubnet-1 y privatesubnet-1 e inspecciona todas las VMs ordenadas por zona junto a las preexistentes mynet-vm-1 y mynet-vm-2.',
+            command:
+              'gcloud compute instances create privatenet-vm-1 --zone=<US_ZONE> --machine-type=e2-micro --subnet=privatesubnet-1 && gcloud compute instances list --sort-by=ZONE',
+            tip: 'Usa Column display options > Network en Compute Engine para visualizar la VPC asociada a cada VM.',
+          },
+          {
+            id: 'secnet-l2-s3',
+            stepNumber: 3,
+            title: 'Comparar conectividad por IP externa vs IP interna entre VPCs',
+            description:
+              'Desde mynet-vm-1, haz ping a las IPs externas (todas responden) y a las IPs internas: mynet-vm-2 responde (misma VPC en otra región), mientras managementnet-vm-1 y privatenet-vm-1 fallan con 100% de pérdida (distintas VPCs).',
+            command: 'ping -c 3 <MYNET_VM_2_INTERNAL_IP>',
+            tip: 'El alcance de enrutamiento interno pertenece a la VPC (global), nunca a la región física entre VPCs separadas.',
+          },
+          {
+            id: 'secnet-l2-s4',
+            stepNumber: 4,
+            title: 'Crear vm-appliance con 3 NICs e inspeccionar ifconfig e ip route',
+            description:
+              'Despliega vm-appliance (e2-standard-4) adjuntando nic0 a privatesubnet-1, nic1 a managementsubnet-1 y nic2 a mynetwork; verifica las 3 interfaces con sudo ifconfig y analiza la tabla de rutas con ip route.',
+            command: 'sudo ifconfig && ping -c 3 privatenet-vm-1 && ip route',
+            tip: 'La ruta por defecto (default via 172.16.0.1 dev eth0) y el DNS interno solo aplican a la interfaz primaria nic0/eth0; alcanzar subredes remotas en otras NICs requiere policy routing.',
           },
         ],
       },
