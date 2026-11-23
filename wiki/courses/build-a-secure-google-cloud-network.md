@@ -39,12 +39,18 @@ Este Skill Badge de nivel intermedio valida competencias prácticas para diseña
 
 ## 🧪 Desglose de los 6 Laboratorios Requeridos
 
-### Lab 1: Securing Virtual Machines using BeyondCorp Enterprise (BCE)
-* **Objetivo:** Habilitar acceso administrativo SSH/RDP seguro hacia instancias de Compute Engine sin dirección IP externa ni exposición directa a internet usando **IAP TCP Forwarding**.
-* **Fundamento Técnico:**
-  * Eliminar reglas abiertas de SSH (`0.0.0.0/0` → `tcp:22`) y crear una regla de ingreso restringida estrictamente al rango oficial de IAP: **`35.235.240.0/20`**.
-  * Asignar el rol IAM `roles/iap.tunnelResourceAccessor` únicamente a los administradores autorizados.
-  * Conexión mediante `gcloud compute ssh <VM> --tunnel-through-iap`.
+### Lab 1: Securing Virtual Machines using Chrome Enterprise Premium / BCE (Lab ID: GSP1036 / 592551)
+* **Objetivo:** Habilitar acceso administrativo SSH y RDP seguro hacia instancias privadas Linux (`linux-iap`) y Windows (`windows-iap`) sin dirección IP externa ni exposición directa a internet usando **Chrome Enterprise Premium** (antes BeyondCorp Enterprise) e **IAP TCP Forwarding**.
+* **Duración Oficial:** 30 minutos (5 créditos, nivel Intermediate).
+* **Topología y Comandos Clave:**
+  * 3 instancias: `linux-iap` (sin IP externa), `windows-iap` (Windows Server 2016 Datacenter, sin IP externa) y `windows-connectivity` (imagen personalizada `iap-desktop-v001` en `Qwiklabs Resources`, con IP externa y scope *Allow full access to all Cloud APIs*).
+  * Regla de firewall obligatoria `allow-ingress-from-iap` permitiendo **`tcp:22,3389`** exclusivamente desde **`35.235.240.0/20`**.
+  * Rol IAM **`roles/iap.tunnelResourceAccessor`** (*IAP-Secured Tunnel User*) asignado en *Security → Identity-Aware Proxy → SSH and TCP Resources* a la cuenta de servicio `<PROJECT_NUMBER>-compute@developer.gserviceaccount.com` y al usuario administrador.
+  * Conexión gráfica mediante **IAP Desktop** o por CLI mediante:
+    ```bash
+    gcloud compute ssh linux-iap --zone=<ZONE>
+    gcloud compute start-iap-tunnel windows-iap 3389 --local-host-port=localhost:0 --zone=<ZONE>
+    ```
 
 ### Lab 2: Create and Configure Multiple VPC Networks (ID: 464657)
 * **Objetivo:** Crear múltiples redes VPC en modo personalizado (*Custom Mode*), desplegar instancias VM en distintas redes/regiones y verificar el aislamiento por defecto y las rutas internas entre redes.

@@ -3934,36 +3934,61 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
       {
         id: 'secnet-lab-1',
         labNumber: 1,
-        title: 'Securing Virtual Machines using BeyondCorp Enterprise (BCE)',
-        durationMinutes: 45,
+        title: 'Securing Virtual Machines using Chrome Enterprise Premium (BCE)',
+        durationMinutes: 30,
         type: 'guided',
         description:
-          'Configura Identity-Aware Proxy (IAP) TCP forwarding para habilitar acceso administrativo SSH seguro a instancias de Compute Engine sin IP externa ni exposición directa a internet.',
+          'Laboratorio GSP1036 (5 créditos): habilita acceso administrativo SSH y RDP seguro mediante Chrome Enterprise Premium (antes BeyondCorp Enterprise) e IAP TCP forwarding hacia instancias Linux y Windows sin IP externa.',
         keyConcepts: [
-          'Identity-Aware Proxy (IAP) TCP Forwarding',
-          'Rango CIDR 35.235.240.0/20',
-          'IAM role roles/iap.tunnelResourceAccessor',
-          'VMs privadas sin IP pública',
+          'Chrome Enterprise Premium / IAP TCP Forwarding',
+          'Firewall allow-ingress-from-iap (35.235.240.0/20 → tcp:22,3389)',
+          'IAM role roles/iap.tunnelResourceAccessor (IAP-Secured Tunnel User)',
+          'IAP Desktop & gcloud compute start-iap-tunnel (RDP)',
         ],
         steps: [
           {
             id: 'secnet-l1-s1',
             stepNumber: 1,
-            title: 'Crear regla de firewall de ingreso restringida al rango IAP',
+            title: 'Verificar Cloud Identity-Aware Proxy API y desplegar las 3 instancias VM',
             description:
-              'Permite tráfico TCP en el puerto 22 únicamente desde el bloque 35.235.240.0/20 hacia las instancias destino.',
-            command:
-              'gcloud compute firewall-rules create allow-ssh-from-iap --direction=INGRESS --action=ALLOW --rules=tcp:22 --source-ranges=35.235.240.0/20',
-            tip: 'Nunca expongas SSH a 0.0.0.0/0 cuando IAP puede mediar la autenticación y autorización.',
+              'Confirma habilitada Cloud Identity-Aware Proxy API y crea linux-iap (sin IP externa), windows-iap (Windows Server 2016 sin IP externa) y windows-connectivity (imagen personalizada iap-desktop-v001 con IP externa y acceso completo a Cloud APIs).',
+            tip: 'Al intentar SSH en linux-iap o RDP en windows-iap antes de configurar IAP, la consola confirmará que carecen de dirección IP externa.',
           },
           {
             id: 'secnet-l1-s2',
             stepNumber: 2,
-            title: 'Conectarse por SSH a la VM privada mediante túnel IAP',
+            title: 'Crear la regla de firewall allow-ingress-from-iap para SSH y RDP',
             description:
-              'Verifica el acceso administrativo sin asignar IP externa usando la bandera --tunnel-through-iap.',
-            command: 'gcloud compute ssh <VM_NAME> --zone=<ZONE> --tunnel-through-iap',
-            tip: 'El usuario debe contar con el rol roles/iap.tunnelResourceAccessor y roles/compute.instanceAdmin.v1 (u OS Login).',
+              'Permite tráfico de ingreso TCP en los puertos 22 (SSH) y 3389 (RDP) exclusivamente desde el rango CIDR oficial de IAP 35.235.240.0/20.',
+            command:
+              'gcloud compute firewall-rules create allow-ingress-from-iap --direction=INGRESS --action=ALLOW --rules=tcp:22,3389 --source-ranges=35.235.240.0/20',
+            tip: 'Esta regla habilita el reenvío TCP tanto para Linux (22) como para Windows (3389) sin exponer puertos a 0.0.0.0/0.',
+          },
+          {
+            id: 'secnet-l1-s3',
+            stepNumber: 3,
+            title: 'Asignar el rol IAP-Secured Tunnel User en Security > Identity-Aware Proxy',
+            description:
+              'En la pestaña SSH and TCP Resources de IAP, selecciona linux-iap y windows-iap y otorga roles/iap.tunnelResourceAccessor a la cuenta de servicio de windows-connectivity (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) y a la cuenta estudiante.',
+            tip: 'Ignora el aviso de OAuth Consent Screen en la pestaña HTTPS: no es necesario para túneles SSH/TCP.',
+          },
+          {
+            id: 'secnet-l1-s4',
+            stepNumber: 4,
+            title: 'Conectar mediante IAP Desktop desde windows-connectivity',
+            description:
+              'Inicia sesión RDP en windows-connectivity, abre IAP Desktop, autentícate con tu cuenta de Google del laboratorio, agrega el proyecto y haz doble clic en windows-iap generando credenciales para abrir la sesión RDP tunelizada.',
+            tip: 'IAP Desktop encapsula RDP/SSH sobre HTTPS mediante IAP con interfaz gráfica nativa para administradores Windows.',
+          },
+          {
+            id: 'secnet-l1-s5',
+            stepNumber: 5,
+            title: 'Probar túneles CLI con gcloud compute ssh y start-iap-tunnel',
+            description:
+              'Desde Cloud SDK en windows-connectivity, conéctate a linux-iap vía SSH y abre un túnel local cifrado hacia el puerto 3389 de windows-iap para conectarte por Remote Desktop a localhost:<PORT>.',
+            command:
+              'gcloud compute ssh linux-iap --zone=<ZONE> && gcloud compute start-iap-tunnel windows-iap 3389 --local-host-port=localhost:0 --zone=<ZONE>',
+            tip: 'El parámetro --local-host-port=localhost:0 asigna automáticamente un puerto local libre para tu cliente RDP.',
           },
         ],
       },

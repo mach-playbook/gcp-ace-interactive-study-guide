@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Laboratorio 1: Securing Virtual Machines using Chrome Enterprise Premium (Course 654 / Lab GSP1036 / 592551)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-654-lab1-securing-vms-chrome-enterprise-premium.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-654-lab1-securing-vms-chrome-enterprise-premium.md) con las 7 tareas oficiales del laboratorio `GSP1036` (Skills ID: `592551`, 30 minutos, 5 créditos, Intermediate, Last Tested Aug 4, 2026): habilitación de `Cloud Identity-Aware Proxy API`, creación de `linux-iap` y `windows-iap` sin IP externa más `windows-connectivity` (`iap-desktop-v001`), regla `allow-ingress-from-iap` (`35.235.240.0/20` para `tcp:22,3389`), rol `roles/iap.tunnelResourceAccessor`, conexión mediante **IAP Desktop** y túneles CLI con `gcloud compute ssh` y `gcloud compute start-iap-tunnel`.
+* **Síntesis Curricular (`wiki/courses/build-a-secure-google-cloud-network.md`)**:
+  * Actualizada la sección **Lab 1** incorporando la nueva denominación oficial **Chrome Enterprise Premium** (antes BeyondCorp Enterprise), las 3 VMs del escenario y el comando `gcloud compute start-iap-tunnel`.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `secnet-lab-1` ajustando `durationMinutes` a `30` minutos, título a *Securing Virtual Machines using Chrome Enterprise Premium (BCE)* y desglosando los 5 pasos operativos oficiales.
+* **Pruebas Unitarias (`tests/unit/secureNetworkCourse.test.ts`)**:
+  * Actualizada la aserción de título de Lab 1 y añadidas validaciones de duración (`30` min) y pasos (`5`) para `secnet-lab-1`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-23] - Ingesta de Nuevo Curso: Build a Secure Google Cloud Network (Course Template ID: 654)
 
 ### Agente Responsable:

@@ -18,12 +18,16 @@ describe('Unit Tests: Course 654 - Build a Secure Google Cloud Network', () => {
   it('should contain all 6 required labs including the Challenge Lab', () => {
     expect(course654?.labs.length).toBe(6);
     const labTitles = course654?.labs.map((l) => l.title);
-    expect(labTitles).toContain('Securing Virtual Machines using BeyondCorp Enterprise (BCE)');
+    expect(labTitles).toContain('Securing Virtual Machines using Chrome Enterprise Premium (BCE)');
     expect(labTitles).toContain('Create and Configure Multiple VPC Networks');
     expect(labTitles).toContain('Control Access to VPC Networks Using Firewall Rules and IAM');
     expect(labTitles).toContain('Configure an Application Load Balancer with Google Cloud Armor');
     expect(labTitles).toContain('Enhance Application Reliability and Scalability with Internal Load Balancing');
     expect(labTitles).toContain('Build a Secure Google Cloud Network: Challenge Lab');
+
+    const lab1 = course654?.labs.find((l) => l.id === 'secnet-lab-1');
+    expect(lab1?.durationMinutes).toBe(30);
+    expect(lab1?.steps.length).toBe(5);
 
     const challengeLab = course654?.labs.find((l) => l.type === 'challenge');
     expect(challengeLab).toBeDefined();
