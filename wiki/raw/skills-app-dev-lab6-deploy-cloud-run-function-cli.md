@@ -3,10 +3,10 @@
 * **Curso**: Set Up an App Dev Environment on Google Cloud (Course Template ID: `637`)
 * **Laboratorio**: Lab 6 (ID: `GSP080`, Skills ID: `592546`)
 * **URL Oficial**: https://www.skills.google/course_templates/637/labs/592546
-* **Puntos Acumulados**: 16,466 estrellas
+* **Puntos Acumulados**: 16,579 estrellas
 * **Duración / Créditos**: 15 minutos / 1 Crédito
 * **Nivel**: Introductory
-* **Última Actualización / Test**: 28 de octubre de 2026
+* **Última Actualización / Test**: 22 de noviembre de 2026
 
 ---
 
@@ -84,6 +84,7 @@
   * `--trigger-topic`: Crea automáticamente una suscripción Eventarc/Pub/Sub hacia el topic `cf-demo`.
   * `--stage-bucket`: Bucket temporal de Cloud Storage utilizado por Cloud Build para empaquetar el código fuente.
   * `--service-account`: Cuenta de servicio administrada que asume la función para ejecutar y acceder a recursos.
+* **Nota Operativa (Actualización Nov 22, 2026)**: El *Pub/Sub service agent* y el binding `roles/iam.serviceAccountTokenCreator` ya vienen preconfigurados en el laboratorio, por lo que normalmente no aparecerá ningún prompt de permisos durante `gcloud functions deploy`. Continúa normalmente si no aparece; si llegara a aparecer el prompt de `serviceAccountTokenCreator`, selecciona `n`.
 * Verificación del estado de despliegue:
   ```bash
   gcloud functions describe nodejs-pubsub-function --region=REGION
@@ -110,6 +111,7 @@
   ```bash
   gcloud functions logs read nodejs-pubsub-function --region=REGION
   ```
+* **Nota de Latencia**: Los registros pueden tardar hasta ~10 minutos en aparecer vía CLI; como alternativa inmediata se puede consultar en **Logging → Logs Explorer**.
 * Salida esperada en los logs:
   ```
   LEVEL:   NAME: nodejs-pubsub-function EXECUTION_ID: h4v6akxf4sxt LOG: Hello, Cloud Function Gen2!

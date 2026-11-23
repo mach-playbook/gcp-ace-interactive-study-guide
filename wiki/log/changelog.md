@@ -4,6 +4,18 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Actualización de Nota Operativa en Lab 6 (Course 637 / Lab GSP080 / 592546)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Actualización Raw (`wiki/raw/skills-app-dev-lab6-deploy-cloud-run-function-cli.md`)**:
+  * Actualizada la fecha de revisión oficial al 22 de noviembre de 2026 (16,579 estrellas).
+  * Incorporada la nota operativa en Task 2 sobre la preconfiguración del *Pub/Sub service agent* y el binding `roles/iam.serviceAccountTokenCreator` (responder `n` si llegara a mostrarse el prompt) y la nota de latencia (~10 min) en Task 4 con alternativa vía **Logging → Logs Explorer**.
+
+---
+
 ## [2026-11-23] - Ingesta de Laboratorio 2: Deploy a LAMP Stack with Google Cloud Marketplace (Course 50 / Lab CBL011 / 690264)
 
 ### Agente Responsable:
