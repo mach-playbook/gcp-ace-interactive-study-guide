@@ -28,6 +28,10 @@ describe('Unit Tests: Course 50 - Essential Google Cloud Infrastructure: Foundat
     expect(lab1?.durationMinutes).toBe(20);
     expect(lab1?.steps.length).toBe(5);
 
+    const lab2 = course50?.labs.find((l) => l.id === 'infra-lab-2');
+    expect(lab2?.durationMinutes).toBe(15);
+    expect(lab2?.steps.length).toBe(3);
+
     course50?.labs.forEach((lab) => {
       expect(lab.durationMinutes).toBeGreaterThan(0);
       expect(lab.keyConcepts.length).toBeGreaterThan(0);

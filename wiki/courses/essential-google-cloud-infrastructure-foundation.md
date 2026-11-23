@@ -105,13 +105,15 @@ Google Cloud ofrece un espectro progresivo de abstracción y control:
 
 ---
 
-### 2. Lab 2: Deploy a LAMP Stack with Google Cloud Marketplace (Lab ID: 690264)
-* **Objetivo:** Desplegar una pila web LAMP (Linux, Apache, MySQL, PHP) preempaquetada en Compute Engine mediante Google Cloud Marketplace con Infrastructure Manager.
-* **Componentes Aprovisionados:**
-  * Instancia VM con Debian Linux, Apache2 y módulo PHP.
-  * Base de datos relacional MySQL local en la misma VM.
-  * Reglas de firewall automáticas que habilitan los puertos `80` (HTTP) y `443` (HTTPS).
-* **Conceptos ACE:** Los productos de Marketplace se despliegan en la infraestructura del cliente; los costos de licencia de software (si aplican) se cobran en la misma factura de Google Cloud, pero el mantenimiento del SO y parches recaen en el cliente (modelo IaaS).
+### 2. Lab 2: Deploy a LAMP Stack with Google Cloud Marketplace (Lab ID: CBL011 / 690264)
+* **Objetivo:** Desplegar una pila web completa **LAMP** (Linux Debian 12, Apache HTTP Server, MySQL, PHP y **phpMyAdmin**) en Compute Engine mediante Google Cloud Marketplace utilizando **Infrastructure Manager API** (basado en **Terraform**).
+* **Duración Oficial:** 15 minutos (5 créditos, nivel Introductory).
+* **Componentes y Parámetros Aprovisionados:**
+  * Solución: *LAMP Stack on Debian12* (Apps4Rent LLC).
+  * APIs habilitadas: `Compute Engine API` e `Infrastructure Manager API`.
+  * Instancia VM `lamp-1-vm` (`E2` / `e2-medium`) con despliegue `lamp-1` y salida `Instance Nat Ip` en la pestaña *Details → Outputs*.
+  * Reglas de firewall automáticas que habilitan tráfico web para verificar Apache en `http://<External IP>`.
+* **Conceptos ACE:** Las soluciones VM de Cloud Marketplace se orquestan mediante **Terraform** (a través de **Infrastructure Manager**, sucesor de Deployment Manager) y se despliegan en la infraestructura del cliente; las licencias se integran en la misma factura de Google Cloud, pero el mantenimiento del sistema operativo y parches recaen en el cliente (modelo IaaS).
 
 ---
 

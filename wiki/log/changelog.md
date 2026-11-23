@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Laboratorio 2: Deploy a LAMP Stack with Google Cloud Marketplace (Course 50 / Lab CBL011 / 690264)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lab2-deploy-lamp-stack-marketplace.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lab2-deploy-lamp-stack-marketplace.md) con las instrucciones oficiales del laboratorio `CBL011` (Skills ID: `690264`, 15 minutos, 5 créditos, Introductory, Last Tested Nov 16, 2026, Puntos acumulados: 16,568), detallando la pila LAMP + phpMyAdmin (*LAMP Stack on Debian12* de Apps4Rent LLC), habilitación de `Compute Engine API` e `Infrastructure Manager API` (**Terraform**), aprovisionamiento en `e2-medium` (`lamp-1` / `lamp-1-vm`) y validación vía `http://<External IP>`.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Actualizada la sección **2. Lab 2: Deploy a LAMP Stack with Google Cloud Marketplace (Lab ID: CBL011 / 690264)** especificando la orquestación con Terraform / Infrastructure Manager API, los componentes exactos (incluido phpMyAdmin) y la duración oficial de 15 minutos.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `infra-lab-2` ajustando `durationMinutes` a `15` minutos, actualizando `keyConcepts` y detallando los 3 pasos oficiales del laboratorio CBL011.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando la duración (`15` min) y pasos (`3`) de `infra-lab-2`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-23] - Ingesta de Lección en Video: Lab Intro: Deploy a LAMP Stack with Google Cloud Marketplace (Course 50 / Video 690263)
 
 ### Agente Responsable:
