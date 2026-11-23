@@ -74,6 +74,13 @@ describe('Unit Tests: Course 50 - Essential Google Cloud Infrastructure: Foundat
     expect(lab1ReviewVideo?.youtubeId).toBe('aYVwJ-_-pyg');
     expect(lab1ReviewVideo?.youtubeUrl).toBe('https://www.youtube.com/watch?v=aYVwJ-_-pyg');
 
+    const lab2IntroVideo = course50?.videos?.find(
+      (v) => v.title === 'Lab Intro: Deploy a LAMP Stack with Google Cloud Marketplace'
+    );
+    expect(lab2IntroVideo).toBeDefined();
+    expect(lab2IntroVideo?.youtubeId).toBe('JxfUJ2J5MHY');
+    expect(lab2IntroVideo?.youtubeUrl).toBe('https://www.youtube.com/watch?v=JxfUJ2J5MHY');
+
     course50?.videos?.forEach((video) => {
       expect(video.summary.trim().length).toBeGreaterThan(0);
       expect(video.keyTakeaways.length).toBeGreaterThanOrEqual(3);

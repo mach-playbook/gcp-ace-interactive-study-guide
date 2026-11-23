@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Lección en Video: Lab Intro: Deploy a LAMP Stack with Google Cloud Marketplace (Course 50 / Video 690263)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-lab2-intro-lamp-marketplace.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-lab2-intro-lamp-marketplace.md) con la transcripción oficial de *Lab Intro: Deploy a LAMP Stack with Google Cloud Marketplace* (Video ID: `690263`, YouTube: `JxfUJ2J5MHY`, duración `0m 32s`, Puntos acumulados: 16,557), resaltando la automatización de Cloud Marketplace para desplegar un entorno LAMP en minutos y la verificación de Apache HTTP Server vía Site URL.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Añadida la lección `690263` a la **Videoteca Oficial Ingestada (Módulo 1)**.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Añadida la lección `infra-mod1-lab2-intro` dentro de `gcp-course-50` con reproductor oficial de YouTube (`https://www.youtube.com/watch?v=JxfUJ2J5MHY`), duración (`0m 32s`), resumen y puntos clave.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando el título, `youtubeId` (`JxfUJ2J5MHY`) y `youtubeUrl`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-23] - Ingesta de Lección en Video: Lab Review: Explore the Google Cloud Console and Cloud Shell (Course 50 / Video 690262)
 
 ### Agente Responsable:

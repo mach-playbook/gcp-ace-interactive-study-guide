@@ -3693,6 +3693,21 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         ],
       },
       {
+        id: 'infra-mod1-lab2-intro',
+        title: 'Lab Intro: Deploy a LAMP Stack with Google Cloud Marketplace',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=JxfUJ2J5MHY',
+        youtubeId: 'JxfUJ2J5MHY',
+        duration: '0m 32s',
+        summary:
+          'Introducción al Laboratorio 2: uso de la automatización de Google Cloud Marketplace para desplegar un entorno completo de desarrollo web LAMP en pocos minutos en lugar de horas o días, validando Apache HTTP Server desde el enlace Site URL.',
+        keyTakeaways: [
+          'Google Cloud Marketplace automatiza el aprovisionamiento completo de una pila web LAMP (Linux, Apache, MySQL, PHP) en cuestión de minutos frente a horas o días de configuración manual.',
+          'Una vez finalizado el despliegue, el enlace Site URL permite verificar de inmediato que Apache HTTP Server se encuentra en ejecución.',
+          'El despliegue en Marketplace aprovisiona recursos reales de infraestructura en tu proyecto sin requerir configuración manual de software, VMs, almacenamiento o red.',
+        ],
+      },
+      {
         id: 'infra-mod2-vpc',
         title: 'Module 2: Virtual Networks',
         moduleName: 'Módulo 2: Virtual Networks',
