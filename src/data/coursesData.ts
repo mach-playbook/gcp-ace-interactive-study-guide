@@ -3842,5 +3842,412 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
       },
     ],
   },
+  {
+    id: 'gcp-course-654',
+    slug: 'build-a-secure-google-cloud-network',
+    templateId: '654',
+    title: 'Build a Secure Google Cloud Network',
+    shortDescription:
+      'Construye, escala y protege redes en Google Cloud aplicando Zero Trust con BeyondCorp/IAP, múltiples VPCs, cortafuegos con etiquetas e IAM, Google Cloud Armor e Internal Load Balancing.',
+    duration: '1 Hora 15 Minutos',
+    level: 'Intermedio / Seguridad de Redes ACE',
+    category: 'Security & Networking',
+    badge: 'Google Cloud Skill Badge',
+    overview:
+      'Este Skill Badge de nivel intermedio valida competencias prácticas en arquitectura de redes seguras en Google Cloud. A lo largo de 5 laboratorios guiados y 1 Challenge Lab, configurarás túneles administrativos SSH con Identity-Aware Proxy (IAP), múltiples redes VPC personalizadas, reglas de firewall granulares con Network Tags e IAM, políticas WAF/denylist con Google Cloud Armor sobre Application Load Balancers e Internal Load Balancing con Managed Instance Groups.',
+    classificationMatrix: [
+      {
+        lbType: 'BeyondCorp / IAP TCP Forwarding',
+        layer: 'Capa 4 / Control de Acceso Zero Trust',
+        scope: 'Global (IAM + Firewall por VPC)',
+        trafficScheme: 'Admin → Túnel HTTPS IAP → SSH/RDP privado',
+        architecture: 'Proxy de identidad administrado con CIDR 35.235.240.0/20',
+        useCase: 'Acceso administrativo SSH/RDP seguro hacia VMs sin dirección IP externa y sin abrir el puerto 22 a internet.',
+      },
+      {
+        lbType: 'Google Cloud Armor',
+        layer: 'Capa 7 / Edge Security & WAF',
+        scope: 'Global (Google Front End)',
+        trafficScheme: 'Internet → GFE (Política Cloud Armor) → ALB',
+        architecture: 'Motor de políticas de seguridad adjunto al Backend Service',
+        useCase: 'Mitigación DDoS, bloqueo por lista de denegación (denylist IP) y reglas WAF preconfiguradas antes de llegar a los backends.',
+      },
+      {
+        lbType: 'VPC Firewall Rules (Tags & IAM)',
+        layer: 'Capa 3 / 4 (Stateful SDN)',
+        scope: 'Global por red VPC',
+        trafficScheme: 'Ingress / Egress filtrado por prioridad (0-65535)',
+        architecture: 'Cortafuegos distribuido evaluado en cada interfaz de VM',
+        useCase: 'Segmentación granular de servidores web y aplicaciones mediante target tags o target service accounts.',
+      },
+      {
+        lbType: 'Internal Load Balancer (MIGs)',
+        layer: 'Capa 4 / 7 Privado',
+        scope: 'Regional (misma VPC)',
+        trafficScheme: 'Tráfico interno VPC → VIP privada → MIGs',
+        architecture: 'Balanceador interno definido por software sin exposición a internet',
+        useCase: 'Alta disponibilidad y escalabilidad para servicios internos consumidos exclusivamente dentro de la red privada.',
+      },
+    ],
+    healthCheckRanges: [
+      {
+        cidr: '35.235.240.0/20',
+        purpose: 'Rango oficial de Identity-Aware Proxy (IAP) para habilitar túneles TCP seguros (SSH/RDP) hacia VMs sin IP pública.',
+      },
+      {
+        cidr: '130.211.0.0/22',
+        purpose: 'Rango principal de sondeo de Google Cloud Health Checks para balanceadores de carga externos e internos.',
+      },
+      {
+        cidr: '35.191.0.0/16',
+        purpose: 'Rango complementario obligatorio de Google Cloud Health Checks para verificar la salud de los backends en MIGs.',
+      },
+    ],
+    examTraps: [
+      {
+        trap: 'Abrir el puerto TCP 22 desde 0.0.0.0/0 para permitir acceso SSH a una VM de producción.',
+        solution:
+          'Aplica el principio de Zero Trust usando Identity-Aware Proxy (IAP): restringe la regla de firewall de ingreso para TCP 22 exclusivamente a 35.235.240.0/20 y otorga roles/iap.tunnelResourceAccessor.',
+      },
+      {
+        trap: 'Intentar adjuntar una política de seguridad de Google Cloud Armor directamente a una instancia de Compute Engine.',
+        solution:
+          'Las políticas de Google Cloud Armor se vinculan al Backend Service de un External Application Load Balancer (o Proxy Network LB), filtrando tráfico en el borde de Google antes de alcanzar las VMs.',
+      },
+      {
+        trap: 'Asumir que las instancias de un Internal Load Balancer responderán correctamente sin reglas de firewall para Health Checks.',
+        solution:
+          'Incluso en balanceadores estrictamente internos, debes permitir tráfico de ingreso desde 130.211.0.0/22 y 35.191.0.0/16 hacia el puerto del servicio; de lo contrario los backends aparecerán como UNHEALTHY.',
+      },
+      {
+        trap: 'Confiar únicamente en Network Tags para aislamiento crítico cuando múltiples usuarios tienen permisos de Compute Instance Admin.',
+        solution:
+          'Cualquier usuario que pueda editar la instancia puede modificar sus Network Tags; para control estricto basado en identidad IAM, utiliza Target Service Accounts en las reglas de firewall.',
+      },
+      {
+        trap: 'Creer que dos redes VPC dentro del mismo proyecto pueden comunicarse automáticamente mediante sus IPs internas.',
+        solution:
+          'Cada red VPC está completamente aislada por defecto. Para comunicarlas se requiere VPC Network Peering, Cloud VPN o una instancia multi-NIC conectada a ambas redes.',
+      },
+    ],
+    labs: [
+      {
+        id: 'secnet-lab-1',
+        labNumber: 1,
+        title: 'Securing Virtual Machines using BeyondCorp Enterprise (BCE)',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Configura Identity-Aware Proxy (IAP) TCP forwarding para habilitar acceso administrativo SSH seguro a instancias de Compute Engine sin IP externa ni exposición directa a internet.',
+        keyConcepts: [
+          'Identity-Aware Proxy (IAP) TCP Forwarding',
+          'Rango CIDR 35.235.240.0/20',
+          'IAM role roles/iap.tunnelResourceAccessor',
+          'VMs privadas sin IP pública',
+        ],
+        steps: [
+          {
+            id: 'secnet-l1-s1',
+            stepNumber: 1,
+            title: 'Crear regla de firewall de ingreso restringida al rango IAP',
+            description:
+              'Permite tráfico TCP en el puerto 22 únicamente desde el bloque 35.235.240.0/20 hacia las instancias destino.',
+            command:
+              'gcloud compute firewall-rules create allow-ssh-from-iap --direction=INGRESS --action=ALLOW --rules=tcp:22 --source-ranges=35.235.240.0/20',
+            tip: 'Nunca expongas SSH a 0.0.0.0/0 cuando IAP puede mediar la autenticación y autorización.',
+          },
+          {
+            id: 'secnet-l1-s2',
+            stepNumber: 2,
+            title: 'Conectarse por SSH a la VM privada mediante túnel IAP',
+            description:
+              'Verifica el acceso administrativo sin asignar IP externa usando la bandera --tunnel-through-iap.',
+            command: 'gcloud compute ssh <VM_NAME> --zone=<ZONE> --tunnel-through-iap',
+            tip: 'El usuario debe contar con el rol roles/iap.tunnelResourceAccessor y roles/compute.instanceAdmin.v1 (u OS Login).',
+          },
+        ],
+      },
+      {
+        id: 'secnet-lab-2',
+        labNumber: 2,
+        title: 'Create and Configure Multiple VPC Networks',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Crea múltiples redes VPC personalizadas, despliega instancias de máquinas virtuales en distintas subredes y valida el aislamiento y la conectividad entre redes (Lab ID: 464657).',
+        keyConcepts: [
+          'Custom Mode VPC Networks',
+          'Aislamiento multi-VPC por defecto',
+          'Instancias multi-NIC entre VPCs',
+          'Reglas de firewall por red VPC',
+        ],
+        steps: [
+          {
+            id: 'secnet-l2-s1',
+            stepNumber: 1,
+            title: 'Aprovisionar redes VPC en modo personalizado y subredes regionales',
+            description:
+              'Crea redes VPC sin subredes automáticas y define bloques CIDR no solapados por región.',
+            command:
+              'gcloud compute networks create privatenet --subnet-mode=custom && gcloud compute networks subnets create privatesubnet-us --network=privatenet --region=us-central1 --range=172.16.0.0/24',
+            tip: 'Evitar solapamiento CIDR facilita futuras integraciones con VPC Peering o Cloud VPN.',
+          },
+          {
+            id: 'secnet-l2-s2',
+            stepNumber: 2,
+            title: 'Desplegar VMs y probar conectividad entre redes VPC',
+            description:
+              'Verifica mediante ping que las IPs internas entre distintas VPCs no se alcanzan salvo a través de una interfaz externa o una VM multi-NIC.',
+            command: 'gcloud compute instances list --format="table(name,networkInterfaces[].network,networkInterfaces[].networkIP)"',
+            tip: 'En una VM con múltiples NICs, cada interfaz debe conectarse a una VPC diferente dentro de la misma región.',
+          },
+        ],
+      },
+      {
+        id: 'secnet-lab-3',
+        labNumber: 3,
+        title: 'Control Access to VPC Networks Using Firewall Rules and IAM',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Despliega dos servidores web Nginx, controla el acceso HTTP externo con reglas de cortafuegos basadas en etiquetas y explora políticas IAM y cuentas de servicio (Lab ID: 464658).',
+        keyConcepts: [
+          'Tagged Firewall Rules (--target-tags)',
+          'Servidores web Nginx en Compute Engine',
+          'IAM Security Admin vs Instance Admin',
+          'Service Accounts en reglas de firewall',
+        ],
+        steps: [
+          {
+            id: 'secnet-l3-s1',
+            stepNumber: 1,
+            title: 'Crear regla de firewall HTTP selectiva mediante Network Tags',
+            description:
+              'Habilita el puerto TCP 80 únicamente para las instancias etiquetadas con el tag correspondiente.',
+            command:
+              'gcloud compute firewall-rules create allow-http-web --direction=INGRESS --action=ALLOW --rules=tcp:80 --target-tags=http-server --source-ranges=0.0.0.0/0',
+            tip: 'Solo las VMs que porten la etiqueta http-server recibirán tráfico HTTP externo.',
+          },
+          {
+            id: 'secnet-l3-s2',
+            stepNumber: 2,
+            title: 'Inspeccionar permisos IAM y vinculación de Service Accounts',
+            description:
+              'Evalúa cómo los roles predefinidos de red e identidad restringen qué principales pueden alterar reglas de firewall o asociar identidades a VMs.',
+            command: 'gcloud projects get-iam-policy $GOOGLE_CLOUD_PROJECT',
+            tip: 'El principio de menor privilegio recomienda asignar roles/compute.securityAdmin solo a administradores de seguridad de red.',
+          },
+        ],
+      },
+      {
+        id: 'secnet-lab-4',
+        labNumber: 4,
+        title: 'Configure an Application Load Balancer with Google Cloud Armor',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Configura un Global External Application Load Balancer con backends globales, realiza una prueba de estrés y bloquea la IP atacante con una política de denegación en Google Cloud Armor (Lab ID: 464659).',
+        keyConcepts: [
+          'Global External Application Load Balancer',
+          'Google Cloud Armor Security Policies',
+          'IP Denylist en el borde (HTTP 403)',
+          'Stress testing con siege',
+        ],
+        steps: [
+          {
+            id: 'secnet-l4-s1',
+            stepNumber: 1,
+            title: 'Crear política de seguridad en Google Cloud Armor para denegar la IP de prueba',
+            description:
+              'Define una política Cloud Armor con una regla de alta prioridad que devuelva 403 Forbidden a la IP que ejecuta la prueba de estrés.',
+            command:
+              'gcloud compute security-policies create denylist-siege && gcloud compute security-policies rules create 1000 --security-policy=denylist-siege --src-ip-ranges="<SIEGE_IP>/32" --action=deny-403',
+            tip: 'Al igual que en VPC Firewalls, las reglas de Cloud Armor se evalúan de menor a mayor número de prioridad.',
+          },
+          {
+            id: 'secnet-l4-s2',
+            stepNumber: 2,
+            title: 'Adjuntar la política de Cloud Armor al Backend Service del ALB',
+            description:
+              'Vincula la política al backend global y valida que las peticiones desde la IP bloqueada reciban HTTP 403 mientras el tráfico legítimo continúa operando.',
+            command:
+              'gcloud compute backend-services update <BACKEND_SERVICE> --security-policy=denylist-siege --global',
+            tip: 'La propagación de reglas de Cloud Armor en los bordes GFE puede tomar entre 1 y 3 minutos.',
+          },
+        ],
+      },
+      {
+        id: 'secnet-lab-5',
+        labNumber: 5,
+        title: 'Enhance Application Reliability and Scalability with Internal Load Balancing',
+        durationMinutes: 45,
+        type: 'guided',
+        description:
+          'Crea dos Managed Instance Groups en la misma región y configura un Internal Load Balancer sobre ellos para exponer una aplicación interna de alta disponibilidad sin acceso desde internet público (Lab ID: 464660).',
+        keyConcepts: [
+          'Internal Load Balancing (Regional)',
+          'Managed Instance Groups (MIGs) multi-zona',
+          'Health Checks (130.211.0.0/22, 35.191.0.0/16)',
+          'Acceso exclusivo dentro de la VPC privada',
+        ],
+        steps: [
+          {
+            id: 'secnet-l5-s1',
+            stepNumber: 1,
+            title: 'Habilitar reglas de firewall para tráfico interno y Google Health Checks',
+            description:
+              'Permite conexiones desde el rango de la subred cliente y los bloques de sondeo de Google hacia los dos Managed Instance Groups.',
+            command:
+              'gcloud compute firewall-rules create allow-health-check --direction=INGRESS --action=ALLOW --rules=tcp:80 --source-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=backend-service',
+            tip: 'Sin acceso de Health Checks, el Internal Load Balancer no distribuirá tráfico hacia los MIGs.',
+          },
+          {
+            id: 'secnet-l5-s2',
+            stepNumber: 2,
+            title: 'Validar el balanceo interno desde una VM cliente en la misma región',
+            description:
+              'Ejecuta solicitudes HTTP repetidas hacia la IP privada del Internal Load Balancer para comprobar la distribución entre ambos MIGs.',
+            command: 'curl -s http://<INTERNAL_LB_IP>',
+            tip: 'El Internal Load Balancer asigna una IP privada RFC 1918 perteneciente a la subred regional.',
+          },
+        ],
+      },
+      {
+        id: 'secnet-lab-6',
+        labNumber: 6,
+        title: 'Build a Secure Google Cloud Network: Challenge Lab',
+        durationMinutes: 45,
+        type: 'challenge',
+        description:
+          'Laboratorio de desafío evaluado sin guía paso a paso: asegura el acceso SSH remoto mediante IAP, elimina reglas abiertas peligrosas e implementa reglas de firewall etiquetadas para el bastión y el servidor de aplicación (Lab ID: 464661).',
+        keyConcepts: [
+          'Eliminación de regla permisiva open-access',
+          'Regla SSH vía IAP (35.235.240.0/20) hacia bastion',
+          'Regla HTTP etiquetada hacia juice-shop',
+          'SSH interno desde subred de administración',
+        ],
+        steps: [
+          {
+            id: 'secnet-l6-s1',
+            stepNumber: 1,
+            title: 'Eliminar la regla de firewall permisiva y crear acceso SSH vía IAP',
+            description:
+              'Remueve la regla open-access insegura, inicia la instancia bastion y crea la regla de ingreso TCP 22 desde 35.235.240.0/20 con la etiqueta asignada al bastión.',
+            command:
+              'gcloud compute firewall-rules delete open-access --quiet && gcloud compute firewall-rules create allow-ssh-iap --network=acme-vpc --direction=INGRESS --action=ALLOW --rules=tcp:22 --source-ranges=35.235.240.0/20 --target-tags=<SSH_TAG>',
+            tip: 'Verifica los nombres exactos de etiquetas de red y subredes especificados en tu sesión del Challenge Lab.',
+          },
+          {
+            id: 'secnet-l6-s2',
+            stepNumber: 2,
+            title: 'Habilitar HTTP público etiquetado y SSH interno desde la subred del bastión',
+            description:
+              'Crea la regla HTTP (TCP 80) para el servidor web etiquetado y una regla de SSH interno restringida al rango CIDR de la subred del bastión para saltar hacia la instancia de aplicación.',
+            command:
+              'gcloud compute firewall-rules create allow-http-app --network=acme-vpc --direction=INGRESS --action=ALLOW --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=<HTTP_TAG>',
+            tip: 'Comprueba la conectividad final saltando por IAP al bastión y desde ahí haciendo SSH interno a la VM de aplicación.',
+          },
+        ],
+      },
+    ],
+    quiz: [
+      {
+        id: 'secnet-q1',
+        question:
+          'Tu equipo debe administrar por SSH una máquina virtual de Compute Engine que no tiene dirección IP externa y no debe exponerse a internet público. ¿Qué rango CIDR debes permitir en la regla de firewall de ingreso para habilitar IAP TCP forwarding?',
+        options: [
+          '0.0.0.0/0',
+          '35.235.240.0/20',
+          '130.211.0.0/22',
+          '199.36.153.8/30',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Identity-Aware Proxy (IAP) TCP forwarding utiliza exclusivamente el rango 35.235.240.0/20 para establecer túneles cifrados SSH y RDP hacia VMs privadas sin IP pública.',
+        examTrapTip:
+          'No confundas 35.235.240.0/20 (IAP) con 130.211.0.0/22 (Health Checks) ni con 199.36.153.8/30 (Private Google Access restricted).',
+      },
+      {
+        id: 'secnet-q2',
+        question:
+          'Un Global External Application Load Balancer está recibiendo tráfico malicioso desde una dirección IP específica. ¿Dónde debes adjuntar una política de seguridad de Google Cloud Armor para bloquear esa IP con HTTP 403 en el borde?',
+        options: [
+          'Directamente en la tarjeta de red (NIC) de cada instancia de Compute Engine.',
+          'En el Backend Service asociado al Application Load Balancer.',
+          'En la tabla de rutas por defecto de la red VPC.',
+          'En la configuración de Cloud NAT de la región.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Las políticas de seguridad de Google Cloud Armor se vinculan al Backend Service del balanceador externo para filtrar y denegar tráfico malicioso en los Google Front Ends antes de que llegue a la VPC.',
+        examTrapTip:
+          'Cloud Armor opera en el borde global sobre Backend Services externos, no sobre VMs individuales ni Cloud NAT.',
+      },
+      {
+        id: 'secnet-q3',
+        question:
+          'Has configurado un Internal Load Balancer con dos Managed Instance Groups en la misma región, pero el balanceador marca todas las instancias como UNHEALTHY y no enruta tráfico. ¿Cuál es la causa más probable?',
+        options: [
+          'Las instancias no tienen direcciones IP externas efímeras.',
+          'Falta una regla de firewall de ingreso que permita los rangos de Google Health Checks (130.211.0.0/22 y 35.191.0.0/16).',
+          'Cloud Armor está bloqueando el tráfico RFC 1918 por defecto.',
+          'Los dos Managed Instance Groups deben estar en regiones distintas.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Los sondeos de salud de Google Cloud provienen de 130.211.0.0/22 y 35.191.0.0/16. Si el cortafuegos de la VPC bloquea estos rangos, los backends se marcan como UNHEALTHY.',
+        examTrapTip:
+          'Recuerda siempre permitir 130.211.0.0/22 y 35.191.0.0/16 en el puerto de la aplicación al crear cualquier balanceador.',
+      },
+      {
+        id: 'secnet-q4',
+        question:
+          'En un entorno de producción con múltiples ingenieros que poseen el rol Compute Instance Admin, necesitas garantizar que solo las VMs autorizadas por el equipo de seguridad reciban tráfico hacia la base de datos interna. ¿Qué mecanismo de destino debes usar en las reglas de firewall?',
+        options: [
+          'Network Tags aplicados libremente en la consola.',
+          'Target Service Accounts vinculados a las instancias mediante IAM.',
+          'Reglas de firewall sin destino (All instances in the network).',
+          'Prioridad 65535 en la regla de ingreso.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Usar Target Service Accounts en las reglas de firewall ofrece control basado en identidad IAM: un usuario no puede suplantar la regla simplemente editando una etiqueta de red en la VM.',
+        examTrapTip:
+          'Network Tags = conveniencia operativa; Service Accounts = seguridad gobernada por IAM (iam.serviceAccounts.actAs).',
+      },
+    ],
+    glossary: [
+      {
+        term: 'BeyondCorp Enterprise (BCE)',
+        definition:
+          'Plataforma Zero Trust de Google Cloud que integra Identity-Aware Proxy (IAP) y controles de contexto para otorgar acceso seguro sin VPN tradicional.',
+      },
+      {
+        term: 'IAP TCP Forwarding',
+        definition:
+          'Capacidad de Identity-Aware Proxy para encapsular tráfico SSH y RDP sobre HTTPS desde el rango 35.235.240.0/20 hacia VMs sin IP pública.',
+      },
+      {
+        term: 'Google Cloud Armor',
+        definition:
+          'Servicio de seguridad perimetral y WAF que protege aplicaciones detrás de balanceadores externos contra DDoS, inyecciones OWASP y tráfico de IPs denegadas.',
+      },
+      {
+        term: 'Network Tags',
+        definition:
+          'Atributos de texto asignados a instancias de Compute Engine para aplicar reglas de firewall y rutas personalizadas de forma selectiva.',
+      },
+      {
+        term: 'Internal Load Balancer',
+        definition:
+          'Balanceador regional de tráfico privado que distribuye solicitudes entre backends (como MIGs) dentro de una VPC sin exponer IPs públicas a internet.',
+      },
+      {
+        term: 'Managed Instance Group (MIG)',
+        definition:
+          'Conjunto de instancias VM idénticas creadas a partir de un Instance Template que soportan autoescalado, auto-reparación y balanceo de carga.',
+      },
+    ],
+  },
 ];
 

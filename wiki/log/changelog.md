@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Nuevo Curso: Build a Secure Google Cloud Network (Course Template ID: 654)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-654-build-secure-google-cloud-network.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-654-build-secure-google-cloud-network.md) con el syllabus oficial del Skill Badge Template ID `654` (1 hora 15 minutos, nivel Intermedio, 33 estrellas, 16,644 puntos), detallando los 6 laboratorios requeridos: BeyondCorp Enterprise (IAP TCP forwarding), Multiple VPC Networks (`464657`), Firewall Rules & IAM (`464658`), Application Load Balancer with Google Cloud Armor (`464659`), Internal Load Balancing (`464660`) y Challenge Lab (`464661`).
+* **Síntesis Curricular (`wiki/courses/build-a-secure-google-cloud-network.md`)**:
+  * Creado el documento maestro del curso con diagrama arquitectónico ASCII de red segura Zero Trust, desglose técnico de los 6 laboratorios y las 5 trampas clave para el examen Associate Cloud Engineer (ACE).
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Registrado el curso `gcp-course-654` (`build-a-secure-google-cloud-network`) con sus 6 laboratorios (5 guiados + 1 Challenge Lab), matriz de 4 tecnologías de seguridad en red, 3 bloques CIDR críticos (IAP y Health Checks), 5 trampas de examen, cuestionario interactivo de 4 preguntas y glosario especializado.
+* **Pruebas Unitarias (`tests/unit/secureNetworkCourse.test.ts`)**:
+  * Creada nueva suite de 7 pruebas unitarias validando la integridad completa de `gcp-course-654`.
+* **Índice General**:
+  * Registradas las referencias modulares en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Secciones 1 y 5).
+
+---
+
 ## [2026-11-23] - Actualización de Nota Operativa en Lab 6 (Course 637 / Lab GSP080 / 592546)
 
 ### Agente Responsable:
