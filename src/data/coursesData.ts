@@ -3677,6 +3677,22 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         ],
       },
       {
+        id: 'infra-mod1-lab1-review',
+        title: 'Lab Review: Explore the Google Cloud Console and Cloud Shell',
+        moduleName: 'Módulo 1: Interacting with Google Cloud',
+        youtubeUrl: 'https://www.youtube.com/watch?v=aYVwJ-_-pyg',
+        youtubeId: 'aYVwJ-_-pyg',
+        duration: '9m 02s',
+        summary:
+          'Revisión y demostración completa paso a paso del Laboratorio 1: creación de buckets en Cloud Console y Cloud Shell, carga y copia de archivos, persistencia de variables con ~/infraclass/config y ~/.profile, y cómo combinar GUI y CLI como una única interfaz flexible.',
+        keyTakeaways: [
+          'Cloud Console y Cloud Shell no son alternativas excluyentes sino una sola interfaz complementaria: la consola rastrea contexto y valida opciones vía Cloud API, mientras Cloud Shell brinda control preciso y automatización.',
+          'Usar el Project ID (o [PROJECT_ID]-shell) es una práctica rápida para garantizar nombres globalmente únicos al crear buckets de Cloud Storage.',
+          'El walkthrough muestra gsutil mb y gsutil cp (herramienta heredada), equivalentes a los comandos modernos gcloud storage buckets create y gcloud storage cp.',
+          'Los cambios añadidos a ~/.profile (source infraclass/config) se cargan automáticamente al iniciar una nueva sesión de Cloud Shell tras cerrar y reabrir la terminal.',
+        ],
+      },
+      {
         id: 'infra-mod2-vpc',
         title: 'Module 2: Virtual Networks',
         moduleName: 'Módulo 2: Virtual Networks',

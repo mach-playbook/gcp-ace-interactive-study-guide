@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Lección en Video: Lab Review: Explore the Google Cloud Console and Cloud Shell (Course 50 / Video 690262)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-50-lesson-lab1-review-console-cloud-shell.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-50-lesson-lab1-review-console-cloud-shell.md) con la transcripción y walkthrough oficial de *Lab Review: Explore the Google Cloud Console and Cloud Shell* (Video ID: `690262`, YouTube: `aYVwJ-_-pyg`, duración `9m 02s`, Puntos acumulados: 16,546), documentando la visión unificada de Cloud Console + Cloud Shell, el uso del Project ID para garantizar unicidad global de buckets, la equivalencia `gsutil` → `gcloud storage` y el reinicio de sesión requerido para ejecutar `~/.profile`.
+* **Síntesis Curricular (`wiki/courses/essential-google-cloud-infrastructure-foundation.md`)**:
+  * Añadida la lección `690262` a la **Videoteca Oficial Ingestada (Módulo 1)**.
+* **Modelo de Datos y UI (`src/data/coursesData.ts`)**:
+  * Añadida la lección `infra-mod1-lab1-review` dentro de `gcp-course-50` con reproductor oficial de YouTube (`https://www.youtube.com/watch?v=aYVwJ-_-pyg`), duración (`9m 02s`), resumen y 4 puntos clave para el examen ACE.
+* **Pruebas y Verificación**:
+  * Actualizada la suite `tests/unit/essentialInfrastructureCourse.test.ts` validando el título, `youtubeId` (`aYVwJ-_-pyg`) y `youtubeUrl`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-20] - Ingesta de Laboratorio 1: Explore the Google Cloud Console and Cloud Shell (Course 50 / Lab CBL006 / 690261)
 
 ### Agente Responsable:
