@@ -4051,35 +4051,56 @@ gcloud projects remove-iam-policy-binding $GOOGLE_CLOUD_PROJECT \\
         id: 'secnet-lab-3',
         labNumber: 3,
         title: 'Control Access to VPC Networks Using Firewall Rules and IAM',
-        durationMinutes: 45,
+        durationMinutes: 20,
         type: 'guided',
         description:
-          'Despliega dos servidores web Nginx, controla el acceso HTTP externo con reglas de cortafuegos basadas en etiquetas y explora políticas IAM y cuentas de servicio (Lab ID: 464658).',
+          'Laboratorio GSP213 (5 créditos): despliega dos servidores web Nginx (blue etiquetado con web-server y green sin tags), filtra el tráfico HTTP externo con reglas de firewall etiquetadas y contrasta los roles IAM Compute Network Admin vs Compute Security Admin.',
         keyConcepts: [
-          'Tagged Firewall Rules (--target-tags)',
-          'Servidores web Nginx en Compute Engine',
-          'IAM Security Admin vs Instance Admin',
-          'Service Accounts en reglas de firewall',
+          'Tagged Firewall Rules (allow-http-web-server → web-server)',
+          'Tráfico externo bloqueado vs interno permitido (default-allow-internal)',
+          'Compute Network Admin vs Compute Security Admin',
+          'Buenas prácticas de Service Accounts (impersonation / WIF)',
         ],
         steps: [
           {
             id: 'secnet-l3-s1',
             stepNumber: 1,
-            title: 'Crear regla de firewall HTTP selectiva mediante Network Tags',
+            title: 'Crear servidores Nginx blue (con tag web-server) y green (sin tags)',
             description:
-              'Habilita el puerto TCP 80 únicamente para las instancias etiquetadas con el tag correspondiente.',
+              'Despliega ambas instancias Debian 12 con startup scripts que instalan nginx-light y escriben una página de bienvenida personalizada; aplica el network tag web-server únicamente a blue.',
             command:
-              'gcloud compute firewall-rules create allow-http-web --direction=INGRESS --action=ALLOW --rules=tcp:80 --target-tags=http-server --source-ranges=0.0.0.0/0',
-            tip: 'Solo las VMs que porten la etiqueta http-server recibirán tráfico HTTP externo.',
+              '#!/bin/bash\napt-get update && apt-get install -y nginx-light && echo "<h1>Welcome to the blue server!</h1>" > /var/www/html/index.nginx-debian.html',
+            tip: 'La instancia green actúa como control sin etiquetas para demostrar el filtrado selectivo de las reglas de firewall.',
           },
           {
             id: 'secnet-l3-s2',
             stepNumber: 2,
-            title: 'Inspeccionar permisos IAM y vinculación de Service Accounts',
+            title: 'Crear regla allow-http-web-server y probar acceso externo vs interno',
             description:
-              'Evalúa cómo los roles predefinidos de red e identidad restringen qué principales pueden alterar reglas de firewall o asociar identidades a VMs.',
-            command: 'gcloud projects get-iam-policy $GOOGLE_CLOUD_PROJECT',
-            tip: 'El principio de menor privilegio recomienda asignar roles/compute.securityAdmin solo a administradores de seguridad de red.',
+              'Crea la regla allow-http-web-server (tcp:80, icmp desde 0.0.0.0/0 hacia target-tag web-server), despliega test-vm y verifica que curl externo solo funciona en blue mientras el curl interno desde test-vm funciona en ambos servidores.',
+            command:
+              'gcloud compute instances create test-vm --machine-type=e2-micro --subnet=default --zone=$ZONE && curl -m 3 http://$BLUE_EXTERNAL_IP',
+            tip: 'Ambos servidores responden internamente gracias a la regla preexistente default-allow-internal de la VPC default.',
+          },
+          {
+            id: 'secnet-l3-s3',
+            stepNumber: 3,
+            title: 'Comprobar los límites del rol Compute Network Admin',
+            description:
+              'Asigna Compute Network Admin a network-admin@PROJECT_ID.iam.gserviceaccount.com, autentica sus credenciales y valida que puede listar reglas de firewall pero falla al intentar eliminar allow-http-web-server.',
+            command:
+              'gcloud compute firewall-rules list && gcloud compute firewall-rules delete allow-http-web-server --quiet',
+            tip: 'roles/compute.networkAdmin gestiona recursos de red EXCEPTO reglas de firewall y certificados SSL (carece de compute.firewall.delete).',
+          },
+          {
+            id: 'secnet-l3-s4',
+            stepNumber: 4,
+            title: 'Cambiar a Compute Security Admin y verificar el bloqueo tras eliminar la regla',
+            description:
+              'Actualiza el rol de network-admin a Compute Security Admin, elimina allow-http-web-server con éxito, regresa a la cuenta estudiante y confirma que curl externo hacia blue ahora agota el tiempo de espera.',
+            command:
+              'gcloud compute firewall-rules delete allow-http-web-server --quiet && gcloud config set account STUDENT_EMAIL && curl -m 3 http://$BLUE_EXTERNAL_IP',
+            tip: 'En producción evita descargar llaves JSON persistentes; prefiere --impersonate-service-account o Workload Identity Federation.',
           },
         ],
       },

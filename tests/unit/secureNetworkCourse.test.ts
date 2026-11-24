@@ -33,6 +33,10 @@ describe('Unit Tests: Course 654 - Build a Secure Google Cloud Network', () => {
     expect(lab2?.durationMinutes).toBe(25);
     expect(lab2?.steps.length).toBe(4);
 
+    const lab3 = course654?.labs.find((l) => l.id === 'secnet-lab-3');
+    expect(lab3?.durationMinutes).toBe(20);
+    expect(lab3?.steps.length).toBe(4);
+
     const challengeLab = course654?.labs.find((l) => l.type === 'challenge');
     expect(challengeLab).toBeDefined();
     expect(challengeLab?.labNumber).toBe(6);

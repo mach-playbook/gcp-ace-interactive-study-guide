@@ -4,6 +4,25 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-23] - Ingesta de Laboratorio 3: Control Access to VPC Networks Using Firewall Rules and IAM (Course 654 / Lab GSP213 / 464658)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Ingesta Raw Sanitizada**:
+  * Ingestado [`wiki/raw/skills-course-654-lab3-firewall-rules-and-iam.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/raw/skills-course-654-lab3-firewall-rules-and-iam.md) con las 3 tareas oficiales del laboratorio `GSP213` (Skills ID: `464658`, 20 minutos, 5 créditos, Intermediate, actualizado Nov 7, 2026): creación de `blue` (tag `web-server`) y `green` (sin tags) con startup scripts de `nginx-light`, regla `allow-http-web-server`, pruebas HTTP externas vs internas desde `test-vm` (`default-allow-internal`) y separación de privilegios entre `roles/compute.networkAdmin` y `roles/compute.securityAdmin` con la cuenta `network-admin`.
+* **Síntesis Curricular (`wiki/courses/build-a-secure-google-cloud-network.md`)**:
+  * Actualizada la sección **Lab 3** detallando la distinción clave de examen entre `Compute Network Admin` y `Compute Security Admin` y la buena práctica de suplantación (`--impersonate-service-account`) / Workload Identity Federation frente a llaves JSON persistentes.
+* **Catálogo y UI de Cursos (`src/data/coursesData.ts`)**:
+  * Actualizado `secnet-lab-3` ajustando `durationMinutes` a `20` minutos y desglosando los 4 pasos oficiales del laboratorio `GSP213`.
+* **Pruebas Unitarias (`tests/unit/secureNetworkCourse.test.ts`)**:
+  * Añadidas aserciones de duración (`20` min) y pasos (`4`) para `secnet-lab-3`.
+* **Índice General**:
+  * Registrada la referencia en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) (Sección 1).
+
+---
+
 ## [2026-11-23] - Ingesta de Laboratorio 2: Create and Configure Multiple VPC Networks (Course 654 / Lab GSP211 / 464657)
 
 ### Agente Responsable:

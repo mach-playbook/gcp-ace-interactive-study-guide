@@ -67,11 +67,13 @@ Este Skill Badge de nivel intermedio valida competencias prácticas para diseña
   ```
 * **Trampa ACE (Multi-NIC & Routing):** En una instancia multi-NIC (`vm-appliance` `e2-standard-4` con `eth0` en `privatesubnet-1`, `eth1` en `managementsubnet-1` y `eth2` en `mynetwork`), el DNS interno y la única ruta por defecto (`default via 172.16.0.1 dev eth0`) pertenecen a la interfaz primaria **`nic0`/`eth0`**. Al intentar hacer ping a una subred remota de otra VPC adjunta (`mynet-vm-2`), el tráfico sale por `eth0` y falla a menos que se configure **policy routing** en Linux.
 
-### Lab 3: Control Access to VPC Networks Using Firewall Rules and IAM (ID: 464658)
-* **Objetivo:** Desplegar dos servidores web Nginx, restringir el acceso HTTP externo aplicando reglas de cortafuegos filtradas por **Network Tags** y gestionar delegación segura mediante políticas IAM y **Service Accounts**.
-* **Fundamento Técnico:**
-  * Las reglas de firewall pueden apuntar a instancias mediante `--target-tags` (flexible para pruebas/aplicaciones) o `--target-service-accounts` (recomendado en producción por seguridad IAM).
-  * Un usuario con el rol `roles/compute.securityAdmin` puede administrar reglas de firewall sin poder modificar ni eliminar instancias VM.
+### Lab 3: Control Access to VPC Networks Using Firewall Rules and IAM (Lab ID: GSP213 / 464658)
+* **Objetivo:** Desplegar dos servidores web Nginx (`blue` con tag `web-server` y `green` sin etiquetas) mediante *startup scripts*, filtrar el tráfico HTTP externo con la regla `allow-http-web-server`, contrastar conectividad externa vs interna (`default-allow-internal`) y validar la separación de funciones IAM entre **Compute Network Admin** y **Compute Security Admin**.
+* **Duración Oficial:** 20 minutos (5 créditos, nivel Intermediate).
+* **Separación de Roles IAM (Clave de Examen ACE):**
+  * **`roles/compute.networkAdmin`:** Administra recursos de red (VPCs, subredes, rutas), **excepto reglas de firewall y certificados SSL** (puede listar con `gcloud compute firewall-rules list`, pero falla al eliminar por falta de `compute.firewall.delete`).
+  * **`roles/compute.securityAdmin`:** Control total para crear, modificar y eliminar **reglas de firewall y certificados SSL**.
+* **Buena Práctica de Seguridad:** Aunque el laboratorio genera una llave JSON temporal para `network-admin@...`, en producción se debe evitar descargar llaves persistentes y utilizar suplantación de cuenta de servicio (`gcloud --impersonate-service-account`) o **Workload Identity Federation**.
 
 ### Lab 4: Configure an Application Load Balancer with Google Cloud Armor (ID: 464659)
 * **Objetivo:** Implementar un Global External Application Load Balancer con backends globales, someterlo a pruebas de estrés (*siege*) y bloquear la IP atacante aplicando una política de seguridad de **Google Cloud Armor**.
