@@ -4,115 +4,104 @@ Este documento define el protocolo de actuación obligatorio y estricto para cua
 
 ---
 
-## 📌 Reglas de Cumplimiento Estricto
+## 1. 🧠 Descubrimiento de Código y Auto-Indexación en Codebase Memory (`codebase-memory`)
 
-### 1. 🧠 Regla Obligatoria: Siempre usar Codebase Memory (`codebase-memory-mcp`)
+Este proyecto utiliza el servidor MCP **`codebase-memory`** para mantener un grafo de conocimiento semántico (LSP, AST, dependencias y rutas de llamada).
 
-Este proyecto utiliza **codebase-memory-mcp** para mantener y navegar el grafo de conocimiento del código fuente y su arquitectura.
-**SIEMPRE** se deben priorizar las herramientas de grafo sobre búsquedas basadas en grep, glob o listados recursivos directos para descubrimiento y análisis de código.
+### Auto-Indexación Obligatoria:
+1. Antes de iniciar cualquier tarea, verifica el estado de indexación con `index_status` o `list_projects`.
+2. **Si el proyecto NO está indexado, es MANDATORIO ejecutar `index_repository` de inmediato.**
+3. Tras añadir, renombrar o refactorizar archivos de código o servicios, es OBLIGATORIO refrescar el grafo ejecutando `index_repository`.
 
-#### Jerarquía y Prioridad de Herramientas de Grafo:
-1. **`search_graph`**: Localizar funciones, clases, componentes, rutas, tipos y variables por patrones de nombre o regex.
-2. **`trace_path`**: Rastrear quién llama a una función o qué funciones/métodos son invocados (análisis de flujo entrante y saliente).
-3. **`get_code_snippet`**: Leer el código fuente exacto y focalizado de funciones, clases o interfaces mediante su nombre calificado.
-4. **`query_graph`**: Ejecutar consultas Cypher avanzadas para patrones topológicos complejos o dependencias intermodulares.
-5. **`get_architecture`**: Obtener un resumen estructural de alto nivel de los módulos del proyecto.
+### Jerarquía Estricta de Herramientas de Grafo:
+1. **`search_graph`**: Localizar funciones, clases, componentes, rutas, tipos y variables mediante regex.
+2. **`trace_path`**: Análisis de impacto y trazado de llamadas entrantes (`inbound`) o salientes (`outbound`).
+3. **`get_code_snippet`**: Lectura precisa de la definición y cuerpo de un símbolo sin sobrecargar el contexto.
+4. **`detect_changes`**: Detección del impacto semántico de las modificaciones respecto a Git `HEAD`.
+5. **`query_graph`** / **`get_architecture`**: Consultas Cypher complejas y visión estructural de alto nivel.
 
-#### Criterios de Excepción (Cuándo usar grep/glob):
+### Criterios de Excepción (Cuándo usar grep/read_file):
 * Búsqueda de literales de texto exactos, mensajes de error o cadenas de interfaz de usuario.
-* Inspección de archivos sin soporte de grafo AST (archivos de configuración `.json`, `.yaml`, `.env`, Dockerfiles, scripts bash/powershell).
+* Inspección de archivos sin soporte de grafo LSP (`.json`, `.yaml`, `.env`, Dockerfiles, scripts bash/powershell).
 * Cuando las herramientas de grafo devuelvan información insuficiente o el índice requiera actualización.
 
 ---
 
-### 2. ⚡ Regla Obligatoria: Siempre usar Ollama Local (`consultar_modelo_local`)
+## 2. ⚡ Gobernanza Tripartita de Inferencia Secundaria (MCPs de IA)
 
-Cuando una tarea sea mecánica, repetitiva o de bajo riesgo, **DEBE** delegarse a modelos secundarios mediante la herramienta `consultar_modelo_local` en lugar de consumirse directamente en el modelo orquestador principal.
+Para optimizar recursos de cómputo, latencia y costos, delega tareas auxiliares, de razonamiento masivo, visión o respuestas rápidas en los 3 servidores MCP de IA según el caso de uso exacto:
 
-#### Casos de Uso para Delegación:
-* Generación de docstrings, comentarios JSDoc/TSDoc y documentación inline.
-* Formateo de datos, conversión de esquemas simples o JSON de ejemplo.
-* Escritura de boilerplate repetitivo, mocks de prueba unitaria y plantillas.
-* Resúmenes puntuales de fragmentos de texto o preguntas mecánicas directas sin impacto arquitectónico.
+| Servidor MCP | Herramienta Principal | Modelos Clave | Casos de Uso Estrictos |
+| :--- | :--- | :--- | :--- |
+| **`ollama-local`** | `consultar_modelo_local(prompt)` | `gemma4:cloud` (31B, < 90% cuota) → fallback local `qwen3:8b-8k` (~5.2 GB) | **Salvaguarda 100% Offline y Privacidad:** Obligatorio sin conexión a internet o al procesar secretos, credenciales (`.env`), tokens, claves privadas SSH o datos sensibles que jamás deben salir de la máquina local. |
+| **`nvidia-nim`** | `consultar_modelo_nvidia(prompt, modelo)` / `analizar_imagen_nvidia(image_path, question)` | `moonshotai/kimi-k3.1-pro` (1M ctx), `nvidia/nemotron-3.5-super-vl-120b`, `nvidia/nemotron-3.5-lightning-30b` | **Visión Multimodal, Contexto Masivo y Precisión:** Obligatorio para inspeccionar imágenes/capturas/mockups con Nemotron 120B (0 MB de VRAM local), analizar bases de código masivas con Kimi K3.1 Pro (1M de tokens) y consultas de arquitectura compleja en la nube. |
+| **`groq-cloud`** | `consultar_modelo_groq(prompt, modelo)` | `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `qwen/qwen3.8-27b` | **Inferencia Ultra-Rápida LPU (~500 tok/s):** Respuestas instantáneas (< 1s), generación de boilerplate, docstrings, refactorizaciones sintácticas directas y explicaciones técnicas de alta velocidad. |
 
-#### Jerarquía Estricta de Modelos en `consultar_modelo_local`:
-1. **PRIMERO — `gemma4:cloud`**: Usar prioritariamente este modelo cloud siempre que haya suficiente cuota semanal disponible (< 90%).
-2. **POSTERIORMENTE — `qwen3:8b-8k`**: Si la cuota semanal no es suficiente, o si la llamada a la nube falla por cualquier motivo, caer automáticamente al modelo local `qwen3:8b-8k` (~5.2 GB en memoria).
-
-#### Prohibición de Delegación (Resolver directamente en el Agente Principal):
-* Decisiones arquitectónicas, diseño de sistemas y contratos de API.
+### Prohibición de Delegación (Resolver directamente en el Agente Principal):
+* Decisiones arquitectónicas, diseño de sistemas y contratos de API críticos.
 * Modificaciones que involucren múltiples archivos o dependencias cruzadas.
 * Comprensión profunda de lógica de negocio, reglas de examen o algoritmos críticos.
 * Cualquier cambio donde un fallo pueda provocar regresiones o pérdida de datos.
 
 ---
 
-### 3. 📚 Regla Obligatoria: Siempre usar LLM Wiki de Forma Modular
+## 3. 📚 Memoria Agéntica Viva: Patrón Karpathy LLM Wiki + Google OKF v0.2
 
-Este repositorio implementa el patrón **LLM Wiki** propuesto por **Andrej Karpathy** ([referencia oficial](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)), estructurado de forma modular dentro del directorio [`wiki/`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki).
+Este repositorio implementa el estándar de conocimiento compilado combinando el **Patrón LLM Wiki de Andrej Karpathy** ([referencia oficial](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) y la especificación **Google Open Knowledge Format (OKF v0.2)** ([okf.md](https://okf.md/)) dentro de [`wiki/`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki).
 
-La LLM Wiki funciona como la **memoria externa persistente, modular y auto-mantenida** del proyecto, sirviendo como fuente canónica de verdad tanto para humanos como para agentes.
+### Arquitectura Modular:
+* **Insumos Inmutables (`wiki/raw/`):** Notas crudas, transcripciones, volcados de laboratorios, cuestionarios y especificaciones oficiales (*append-only*).
+* **Síntesis Modular (`wiki/`):** Artículos temáticos interconectados en `wiki/domains/`, `wiki/courses/`, `wiki/components/`, `wiki/cheatsheets/`, `wiki/architecture/` (y, para módulos técnicos adicionales, `wiki/systems/`, `wiki/concepts/`, `wiki/entities/`).
+* **Frontmatter YAML Canónico (OKF v0.2):** Todo nuevo artículo sintetizado en `wiki/` debe iniciar con metadatos OKF:
+  ```yaml
+  ---
+  title: Nombre del Componente, Curso o Protocolo
+  type: system | concept | entity | course | domain
+  tags: [tag1, tag2, tag3]
+  created: YYYY-MM-DD
+  updated: YYYY-MM-DD
+  status: draft | stable | deprecated
+  ---
+  ```
 
-#### Principios Fundamentales del Patrón Karpathy:
-* **Separación de Insumos (`wiki/raw/`)**: Los materiales de origen (notas de estudio, enlaces, especificaciones oficiales, volcados de preguntas) se almacenan de manera inmutable y apilable (*append-only*).
-* **Síntesis Continua (`wiki/`)**: El contenido procesado no es un vertedero de texto; es una red interconectada de documentos markdown modulares, concisos y estructurados temáticamente.
-* **Navegación e Índices Bidireccionales**: Toda página pertenece a una taxonomía clara y se encuentra referenciada en el catálogo general [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md).
-* **Resolución Proactiva de Contradicciones**: Al ingresar nueva información, el agente debe cotejar las páginas existentes, actualizar los conceptos que hayan cambiado y dejar registro de la evolución.
-
-#### Flujo Operativo del Agente con la Wiki:
-1. **Fase de Consulta Previa (Lectura)**:
-   Antes de generar nuevo código, crear preguntas para los quizes o diseñar componentes, el agente **DEBE** consultar la sección relevante en `wiki/` para asegurar consistencia conceptual y técnica con el temario del examen GCP ACE.
-2. **Fase de Ingesta y Actualización (Escritura)**:
-   Cuando se agregue nuevo conocimiento, fuentes o decisiones de diseño:
-   * Colocar la fuente original o notas crudas en `wiki/raw/`.
-   * Sintetizar la información en el módulo correspondiente (`wiki/domains/`, `wiki/components/`, `wiki/cheatsheets/` o `wiki/architecture/`).
-   * Mantener los enlaces markdown relativos entre documentos relacionados.
-   * Actualizar el índice general en `wiki/index.md`.
-3. **Fase de Registro (Auditoría)**:
-   Añadir una entrada sintética en `wiki/log/changelog.md` detallando la modificación, la fecha y la justificación.
-
----
-
-### 4. 🚫 Regla de Formato: Cero LaTeX / MathJax en Antigravity IDE
-
-**PROHIBICIÓN ESTRICTA DE SINTAXIS LATEX / MATHJAX EN CHAT, DOCUMENTOS Y ARTEFACTOS:**
-Antigravity IDE no cuenta con motor de renderizado LaTeX/MathJax en la interfaz de chat. Por lo tanto, el uso de delimitadores `$...$` o comandos TeX/LaTeX (como `\rightarrow`, `\le`, etc.) aparece roto e ilegible como texto sin procesar.
-
-1. **PROHIBIDO:** Usar `$...$`, `$$...$$`, `\( ... \)`, `\[ ... \]` o comandos de barra invertida (`\rightarrow`, `\leftarrow`, `\le`, `\ge`, `\times`, `\neq`, `\to`, etc.).
-2. **OBLIGATORIO - Reemplazo por Unicode, ASCII o Emojis:**
-   * **Flechas y transiciones:** Usar flechas Unicode (`→`, `←`, `↔`, `⇒`), ASCII (`->`, `-->`, `=>`) o emojis (`➡️`, `⬅️`, `🔄`, `👉`). NUNCA `$\rightarrow$`.
-   * **Comparaciones y rangos:** Usar símbolos Unicode (`≤`, `≥`, `≠`, `≈`) o ASCII (`<=`, `>=`, `!=`, `~`). NUNCA `$\le$`, `$\ge$`.
-   * **Operaciones:** Usar `×` (o `x`, `*`), `/`, `±` (o `+/-`). NUNCA `\times`, `\pm`.
-   * **Estados y viñetas:** Usar emojis (`✅`, `❌`, `⚠️`, `⏳`, `📌`, `💡`) o viñetas estándar (`-`, `*`).
-3. **Verificación previa:** Revisa siempre antes de enviar una respuesta o crear un documento markdown que no contenga ningún símbolo `$` utilizado para notación matemática o comandos LaTeX.
+### Flujo Operativo del Agente con la Wiki:
+1. **Lectura Previa Obligatoria:** Antes de modificar código, diseñar componentes o redactar preguntas, consulta [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) y los artículos relacionados en `wiki/` para evitar regresiones conceptuales.
+2. **Ingesta y Síntesis:** Guarda la fuente cruda en `wiki/raw/`, sintetiza en el módulo correspondiente manteniendo enlaces markdown navegables y resuelve proactivamente cualquier contradicción.
+3. **Índice y Bitácora Continua:** Registra cada nuevo archivo en [`wiki/index.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/index.md) y añade una entrada cronológica en [`wiki/log/changelog.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/wiki/log/changelog.md) detallando fecha, contexto, decisiones técnicas y archivos modificados.
 
 ---
 
-### 5. 🧹 Regla Obligatoria: Eliminación Estricta de Archivos Windows `Zone.Identifier` Previo a Cualquier Commit
+## 4. 🛡️ Reglas Inmutables de Ejecución y DevSecOps
 
-En entornos híbridos Windows y WSL, el sistema operativo genera archivos de metadatos de seguridad con sufijo `:Zone.Identifier` o `.Zone.Identifier`. Estos archivos contaminan el árbol de trabajo de Git, pueden corromper compilaciones y nunca deben ser versionados.
+### 4.1 🚫 Cero Sintaxis LaTeX / MathJax
+Antigravity IDE, NotebookLM y las consolas CLI no renderizan comandos TeX/LaTeX.
+1. **PROHIBIDO:** Usar `$...$`, `$$...$$`, `\( ... \)`, `\[ ... \]` o comandos de barra invertida (`\rightarrow`, `\leftarrow`, `\le`, `\ge`, `\times`, `\neq`, `\pm`, `\frac`, etc.).
+2. **OBLIGATORIO:** Usar caracteres Unicode (`→`, `←`, `↔`, `⇒`, `≤`, `≥`, `≠`, `≈`, `×`, `±`), ASCII estándar (`->`, `<=`, `>=`, `*`) o emojis (`✅`, `❌`, `⚠️`, `⏳`, `📌`, `💡`).
 
-1. **PROHIBICIÓN:** Está terminantemente prohibido incluir o commitear archivos con sufijo `Zone.Identifier` en el repositorio.
-2. **ACCIÓN OBLIGATORIA PRE-COMMIT:** Antes de cualquier `git add` o `git commit`, el agente **DEBE** ejecutar la limpieza recursiva:
+### 4.2 ⏱️ Prevención de Bloqueos por Timeout (Anti-Hang)
+* Todo comando de red o prueba de conectividad (`curl`, `requests`, sockets) **DEBE** incluir un timeout explícito y corto (máximo 5 a 10 segundos).
+* Prohibido lanzar procesos de red indefinidos en segundo plano sin guardia de tiempo.
+
+### 4.3 🔐 Cero Secretos en el Repositorio (Zero Secrets in VCS)
+* Nunca realices commit de claves reales (`gsk_...`, `nvapi-...`, tokens JWT, contraseñas o credenciales).
+* Los secretos residen exclusivamente en `.env` (ignorado por `.gitignore`); en Git solo se versiona `.env.example` con valores de plantilla.
+
+### 4.4 🧹 Eliminación Estricta de Archivos Windows `Zone.Identifier` Previo a Cualquier Commit
+1. **PROHIBICIÓN:** Está terminantemente prohibido incluir o commitear archivos con sufijo `:Zone.Identifier` o `.Zone.Identifier`.
+2. **ACCIÓN OBLIGATORIA PRE-COMMIT:** Antes de cualquier `git add` o `git commit`, ejecuta:
    ```bash
    find . -name "*:Zone.Identifier" -type f -delete
    # o alternativamente:
    npm run clean:zone
    ```
-3. **Verificación de git status:** Comprobar con `git status` que ningún archivo residual de este tipo figure como staged o untracked.
+3. Verifica con `git status` que no quede ningún archivo residual staged o untracked.
 
----
-
-### 6. 🧪 Regla Obligatoria: Ejecución Integral de Pruebas Unitarias y BDD Previo a Push a `main`
-
-La rama `main` está enlazada directamente con el despliegue automático de GitHub Pages. Ningún cambio puede ser publicado sin garantía de no regresión y cumplimiento de especificaciones.
-
-1. **OBLIGATORIEDAD:** Previo a ejecutar `git push origin main` (o a cualquier rama de despliegue), se debe ejecutar sin excepción la suite completa de pruebas unitarias y escenarios BDD:
+### 4.5 🧪 Ejecución Integral de Pruebas Unitarias y BDD Previo a Push a `main`
+La rama `main` está enlazada directamente con el despliegue automático de GitHub Pages.
+1. **OBLIGATORIEDAD:** Previo a ejecutar `git push origin main`, ejecuta sin excepción la suite completa de pruebas unitarias y escenarios BDD:
    ```bash
    npm test
    # o específicamente:
    npm run test:unit && npm run test:bdd
    ```
-2. **CRITERIO DE BLOQUEO:** Si alguna prueba unitaria o escenario BDD falla, **QUEDA ESTRICTAMENTE PROHIBIDO** realizar el push a `main`. El agente debe diagnosticar y resolver el fallo antes de proceder con el envío remoto.
-
-
+2. **CRITERIO DE BLOQUEO:** Si alguna prueba unitaria o escenario BDD falla, **QUEDA ESTRICTAMENTE PROHIBIDO** realizar el push a `main` hasta diagnosticar y resolver el fallo.

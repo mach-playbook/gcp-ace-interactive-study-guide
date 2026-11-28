@@ -4,6 +4,20 @@ Registro cronológico de evoluciones, ingestas de contenido y mantenimiento estr
 
 ---
 
+## [2026-11-27] - Actualización de Directivas Operativas en AGENTS.md (Codebase Memory, Gobernanza Tripartita, OKF v0.2 y DevSecOps)
+
+### Agente Responsable:
+* Antigravity AI Orchestrator
+
+### Acciones Realizadas:
+* **Actualización de [`AGENTS.md`](file:////wsl$/Ubuntu-20.04/home/merolhack/fl/gcp-ace-interactive-study-guide/AGENTS.md)**:
+  * Integrada la política de **Auto-Indexación Obligatoria** en `codebase-memory` (`index_status`, `list_projects`, `index_repository` y `detect_changes`).
+  * Formalizada la **Gobernanza Tripartita de Inferencia Secundaria** (`ollama-local`, `nvidia-nim` y `groq-cloud`) con sus casos de uso estrictos.
+  * Incorporado el estándar **Google Open Knowledge Format (OKF v0.2)** con frontmatter YAML canónico junto al patrón Karpathy LLM Wiki.
+  * Reforzadas las reglas inmutables de DevSecOps: Cero LaTeX/MathJax, Prevención de Bloqueos por Timeout (5–10 s), Cero Secretos en VCS, limpieza obligatoria de `*:Zone.Identifier` y ejecución de pruebas unitarias + BDD previo a push a `main`.
+
+---
+
 ## [2026-11-23] - Ingesta de Laboratorio 3: Control Access to VPC Networks Using Firewall Rules and IAM (Course 654 / Lab GSP213 / 464658)
 
 ### Agente Responsable:
